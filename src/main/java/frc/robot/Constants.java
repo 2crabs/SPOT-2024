@@ -4,7 +4,7 @@
 
 package frc.robot;
 
-import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -99,7 +99,7 @@ public final class Constants {
     public static final double ANGLE_KF = 0.0;
     
     /** Swerve constraints. */
-    public static final double MAX_VELOCITY_METERS_PER_SECOND = 2.0;
+    public static final double MAX_VELOCITY_METERS_PER_SECOND = 3.0;
     public static final double MAX_ANGULAR_RADIANS_PER_SECOND = 4.0;
 
     /** Inversions. */
@@ -109,7 +109,7 @@ public final class Constants {
 
     /** Idle modes. */
     public static final IdleMode DRIVE_IDLE_MODE = IdleMode.kBrake;
-    public static final IdleMode ANGLE_IDLE_MODE = IdleMode.kBrake;
+    public static final IdleMode ANGLE_IDLE_MODE = IdleMode.kCoast;
 
     /** 
      * Module specific constants.
@@ -122,7 +122,7 @@ public final class Constants {
       8,
       9,
       1,
-      -295.04,
+      -117.07,
       ModulePosition.FRONT_LEFT
     );
 
@@ -131,7 +131,7 @@ public final class Constants {
       4,
       5,
       0,
-      -80.06,
+      -260.5,
       ModulePosition.FRONT_RIGHT
     );
 
@@ -140,7 +140,7 @@ public final class Constants {
       10,
       11,
       2,
-      -9.84,
+      -192.5,
       ModulePosition.BACK_LEFT
     );
 
@@ -149,7 +149,7 @@ public final class Constants {
       6,
       7,
       3,
-      -76.46,
+      -257.1,
       ModulePosition.BACK_RIGHT
     );
   }

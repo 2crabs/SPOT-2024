@@ -4,11 +4,14 @@
 
 package frc.robot.subsystems;
 
+
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix6.hardware.TalonFX;
+import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -18,10 +21,10 @@ public class ManipulatorSubsystem extends SubsystemBase {
 
   TalonSRX intakeAngleMotor = new TalonSRX(kManip.INTAKE_ANGLE_MOTOR_ID);
 
-  CANSparkMax intakeSpinMotor = new CANSparkMax(kManip.INTAKE_SPEED_MOTOR_ID, null);
+  CANSparkMax intakeSpinMotor = new CANSparkMax(kManip.INTAKE_SPEED_MOTOR_ID, CANSparkLowLevel.MotorType.kBrushless);
 
-  CANSparkMax shooterMotorA = new CANSparkMax(kManip.SHOOTER_MOTOR_A_ID, null);
-  CANSparkMax shooterMotorB = new CANSparkMax(kManip.SHOOTER_MOTOR_B_ID, null);
+  CANSparkMax shooterMotorA = new CANSparkMax(kManip.SHOOTER_MOTOR_A_ID, CANSparkLowLevel.MotorType.kBrushless);
+  CANSparkMax shooterMotorB = new CANSparkMax(kManip.SHOOTER_MOTOR_B_ID, CANSparkLowLevel.MotorType.kBrushless);
 
   PIDController intakeAnglePID = new PIDController(kManip.INTAKE_ANGLE_PID_P, kManip.INTAKE_ANGLE_PID_I, kManip.INTAKE_ANGLE_PID_D);
 

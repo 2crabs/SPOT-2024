@@ -103,7 +103,7 @@ public final class Constants {
     public static final double MAX_ANGULAR_RADIANS_PER_SECOND = 4.0;
 
     /** Inversions. */
-    public static final boolean DRIVE_MOTOR_REVERSED = true;
+    public static final boolean DRIVE_MOTOR_REVERSED = false;
     public static final boolean ANGLE_MOTOR_REVERSED = false;
     public static final boolean CAN_CODER_REVERSED = false;
 

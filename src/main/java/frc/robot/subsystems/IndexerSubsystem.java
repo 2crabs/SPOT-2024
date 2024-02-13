@@ -11,7 +11,7 @@ public class IndexerSubsystem extends SubsystemBase{
     public CANSparkMax motor;
     public IndexerSubsystem() {
         motor = new CANSparkMax(14, MotorType.kBrushless);
-        motor.setSmartCurrentLimit(25);
+        motor.setSmartCurrentLimit(35);
     }
 
     /**

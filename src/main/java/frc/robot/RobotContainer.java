@@ -5,6 +5,9 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.path.PathPlannerPath;
+
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -17,16 +20,18 @@ import frc.robot.commands.IntakeNote;
 import frc.robot.commands.ShootNoteIntoAmp;
 import frc.robot.commands.ShootNoteIntoSpeaker;
 import frc.robot.commands.StopIntake;
+import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.ManipulatorSubsystem;
 import frc.robot.subsystems.SwerveDrive;
 import frc.robot.subsystems.Vision;
 
 public class RobotContainer {
 
-  private final SendableChooser<Command> autoChooser;
+  //private final SendableChooser<Command> autoChooser;
   private final Vision m_visionSubsystem = new Vision();
-  private final ManipulatorSubsystem m_manipulatorSubsystem = new ManipulatorSubsystem();
+  //private final ManipulatorSubsystem m_manipulatorSubsystem = new ManipulatorSubsystem();
   private final SwerveDrive m_driveSubsystem = new SwerveDrive(m_visionSubsystem);
+  private final IndexerSubsystem indexer = new IndexerSubsystem();
 
   private final CommandXboxController m_driverController =
       new CommandXboxController(kControls.DRIVE_CONTROLLER_ID);
@@ -36,8 +41,8 @@ public class RobotContainer {
   public RobotContainer() {
     configureBindings();
 
-    autoChooser = AutoBuilder.buildAutoChooser();
-    SmartDashboard.putData("Auto Chooser", autoChooser);
+    // autoChooser = AutoBuilder.buildAutoChooser();
+    // SmartDashboard.putData("Auto Chooser", autoChooser);
   }
 
   /**
@@ -60,17 +65,19 @@ public class RobotContainer {
 
     m_driveSubsystem.setDefaultCommand(new DriveCommand(
             () -> -kControls.Y_DRIVE_LIMITER.calculate(m_driverController.getRawAxis(kControls.TRANSLATION_Y_AXIS)),
+            () -> m_driverController.getRightY(),
             () -> -kControls.X_DRIVE_LIMITER.calculate(m_driverController.getRawAxis(kControls.TRANSLATION_X_AXIS)),
             () -> -kControls.THETA_DRIVE_LIMITER.calculate(m_driverController.getRawAxis(kControls.ROTATION_AXIS)),
-            m_driveSubsystem
+            m_driveSubsystem,
+            indexer
     ));
 
-    m_manipulatorSubsystem.setDefaultCommand(new StopIntake(m_manipulatorSubsystem));
+    //m_manipulatorSubsystem.setDefaultCommand(new StopIntake(m_manipulatorSubsystem));
 
-    m_manipulatorController.leftTrigger().whileTrue(new IntakeNote(m_manipulatorSubsystem));
+    //m_manipulatorController.leftTrigger().whileTrue(new IntakeNote(m_manipulatorSubsystem));
 
-    m_manipulatorController.leftBumper().onTrue(new ShootNoteIntoSpeaker(m_manipulatorSubsystem));
-    m_manipulatorController.rightBumper().onTrue(new ShootNoteIntoAmp(m_manipulatorSubsystem));
+    //m_manipulatorController.leftBumper().onTrue(new ShootNoteIntoSpeaker(m_manipulatorSubsystem));
+    //m_manipulatorController.rightBumper().onTrue(new ShootNoteIntoAmp(m_manipulatorSubsystem));
     
     //m_driveSubsystem.setDefaultCommand(m_driveSubsystem.jogTurnMotors(1 * Constants.kSwerve.MAX_VELOCITY_METERS_PER_SECOND, false));
 
@@ -79,7 +86,7 @@ public class RobotContainer {
 
 
   public Command getAutonomousCommand() {
-    return autoChooser.getSelected();
+    return new PathPlannerAuto("New Auto");
   }
 }
 

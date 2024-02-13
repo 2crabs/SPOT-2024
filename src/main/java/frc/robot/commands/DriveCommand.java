@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
+import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.SwerveDrive;
 
 import java.util.function.DoubleSupplier;
@@ -9,19 +10,24 @@ import java.util.function.DoubleSupplier;
 
 public class DriveCommand extends Command {
     private final SwerveDrive swerveDrive;
+    private final IndexerSubsystem indexer;
 
     private DoubleSupplier forwardAxis;
     private DoubleSupplier sidewaysAxis;
     private DoubleSupplier rotationAxis;
+    private DoubleSupplier indexAxis;
 
-    public DriveCommand(DoubleSupplier forwardAxis, DoubleSupplier sidewaysAxis, DoubleSupplier rotationAxis, SwerveDrive swerveDrive) {
+    public DriveCommand(DoubleSupplier forwardAxis, DoubleSupplier index, DoubleSupplier sidewaysAxis, DoubleSupplier rotationAxis, SwerveDrive swerveDrive, IndexerSubsystem indexer) {
         this.swerveDrive = swerveDrive;
+        this.indexAxis = index;
+        this.indexer = indexer;
         this.forwardAxis = forwardAxis;
         this.sidewaysAxis = sidewaysAxis;
         this.rotationAxis = rotationAxis;
         // each subsystem used by the command must be passed into the
         // addRequirements() method (which takes a vararg of Subsystem)
         addRequirements(this.swerveDrive);
+        addRequirements(this.indexer);
     }
 
     /**
@@ -39,16 +45,17 @@ public class DriveCommand extends Command {
     @Override
     public void execute() {
 
-        double deadzoneRotation = deadzone(rotationAxis.getAsDouble(), Constants.kControls.ROTATION_DEADZONE);
-        double deadzoneForward = deadzone(forwardAxis.getAsDouble(), Constants.kControls.TRANSLATION_DEADZONE);
-        double deadzoneSideways = deadzone(sidewaysAxis.getAsDouble(), Constants.kControls.TRANSLATION_DEADZONE);
+        double deadzoneRotation = deadzone(rotationAxis.getAsDouble(), Constants.kControls.ROTATION_DEADZONE)*4.0;
+        double deadzoneForward = deadzone(forwardAxis.getAsDouble(), Constants.kControls.TRANSLATION_DEADZONE)*3.0;
+        double deadzoneSideways = deadzone(sidewaysAxis.getAsDouble(), Constants.kControls.TRANSLATION_DEADZONE)*3.0;
 
         //only use the pid rotation if going at a certain speed
-        if (deadzoneRotation == 0.0 && Math.sqrt((deadzoneForward*deadzoneForward)+(deadzoneSideways*deadzoneSideways)) > 0.15) {
-            swerveDrive.drive(deadzoneForward, deadzoneSideways, swerveDrive.targetRotation, true, true);
-        } else {
+        // if (deadzoneRotation == 0.0 && Math.sqrt((deadzoneForward*deadzoneForward)+(deadzoneSideways*deadzoneSideways)) > 0.15) {
+        //     swerveDrive.drive(deadzoneForward, deadzoneSideways, swerveDrive.targetRotation, true, true);
+        // } else {
+            //indexer.runWithSpeed(indexAxis.getAsDouble()/-1.0);
             swerveDrive.basicDrive(deadzoneForward, deadzoneSideways, deadzoneRotation, true);
-        }
+        //}
     }
 
     public double deadzone(double input, double tolerance){

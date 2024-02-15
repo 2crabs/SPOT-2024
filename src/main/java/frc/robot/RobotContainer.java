@@ -5,9 +5,11 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.kControls;
@@ -17,6 +19,7 @@ import frc.robot.commands.IntakeNote;
 import frc.robot.commands.ShootNoteIntoAmp;
 import frc.robot.commands.ShootNoteIntoSpeaker;
 import frc.robot.commands.StopIntake;
+import frc.robot.configuration.ManipulatorTuningCommand;
 import frc.robot.subsystems.ManipulatorSubsystem;
 import frc.robot.subsystems.SwerveDrive;
 import frc.robot.subsystems.Vision;
@@ -24,6 +27,7 @@ import frc.robot.subsystems.Vision;
 public class RobotContainer {
 
   private final SendableChooser<Command> autoChooser;
+
   private final Vision m_visionSubsystem = new Vision();
   private final ManipulatorSubsystem m_manipulatorSubsystem = new ManipulatorSubsystem();
   private final SwerveDrive m_driveSubsystem = new SwerveDrive(m_visionSubsystem);
@@ -65,7 +69,11 @@ public class RobotContainer {
             m_driveSubsystem
     ));
 
-    m_manipulatorSubsystem.setDefaultCommand(new StopIntake(m_manipulatorSubsystem));
+    if(kControls.TUNING_MODE) {
+      m_manipulatorSubsystem.setDefaultCommand(new ParallelCommandGroup(new ManipulatorTuningCommand(m_manipulatorSubsystem), new StopIntake(m_manipulatorSubsystem)));
+    } else {
+      m_manipulatorSubsystem.setDefaultCommand(new StopIntake(m_manipulatorSubsystem));
+    }
 
     m_manipulatorController.leftTrigger().whileTrue(new IntakeNote(m_manipulatorSubsystem));
 

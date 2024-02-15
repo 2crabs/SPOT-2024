@@ -14,8 +14,11 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.kControls;
 import frc.robot.Constants.kManip;
+import frc.robot.configuration.ManipulatorTuningCommand;
 
 public class ManipulatorSubsystem extends SubsystemBase {
 
@@ -54,6 +57,10 @@ public class ManipulatorSubsystem extends SubsystemBase {
       intakeAngleMotor.set(TalonSRXControlMode.PercentOutput, pidCalculation);
     } else {
       intakeAngleMotor.set(TalonSRXControlMode.PercentOutput, 0);
+    }
+
+    if(kControls.TUNING_MODE) {
+      intakeAngleToggleValues = intakeAngleToggleValues;
     }
   }
 

@@ -28,6 +28,10 @@ import frc.robot.utils.SwerveModuleConstants;
 
 public final class Constants {
   public static class kControls {
+    /** IMPORTANT - When tuning mode is turned on, the manipulator subsystem uses the values you put 
+     * in smart dashboard instad of the constants.*/
+    public static final boolean TUNING_MODE = false;
+
     public static final double TRANSLATION_DEADZONE = 0.1;
     public static final double ROTATION_DEADZONE = 0.05;
 

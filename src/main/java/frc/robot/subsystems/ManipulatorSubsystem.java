@@ -58,10 +58,6 @@ public class ManipulatorSubsystem extends SubsystemBase {
     } else {
       intakeAngleMotor.set(TalonSRXControlMode.PercentOutput, 0);
     }
-
-    if(kControls.TUNING_MODE) {
-      intakeAngleToggleValues = intakeAngleToggleValues;
-    }
   }
 
   /** Sets the target angle for the intake (degrees) */

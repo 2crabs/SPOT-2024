@@ -9,9 +9,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class IndexerSubsystem extends SubsystemBase{
 
     public CANSparkMax motor;
+    public CANSparkMax motor2;
+
     public IndexerSubsystem() {
-        motor = new CANSparkMax(14, MotorType.kBrushless);
+        motor = new CANSparkMax(15, MotorType.kBrushless);
+        motor2 = new CANSparkMax(16, MotorType.kBrushless);
         motor.setSmartCurrentLimit(35);
+        motor2.setSmartCurrentLimit(35);
     }
 
     /**
@@ -21,6 +25,7 @@ public class IndexerSubsystem extends SubsystemBase{
      */
     public void runWithSpeed(double input) {
         motor.set(input);
+        motor2.set(input);
     }
 
     /**

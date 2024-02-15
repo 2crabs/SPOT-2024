@@ -53,8 +53,8 @@ public class DriveCommand extends Command {
         // if (deadzoneRotation == 0.0 && Math.sqrt((deadzoneForward*deadzoneForward)+(deadzoneSideways*deadzoneSideways)) > 0.15) {
         //     swerveDrive.drive(deadzoneForward, deadzoneSideways, swerveDrive.targetRotation, true, true);
         // } else {
-            //indexer.runWithSpeed(indexAxis.getAsDouble()/-1.0);
-            swerveDrive.basicDrive(deadzoneForward, deadzoneSideways, deadzoneRotation, true);
+            indexer.runWithSpeed(indexAxis.getAsDouble()/-1.0);
+            //swerveDrive.basicDrive(deadzoneForward, deadzoneSideways, deadzoneRotation, true);
         //}
     }
 

@@ -75,8 +75,8 @@ public class SwerveDrive extends SubsystemBase {
               // This will flip the path being followed to the red side of the field.
               // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
 
-              DriverStation.Alliance alliance = DriverStation.getAlliance();
-              return alliance == DriverStation.Alliance.Red;
+              //DriverStation.Alliance alliance = DriverStation.getAlliance();
+              return false;
 
             },
             this // Reference to this subsystem to set requirements

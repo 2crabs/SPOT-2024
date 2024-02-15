@@ -117,6 +117,10 @@ public class ManipulatorSubsystem extends SubsystemBase {
     return 0; // Not Finished
   }
 
+  public void configureAnglePIDValues(double kP, double kI, double kD) {
+    intakeAnglePID.setPID(kP, kI, kD);
+  }
+
   private void configureHardware() {
     intakeAngleMotor.setInverted(false);
     intakeAngleMotor.setNeutralMode(NeutralMode.Brake);

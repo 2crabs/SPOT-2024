@@ -30,4 +30,29 @@ public class MathUtils {
         }
         return Math.sqrt(total / (data.length - 1));
     }
+
+    public static double bringAngleToUnitCircle(double angleDeg) {
+        while(angleDeg < 0) {
+            while(angleDeg<0) {
+                angleDeg += 360;
+            }
+        }
+        while(angleDeg >= 360) {
+            while(angleDeg >= 360) {
+                angleDeg -= 360;
+            }
+        }
+        return angleDeg;
+    }
+
+    public static double[] rotatePoint(double x, double y, double angle) {
+        double[] rotatedPoint = new double[2];
+        rotatedPoint[0] = x * Math.cos(Math.toRadians(angle)) - y * Math.sin(Math.toRadians(angle));
+        rotatedPoint[1] = x * Math.sin(Math.toRadians(angle)) + y * Math.cos(Math.toRadians(angle));
+        return rotatedPoint;
+    }
+
+    public static double squareKeepSign(double d) {
+        return d * d * Math.signum(d);
+    }
 }

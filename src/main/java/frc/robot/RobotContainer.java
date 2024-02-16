@@ -65,7 +65,7 @@ public class RobotContainer {
 
     m_driveSubsystem.setDefaultCommand(new DriveCommand(
             () -> -kControls.Y_DRIVE_LIMITER.calculate(m_driverController.getRawAxis(kControls.TRANSLATION_Y_AXIS)),
-            () -> m_driverController.getRightY(),
+            () -> m_driverController.getRightTriggerAxis(),
             () -> -kControls.X_DRIVE_LIMITER.calculate(m_driverController.getRawAxis(kControls.TRANSLATION_X_AXIS)),
             () -> -kControls.THETA_DRIVE_LIMITER.calculate(m_driverController.getRawAxis(kControls.ROTATION_AXIS)),
             m_driveSubsystem,

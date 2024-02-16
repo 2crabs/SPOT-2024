@@ -20,6 +20,7 @@ public class IndexerSubsystem extends SubsystemBase{
 
     public CANSparkMax motor;
     public CANSparkMax motor2;
+    public CANSparkMax indexerMotor;
 
     public PIDController pid1 = new PIDController(0.00025, 0.00005, 0);
 
@@ -29,6 +30,9 @@ public class IndexerSubsystem extends SubsystemBase{
         motor.setSmartCurrentLimit(50);
         motor2.setSmartCurrentLimit(50);
         motor2.setInverted(true);
+
+        indexerMotor = new CANSparkMax(14, MotorType.kBrushless);
+        indexerMotor.setSmartCurrentLimit(35);
     }
 
     /**
@@ -42,6 +46,11 @@ public class IndexerSubsystem extends SubsystemBase{
         SmartDashboard.putNumber("Shooter PID", pid1.calculate(motor.getEncoder().getVelocity(), input*1000.0));
         motor.set(input);
         motor2.set(input);
+        SmartDashboard.putNumber("shooter speed", motor.getEncoder().getVelocity());
+    }
+
+    public void runIndexer(double speed){
+        indexerMotor.set(speed);
     }
 
     /**

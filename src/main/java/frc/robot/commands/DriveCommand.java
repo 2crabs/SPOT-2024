@@ -54,6 +54,7 @@ public class DriveCommand extends Command {
         //     swerveDrive.drive(deadzoneForward, deadzoneSideways, swerveDrive.targetRotation, true, true);
         // } else {
             indexer.runWithSpeed(indexAxis.getAsDouble()/-1.0);
+            indexer.runIndexer(forwardAxis.getAsDouble());
             //swerveDrive.basicDrive(deadzoneForward, deadzoneSideways, deadzoneRotation, true);
         //}
     }

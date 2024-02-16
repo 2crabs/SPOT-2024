@@ -190,4 +190,7 @@ public final class Constants {
 
     public static final LinearInterpolator SHOOTER_LINEAR_INTERPOLATOR = new LinearInterpolator(SHOOTER_SPEED_ARRAY);
   }
+  public static class kNetworkTables {
+    public static final String MAIN_TABLE_NAME = "robot";
+  }
 }

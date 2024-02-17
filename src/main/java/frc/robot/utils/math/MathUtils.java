@@ -4,10 +4,16 @@
 
 package frc.robot.utils.math;
 
+import java.util.List;
+
 /** Add your docs here. */
 public class MathUtils {
     public static double map(double x, double in_min, double in_max, double out_min, double out_max) {
         return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+    }
+
+    public static double distance(double x1, double x2, double y1, double y2, double z1, double z2) { //3d distance calc
+        return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2) + Math.pow(z1 - z2, 2));
     }
 
     public static double average(double[] data) {
@@ -57,11 +63,36 @@ public class MathUtils {
         return rotatedPoint;
     }
 
+    public static double angleBetweenLines(double x1, double y1, double z1, double x2, double y2, double z2) {
+        double dotProduct = x1 * x2 + y1 * y2 + z1 * z2;
+        return Math.toDegrees(Math.acos(dotProduct / (Math.abs(distance(0, x1, 0, y1, 0, z1) * distance(0, x2, 0, y2, 0, z2)))));
+    }
+
+    public static double lawOfSinesForAngle(double angle, double a, double b) {
+        return Math.toDegrees(Math.asin((b * Math.sin(Math.toRadians(angle))) / a));
+    }
+
     public static double squareKeepSign(double d) {
         return d * d * Math.signum(d);
     }
 
+    public static double limit(double v, double maxMagnitude) {
+        return limit(v, -maxMagnitude, maxMagnitude);
+    }
+
+    public static double limit(double v, double min, double max) {
+        return Math.min(max, Math.max(min, v));
+    }
+
     public static boolean epsilonEquals(double a, double b, double epsilon) {
         return (a - epsilon <= b) && (a + epsilon >= b);
+    }
+
+    public static boolean allCloseTo(List<Double> list, double value, double epsilon) {
+        boolean result = true;
+        for (Double valueIn : list) {
+            result &= epsilonEquals(valueIn, value, epsilon);
+        }
+        return result;
     }
 }

@@ -9,12 +9,15 @@ import Jama.QRDecomposition;
 
 /** Add your docs here. */
 public class PolynomialRegression {
+    private String variableName;
     private int degree;
     private Matrix beta;
     private double squareSumError;
     private double sqaureSumTotal;
 
-    public PolynomialRegression(double[][] xy, int degree) {
+    public PolynomialRegression(double[][] xy, int degree, String variableN) {
+        this.variableName = variableN;
+
         double[] x = new double[xy.length];
         double[] y = new double[xy.length];
 
@@ -133,5 +136,29 @@ public class PolynomialRegression {
             }
         }
         return 0;
+    }
+
+    /**
+     * Returns a string representation of the polynomial regression model.
+     */
+    public String toString() {
+        StringBuilder s = new StringBuilder();
+        int j = degree;
+
+        // ignoring leading zero coefficients
+        while (j >= 0 && Math.abs(beta(j)) < 1E-5)
+            j--;
+
+        // create remaining terms
+        while (j >= 0) {
+            if      (j == 0) s.append(String.format("%.2f ", beta(j)));
+            else if (j == 1) s.append(String.format("%.2f %s + ", beta(j), variableName));
+            else             s.append(String.format("%.2f %s^%d + ", beta(j), variableName, j));
+            j--;
+        }
+        s = s.append("  (R^2 = " + String.format("%.3f", R2()) + ")");
+
+        // replace "+ -2n" with "- 2n"
+        return s.toString().replace("+ -", "- ");
     }
 }

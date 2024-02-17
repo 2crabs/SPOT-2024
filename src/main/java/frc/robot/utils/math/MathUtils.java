@@ -60,4 +60,8 @@ public class MathUtils {
     public static double squareKeepSign(double d) {
         return d * d * Math.signum(d);
     }
+
+    public static boolean epsilonEquals(double a, double b, double epsilon) {
+        return (a - epsilon <= b) && (a + epsilon >= b);
+    }
 }

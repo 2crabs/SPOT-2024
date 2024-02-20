@@ -159,6 +159,9 @@ public final class Constants {
     // This chooses if you want to run the vision calculations on the raspberry pi or the roborio. 
     // Usually keep as true unless testing something
     public static final boolean PiVision = true;
+
+    public static final int DEFAULT_PIPELINE = 1;
+    public static final double TARGET_VANISH_DELAY = 2;
   }
 
   /** All manipulator constants. */

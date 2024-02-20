@@ -17,14 +17,11 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.kManip;
 
-public class ManipulatorSubsystem extends SubsystemBase {
+public class IntakeSubsystem extends SubsystemBase {
 
   TalonSRX intakeAngleMotor = new TalonSRX(kManip.INTAKE_ANGLE_MOTOR_ID);
 
   CANSparkMax intakeSpinMotor = new CANSparkMax(kManip.INTAKE_SPEED_MOTOR_ID, CANSparkLowLevel.MotorType.kBrushless);
-
-  CANSparkMax shooterMotorA = new CANSparkMax(kManip.SHOOTER_MOTOR_A_ID, CANSparkLowLevel.MotorType.kBrushless);
-  CANSparkMax shooterMotorB = new CANSparkMax(kManip.SHOOTER_MOTOR_B_ID, CANSparkLowLevel.MotorType.kBrushless);
 
   PIDController intakeAnglePID = new PIDController(kManip.INTAKE_ANGLE_PID_P, kManip.INTAKE_ANGLE_PID_I, kManip.INTAKE_ANGLE_PID_D);
 
@@ -37,11 +34,8 @@ public class ManipulatorSubsystem extends SubsystemBase {
    */
   double[] intakeAngleToggleValues = kManip.INTAKE_ANGLE_TOGGLE_VALUES;
 
-  /** This array stores multiple possible speeds that the shooter can be at. */
-  double[] shooterSpeedStateValues = kManip.INTAKE_SPEED_STATE_VALUES;
-
   /** Creates a new ManipulatorSubsystem. */
-  public ManipulatorSubsystem() {
+  public IntakeSubsystem() {
     configureHardware();
     intakeTargetAngle = intakeAngleToggleValues[0];
   }
@@ -91,22 +85,6 @@ public class ManipulatorSubsystem extends SubsystemBase {
     intakeSpinMotor.set(speed);
   }
 
-  /** Use this to se the shooter to a custom speed. */
-  public void setShooterSpeed(double speed) {
-    shooterMotorA.set(speed);
-    shooterMotorB.set(speed);
-  }
-
-  /** 
-   * You use this to choose a state for the shooter.
-   * <p>0 - Turned off
-   * <p>1 - Amp Shooting
-   * <p>2 - Speaker Shooting
-   */
-  public void setShooterState(int state) {
-    setShooterSpeed(shooterSpeedStateValues[state]);
-  }
-
   /** @return The angle the PID controller for the intake angle motor is trying to go to. */
   public double getIntakeTargetAngle() {
     return 0; // Not Finished
@@ -124,13 +102,5 @@ public class ManipulatorSubsystem extends SubsystemBase {
     intakeSpinMotor.restoreFactoryDefaults();
     intakeSpinMotor.setInverted(false);
     intakeSpinMotor.setIdleMode(IdleMode.kBrake);
-
-    shooterMotorA.restoreFactoryDefaults();
-    shooterMotorA.setInverted(false);
-    shooterMotorA.setIdleMode(IdleMode.kBrake);
-
-    shooterMotorB.restoreFactoryDefaults();
-    shooterMotorB.setInverted(false);
-    shooterMotorB.setIdleMode(IdleMode.kBrake);
   }
 }

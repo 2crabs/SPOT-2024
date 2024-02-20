@@ -163,19 +163,27 @@ public final class Constants {
     public static final int DEFAULT_PIPELINE = 1;
     public static final double TARGET_VANISH_DELAY = 2;
 
+    // Blue Speaker
     public static final int SPEAKER_APRILTAG_ID_BLUE = 7;
     public static final int SPEAKER_SIDE_APRILTAG_ID_BLUE = 8;
+    // Red Speaker
     public static final int SPEAKER_APRILTAG_ID_RED = 3;
     public static final int SPEAKER_SIDE_APRILTAG_ID_RED = 4;
+    // Blue Amp
     public static final int AMP_APRILTAG_ID_BLUE = 6;
+    // Red Amp
     public static final int AMP_APRILTAG_ID_RED = 5;
+    // Blue Source
     public static final int SOURCE_LEFT_APRILTAG_ID_BLUE = 2;
     public static final int SOURCE_RIGHT_APRILTAG_ID_BLUE = 1;
+    // Red Source
     public static final int SOURCE_LEFT_APRILTAG_ID_RED = 10;
     public static final int SOURCE_RIGHT_APRILTAG_ID_RED = 9;
+    // Blue Stage
     public static final int STAGE_CENTER_APRILTAG_ID_BLUE = 14;
     public static final int STAGE_LEFT_APRILTAG_ID_BLUE = 16;
     public static final int STAGE_RIGHT_APRILTAG_ID_BLUE = 15;
+    // Red Stage
     public static final int STAGE_CENTER_APRILTAG_ID_RED = 13;
     public static final int STAGE_LEFT_APRILTAG_ID_RED = 11;
     public static final int STAGE_RIGHT_APRILTAG_ID_RED = 12;

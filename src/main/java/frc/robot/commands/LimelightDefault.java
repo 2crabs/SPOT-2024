@@ -6,13 +6,13 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.kVision;
 import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.Vision.LimelightLEDMode;
 
 /** For when limelight is not being used by anything else */
-public class LimelightDefault extends CommandBase {
+public class LimelightDefault extends Command {
 
   Vision visionSubsystem;
   private boolean hasValidTarget;

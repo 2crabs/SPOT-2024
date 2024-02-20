@@ -48,11 +48,13 @@ public class LimelightDefault extends CommandBase {
     }
 
     if(DriverStation.isEnabled()) {
-      if(Math.round(blinkerTimer.get() % 2) == 1) {
-        visionSubsystem.setLEDMode(LimelightLEDMode.ON);
-      }
-      else {
-        visionSubsystem.setLEDMode(LimelightLEDMode.ON);
+      if(hasValidTarget) {
+        if(Math.round(blinkerTimer.get() % 2) == 1) {
+          visionSubsystem.setLEDMode(LimelightLEDMode.ON);
+        }
+        else {
+          visionSubsystem.setLEDMode(LimelightLEDMode.ON);
+        }
       }
     }
   }

@@ -175,6 +175,14 @@ public final class Constants {
     public static final double INTAKE_ANGLE_PID_I = 0.0;
     public static final double INTAKE_ANGLE_PID_D = 0.0;
 
+    public static final double SHOOTER_MOTOR_A_PID_P = 0.0;
+    public static final double SHOOTER_MOTOR_A_PID_I = 0.0;
+    public static final double SHOOTER_MOTOR_A_PID_D = 0.0;
+
+    public static final double SHOOTER_MOTOR_B_PID_P = 0.0;
+    public static final double SHOOTER_MOTOR_B_PID_I = 0.0;
+    public static final double SHOOTER_MOTOR_B_PID_D = 0.0;
+
     // First item should be how it starts and second item should be when it is down.
     public static final double[] INTAKE_ANGLE_TOGGLE_VALUES = new double[]{0, 180};
     // First item should be how it starts, second should be amp shooting, and other ones should be speaker shooting.

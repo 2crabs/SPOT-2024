@@ -8,6 +8,7 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.kManip;
 
@@ -15,6 +16,20 @@ public class ShooterSubsystem extends SubsystemBase {
 
   CANSparkMax shooterMotorA = new CANSparkMax(kManip.SHOOTER_MOTOR_A_ID, CANSparkLowLevel.MotorType.kBrushless);
   CANSparkMax shooterMotorB = new CANSparkMax(kManip.SHOOTER_MOTOR_B_ID, CANSparkLowLevel.MotorType.kBrushless);
+
+  PIDController shooterMotorAPID = new PIDController(
+    kManip.SHOOTER_MOTOR_A_PID_P, 
+    kManip.SHOOTER_MOTOR_A_PID_I, 
+    kManip.SHOOTER_MOTOR_A_PID_D
+  );
+  PIDController shooterMotorBPID = new PIDController(
+    kManip.SHOOTER_MOTOR_B_PID_P, 
+    kManip.SHOOTER_MOTOR_B_PID_I, 
+    kManip.SHOOTER_MOTOR_B_PID_D
+  );
+
+  double shooterMotorASetPoint = 0.0;
+  double shooterMotorBSetPoint = 0.0;
 
   /** This array stores multiple possible speeds that the shooter can be at. */
   double[] shooterSpeedStateValues = kManip.SHOOTER_SPEED_STATE_VALUES;
@@ -26,13 +41,14 @@ public class ShooterSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    shooterMotorA.set(shooterMotorAPID.calculate(shooterMotorASetPoint));
+    shooterMotorB.set(shooterMotorBPID.calculate(shooterMotorBSetPoint));
   }
 
   /** Use this to se the shooter to a custom speed. */
   public void setShooterSpeed(double speed) {
-    shooterMotorA.set(speed);
-    shooterMotorB.set(speed);
+    shooterMotorASetPoint = speed;
+    shooterMotorBSetPoint = speed;
   }
 
   /** 

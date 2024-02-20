@@ -18,7 +18,15 @@ public class Vision extends SubsystemBase {
   private final NetworkTable m_limelightTable;
 
   private double targetOffsetX, targetOffsetY, targetArea, targetSkew;
-  private double[] botPose;
+  private double[] 
+    botPose, 
+    botPoseTargetSpace,  
+    botPoseRed, 
+    botPoseBlue, 
+    camPoseRobotSpace, 
+    camPoseTargetSpace, 
+    targetPoseBotSpace, 
+    targetPoseCamSpace;
   private NetworkTableEntry 
     target_valid,
     target_x,
@@ -53,6 +61,13 @@ public class Vision extends SubsystemBase {
     targetSkew = m_limelightTable.getEntry("ts").getDouble(0);
 
     botPose = m_limelightTable.getEntry("botpose").getDoubleArray(new double[6]);
+    botPoseRed = m_limelightTable.getEntry("botpose_wpired").getDoubleArray(new double[6]);
+    botPoseBlue = m_limelightTable.getEntry("botpose_wpiblue").getDoubleArray(new double[6]);
+    botPoseTargetSpace = m_limelightTable.getEntry("botpose_targetspace").getDoubleArray(new double[6]);
+    camPoseTargetSpace = m_limelightTable.getEntry("camerapose_targetspace").getDoubleArray(new double[6]);
+    camPoseRobotSpace = m_limelightTable.getEntry("camerapose_targetspace").getDoubleArray(new double[6]);
+    targetPoseCamSpace = m_limelightTable.getEntry("targetpose_cameraspace").getDoubleArray(new double[6]);
+    targetPoseBotSpace = m_limelightTable.getEntry("targetpose_robotspace").getDoubleArray(new double[6]);
 
     SmartDashboard.putNumber("targetXOffset", targetOffsetX);
     SmartDashboard.putNumber("targetYOffset", targetOffsetY);
@@ -115,6 +130,54 @@ public class Vision extends SubsystemBase {
     Rotation2d rotation = new Rotation2d(botPose[5]);
     Translation2d translation = new Translation2d(botPose[0],botPose[2]);
     return new Pose2d(translation, rotation);
+  }
+
+  public Pose2d getBotPoseRed() {
+    Rotation2d rotation = new Rotation2d(botPoseRed[5]);
+    Translation2d translation = new Translation2d(botPoseRed[0],botPoseRed[2]);
+    return new Pose2d(translation, rotation);
+  }
+
+  public Pose2d getBotPoseBlue() {
+    Rotation2d rotation = new Rotation2d(botPoseBlue[5]);
+    Translation2d translation = new Translation2d(botPoseBlue[0],botPoseBlue[2]);
+    return new Pose2d(translation, rotation);
+  }
+
+  public Pose2d getPoseCustomSpace(PoseSpace get, PoseSpace space) {
+    Rotation2d rotation = null;
+    Translation2d translation = null;
+    if(get == PoseSpace.ROBOT) {
+      if(space == PoseSpace.TARGET) {
+        rotation = new Rotation2d(botPoseTargetSpace[5]);
+        translation = new Translation2d(botPoseTargetSpace[0], botPoseTargetSpace[2]);
+      }
+    }
+    if(get == PoseSpace.CAMERA) {
+      if(space == PoseSpace.TARGET) {
+        rotation = new Rotation2d(camPoseTargetSpace[5]);
+        translation = new Translation2d(camPoseTargetSpace[0], camPoseTargetSpace[2]);
+      }
+      else {
+        rotation = new Rotation2d(camPoseRobotSpace[5]);
+        translation = new Translation2d(camPoseRobotSpace[0], camPoseRobotSpace[2]);
+      }
+    }
+    if(get == PoseSpace.TARGET) {
+      if(space == PoseSpace.ROBOT) {
+        rotation = new Rotation2d(targetPoseBotSpace[5]);
+        translation = new Translation2d(targetPoseBotSpace[0], targetPoseBotSpace[2]);
+      }
+      else {
+        rotation = new Rotation2d(targetPoseCamSpace[5]);
+        translation = new Translation2d(targetPoseCamSpace[0], targetPoseCamSpace[2]);
+      }
+    }
+    return new Pose2d(translation, rotation);
+  }
+
+  public enum PoseSpace {
+    ROBOT, CAMERA, TARGET;
   }
 
   public int getTargetID() {

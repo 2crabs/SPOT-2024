@@ -11,8 +11,11 @@ import com.revrobotics.CANSparkMax;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.kManip;
+import frc.robot.utils.math.LinearInterpolator;
 
 public class ShooterSubsystem extends SubsystemBase {
+
+  LinearInterpolator linearInterpolator = new LinearInterpolator(kManip.SHOOTER_SPEED_ARRAY);
 
   CANSparkMax shooterMotorA = new CANSparkMax(kManip.SHOOTER_MOTOR_A_ID, CANSparkLowLevel.MotorType.kBrushless);
   CANSparkMax shooterMotorB = new CANSparkMax(kManip.SHOOTER_MOTOR_B_ID, CANSparkLowLevel.MotorType.kBrushless);
@@ -59,6 +62,10 @@ public class ShooterSubsystem extends SubsystemBase {
    */
   public void setShooterState(int state) {
     setShooterSpeed(shooterSpeedStateValues[state]);
+  }
+
+  public void setShooterDistance(double distance) {
+    setShooterSpeed(linearInterpolator.getInterpolatedValue(distance));
   }
 
   public void configureHardware() {

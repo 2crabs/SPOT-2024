@@ -162,6 +162,9 @@ public final class Constants {
 
     public static final int DEFAULT_PIPELINE = 1;
     public static final double TARGET_VANISH_DELAY = 2;
+
+    public static final int SPEAKER_APRILTAG_ID_BLUE = 7;
+    public static final int SPEAKER_APRILTAG_ID_RED = 3;
   }
 
   /** All manipulator constants. */

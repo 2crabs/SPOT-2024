@@ -25,6 +25,7 @@ public class Vision extends SubsystemBase {
     target_y,
     target_area,
     target_skew,
+    target_id,
     pipeline_latency,
     image_latency,
     short_side_length,
@@ -116,6 +117,10 @@ public class Vision extends SubsystemBase {
     return new Pose2d(translation, rotation);
   }
 
+  public int getTargetID() {
+    return target_id.getNumber(0).intValue();
+  }
+
   public enum LimelightLEDMode {
     PIPELINE(0), OFF(1), BLINK(2), ON(3);
 
@@ -141,6 +146,8 @@ public class Vision extends SubsystemBase {
     target_x = m_limelightTable.getEntry("tx");
     target_y = m_limelightTable.getEntry("ty");
     target_area = m_limelightTable.getEntry("ta");
+
+    target_id = m_limelightTable.getEntry("tid");
 
     pipeline_latency = m_limelightTable.getEntry("tl");
     image_latency = m_limelightTable.getEntry("cl");

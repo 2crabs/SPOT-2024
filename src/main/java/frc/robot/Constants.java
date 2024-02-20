@@ -165,6 +165,8 @@ public final class Constants {
 
     public static final int SPEAKER_APRILTAG_ID_BLUE = 7;
     public static final int SPEAKER_APRILTAG_ID_RED = 3;
+    public static final int AMP_APRILTAG_ID_BLUE = 6;
+    public static final int AMP_APRILTAG_ID_RED = 5;
   }
 
   /** All manipulator constants. */

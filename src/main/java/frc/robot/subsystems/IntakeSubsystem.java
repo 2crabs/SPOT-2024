@@ -95,6 +95,7 @@ public class IntakeSubsystem extends SubsystemBase {
     return 0; // Not Finished
   }
 
+  /** This configures the motor controllers */
   private void configureHardware() {
     intakeAngleMotor.setInverted(false);
     intakeAngleMotor.setNeutralMode(NeutralMode.Brake);

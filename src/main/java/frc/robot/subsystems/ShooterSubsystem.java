@@ -56,6 +56,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
   /** 
    * You use this to choose a state for the shooter.
+   * @param state
    * <p>0 - Turned off
    * <p>1 - Amp Shooting
    * <p>2 - Speaker Shooting
@@ -64,10 +65,16 @@ public class ShooterSubsystem extends SubsystemBase {
     setShooterSpeed(shooterSpeedStateValues[state]);
   }
 
+  /** 
+   * This sets the speed of the shooter to match the distance you want to shoot the note. 
+   * <p>This uses a Linear Interpolator based on the table kManip.SHOOTER_SPEED_ARRAY
+   * @param distance the distance you want to shoot
+   */
   public void setShooterDistance(double distance) {
     setShooterSpeed(linearInterpolator.getInterpolatedValue(distance));
   }
 
+  /** This configures the motor controllers */
   public void configureHardware() {
     shooterMotorA.restoreFactoryDefaults();
     shooterMotorA.setInverted(false);

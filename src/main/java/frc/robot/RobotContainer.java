@@ -55,7 +55,7 @@ public class RobotContainer {
    */
   private void configureBindings() {
     
-    m_driverController.a().whileTrue(new FollowCurrentTarget(
+    m_driverController.rightBumper().whileTrue(new FollowCurrentTarget(
       m_visionSubsystem, 
       m_driveSubsystem, 
       () -> -Constants.kControls.X_DRIVE_LIMITER.calculate(m_driverController.getRawAxis(Constants.kControls.TRANSLATION_Y_AXIS)),
@@ -71,10 +71,10 @@ public class RobotContainer {
 
     m_intakeSubsystem.setDefaultCommand(new StopIntake(m_intakeSubsystem));
 
-    m_manipulatorController.leftTrigger().whileTrue(new IntakeNote(m_intakeSubsystem));
+    m_manipulatorController.leftBumper().whileTrue(new IntakeNote(m_intakeSubsystem));
 
-    m_manipulatorController.leftBumper().onTrue(new ShootNoteIntoSpeaker(m_shooterSubsystem));
-    m_manipulatorController.rightBumper().onTrue(new ShootNoteIntoAmp(m_shooterSubsystem));
+    m_manipulatorController.a().onTrue(new ShootNoteIntoSpeaker(m_shooterSubsystem));
+    m_manipulatorController.x().onTrue(new ShootNoteIntoAmp(m_shooterSubsystem));
     
     //m_driveSubsystem.setDefaultCommand(m_driveSubsystem.jogTurnMotors(1 * Constants.kSwerve.MAX_VELOCITY_METERS_PER_SECOND, false));
 

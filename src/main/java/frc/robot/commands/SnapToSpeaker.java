@@ -8,9 +8,12 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
+import frc.robot.Constants.kField;
 import frc.robot.Constants.kVision;
 import frc.robot.subsystems.SwerveDrive;
 import frc.robot.subsystems.Vision;
+import frc.robot.utils.math.MathUtils;
+import frc.robot.utils.pose.FieldLayout;
 
 public class SnapToSpeaker extends Command {
 
@@ -40,13 +43,29 @@ public class SnapToSpeaker extends Command {
   @Override
   public void execute() {
     double speakerOffset = 0.0;
-    if(visionSubsystem.hasValidTarget() && (
-      visionSubsystem.getTargetID() == kVision.SPEAKER_APRILTAG_ID_RED ||
-      visionSubsystem.getTargetID() == kVision.SPEAKER_APRILTAG_ID_BLUE
-    )) {
-      speakerOffset = visionSubsystem.getTargetOffsetX();
+
+    if(FieldLayout.getClosestSpeaker(driveSubsystem.getPose().getX(), driveSubsystem.getPose().getY()) == FieldLayout.Landmark.BLUE_SPEAKER) {
+      if(visionSubsystem.hasValidTarget() && visionSubsystem.getTargetID() == kVision.SPEAKER_APRILTAG_ID_BLUE) {
+        speakerOffset = visionSubsystem.getTargetOffsetX();
+      } else {
+        speakerOffset = driveSubsystem.getGyroRotation().getDegrees() 
+        - MathUtils.angleOfLine(
+          kField.RED_SPEAKER_X, kField.RED_SPEAKER_Z, 
+          driveSubsystem.getPose().getX(), 
+          driveSubsystem.getPose().getY()
+        );
+      }
     } else {
-      speakerOffset = 0.0;
+      if(visionSubsystem.hasValidTarget() && visionSubsystem.getTargetID() == kVision.SPEAKER_APRILTAG_ID_RED) {
+        speakerOffset = visionSubsystem.getTargetOffsetX();
+      } else {
+        speakerOffset = driveSubsystem.getGyroRotation().getDegrees() 
+        - MathUtils.angleOfLine(
+          kField.RED_SPEAKER_X, kField.RED_SPEAKER_Z, 
+          driveSubsystem.getPose().getX(), 
+          driveSubsystem.getPose().getY()
+        );
+      }
     }
 
     double deadzoneForward = deadzone(forwardAxis.getAsDouble(), Constants.kControls.TRANSLATION_DEADZONE);

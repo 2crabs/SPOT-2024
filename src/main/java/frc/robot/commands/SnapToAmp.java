@@ -8,9 +8,12 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
+import frc.robot.Constants.kField;
 import frc.robot.Constants.kVision;
 import frc.robot.subsystems.SwerveDrive;
 import frc.robot.subsystems.Vision;
+import frc.robot.utils.math.MathUtils;
+import frc.robot.utils.pose.FieldLayout;
 
 public class SnapToAmp extends Command {
 
@@ -39,19 +42,35 @@ public class SnapToAmp extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double speakerOffset = 0.0;
-    if(visionSubsystem.hasValidTarget() && (
-      visionSubsystem.getTargetID() == kVision.AMP_APRILTAG_ID_RED ||
-      visionSubsystem.getTargetID() == kVision.AMP_APRILTAG_ID_BLUE
-    )) {
-      speakerOffset = visionSubsystem.getTargetOffsetX();
+    double ampOffset = 0.0;
+    
+    if(FieldLayout.getClosestSpeaker(driveSubsystem.getPose().getX(), driveSubsystem.getPose().getY()) == FieldLayout.Landmark.BLUE_AMP) {
+      if(visionSubsystem.hasValidTarget() && visionSubsystem.getTargetID() == kVision.AMP_APRILTAG_ID_BLUE) {
+        ampOffset = visionSubsystem.getTargetOffsetX();
+      } else {
+        ampOffset = driveSubsystem.getGyroRotation().getDegrees() 
+        - MathUtils.angleOfLine(
+          kField.RED_AMP_X, kField.RED_AMP_Z, 
+          driveSubsystem.getPose().getX(), 
+          driveSubsystem.getPose().getY()
+        );
+      }
     } else {
-      speakerOffset = 0.0;
+      if(visionSubsystem.hasValidTarget() && visionSubsystem.getTargetID() == kVision.AMP_APRILTAG_ID_RED) {
+        ampOffset = visionSubsystem.getTargetOffsetX();
+      } else {
+        ampOffset = driveSubsystem.getGyroRotation().getDegrees() 
+        - MathUtils.angleOfLine(
+          kField.RED_AMP_X, kField.RED_AMP_Z, 
+          driveSubsystem.getPose().getX(), 
+          driveSubsystem.getPose().getY()
+        );
+      }
     }
 
     double deadzoneForward = deadzone(forwardAxis.getAsDouble(), Constants.kControls.TRANSLATION_DEADZONE);
     double deadzoneSideways = deadzone(sidewaysAxis.getAsDouble(), Constants.kControls.TRANSLATION_DEADZONE);
-    double finalRotation = driveSubsystem.getGyroRotation().getDegrees() + speakerOffset;
+    double finalRotation = driveSubsystem.getGyroRotation().getDegrees() + ampOffset;
 
     driveSubsystem.drive(deadzoneForward, deadzoneSideways, finalRotation, true, true);
   }

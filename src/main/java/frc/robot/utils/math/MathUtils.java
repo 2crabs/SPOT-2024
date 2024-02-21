@@ -68,6 +68,10 @@ public class MathUtils {
         return Math.toDegrees(Math.acos(dotProduct / (Math.abs(distance(0, x1, 0, y1, 0, z1) * distance(0, x2, 0, y2, 0, z2)))));
     }
 
+    public static double angleOfLine(double x1, double y1, double x2, double y2) {
+        return Math.atan((y2-y1)/(x2-x1));
+    }
+
     public static double lawOfSinesForAngle(double angle, double a, double b) {
         return Math.toDegrees(Math.asin((b * Math.sin(Math.toRadians(angle))) / a));
     }

@@ -13,9 +13,9 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.I2C.Port;
 import frc.robot.utils.ModulePosition;
 import frc.robot.utils.SwerveModuleConstants;
+import frc.robot.utils.math.LinearInterpolator;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -210,5 +210,15 @@ public final class Constants {
 
     /** Default spin speed for the intake when intaking a note. */
     public static final double INTAKE_SPIN_SPEED = 0;
+
+    /** Table of shooter spin speeds and the distance they shoot. <p>TODO: Make the table */
+    public static final double[][] SHOOTER_SPEED_ARRAY = {
+      {0, 0},
+    };
+
+    public static final LinearInterpolator SHOOTER_LINEAR_INTERPOLATOR = new LinearInterpolator(SHOOTER_SPEED_ARRAY);
+  }
+  public static class kNetworkTables {
+    public static final String MAIN_TABLE_NAME = "robot";
   }
 }

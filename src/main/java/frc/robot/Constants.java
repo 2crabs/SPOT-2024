@@ -221,4 +221,18 @@ public final class Constants {
   public static class kNetworkTables {
     public static final String MAIN_TABLE_NAME = "robot";
   }
+
+  public static class kField {
+    public static final double RED_SPEAKER_X = 0.0;
+    public static final double RED_SPEAKER_Z = 0.0;
+
+    public static final double BLUE_SPEAKER_X = 0.0;
+    public static final double BLUE_SPEAKER_Z = 0.0;
+
+    public static final double RED_AMP_X = 0.0;
+    public static final double RED_AMP_Z = 0.0;
+
+    public static final double BLUE_AMP_X = 0.0;
+    public static final double BLUE_AMP_Z = 0.0;
+  }
 }

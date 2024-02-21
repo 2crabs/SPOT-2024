@@ -17,7 +17,9 @@ import frc.robot.commands.IntakeNote;
 import frc.robot.commands.ShootNoteIntoAmp;
 import frc.robot.commands.ShootNoteIntoSpeaker;
 import frc.robot.commands.StopIntake;
+import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveDrive;
 import frc.robot.subsystems.Vision;
 
@@ -26,6 +28,8 @@ public class RobotContainer {
   private final SendableChooser<Command> autoChooser;
   private final Vision m_visionSubsystem = new Vision();
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
+  private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
+  private final IndexerSubsystem m_indexerSubsystem = new IndexerSubsystem();
   private final SwerveDrive m_driveSubsystem = new SwerveDrive(m_visionSubsystem);
 
   private final CommandXboxController m_driverController =
@@ -69,8 +73,8 @@ public class RobotContainer {
 
     m_manipulatorController.leftTrigger().whileTrue(new IntakeNote(m_intakeSubsystem));
 
-    m_manipulatorController.leftBumper().onTrue(new ShootNoteIntoSpeaker(m_intakeSubsystem));
-    m_manipulatorController.rightBumper().onTrue(new ShootNoteIntoAmp(m_intakeSubsystem));
+    m_manipulatorController.leftBumper().onTrue(new ShootNoteIntoSpeaker(m_shooterSubsystem));
+    m_manipulatorController.rightBumper().onTrue(new ShootNoteIntoAmp(m_shooterSubsystem));
     
     //m_driveSubsystem.setDefaultCommand(m_driveSubsystem.jogTurnMotors(1 * Constants.kSwerve.MAX_VELOCITY_METERS_PER_SECOND, false));
 

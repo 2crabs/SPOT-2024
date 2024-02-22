@@ -13,9 +13,9 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.I2C.Port;
 import frc.robot.utils.ModulePosition;
 import frc.robot.utils.SwerveModuleConstants;
+import frc.robot.utils.math.LinearInterpolator;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -159,6 +159,34 @@ public final class Constants {
     // This chooses if you want to run the vision calculations on the raspberry pi or the roborio. 
     // Usually keep as true unless testing something
     public static final boolean PiVision = true;
+
+    public static final int DEFAULT_PIPELINE = 1;
+    public static final double TARGET_VANISH_DELAY = 2;
+
+    // Blue Speaker
+    public static final int SPEAKER_APRILTAG_ID_BLUE = 7;
+    public static final int SPEAKER_SIDE_APRILTAG_ID_BLUE = 8;
+    // Red Speaker
+    public static final int SPEAKER_APRILTAG_ID_RED = 3;
+    public static final int SPEAKER_SIDE_APRILTAG_ID_RED = 4;
+    // Blue Amp
+    public static final int AMP_APRILTAG_ID_BLUE = 6;
+    // Red Amp
+    public static final int AMP_APRILTAG_ID_RED = 5;
+    // Blue Source
+    public static final int SOURCE_LEFT_APRILTAG_ID_BLUE = 2;
+    public static final int SOURCE_RIGHT_APRILTAG_ID_BLUE = 1;
+    // Red Source
+    public static final int SOURCE_LEFT_APRILTAG_ID_RED = 10;
+    public static final int SOURCE_RIGHT_APRILTAG_ID_RED = 9;
+    // Blue Stage
+    public static final int STAGE_CENTER_APRILTAG_ID_BLUE = 14;
+    public static final int STAGE_LEFT_APRILTAG_ID_BLUE = 16;
+    public static final int STAGE_RIGHT_APRILTAG_ID_BLUE = 15;
+    // Red Stage
+    public static final int STAGE_CENTER_APRILTAG_ID_RED = 13;
+    public static final int STAGE_LEFT_APRILTAG_ID_RED = 11;
+    public static final int STAGE_RIGHT_APRILTAG_ID_RED = 12;
   }
 
   /** All manipulator constants. */
@@ -182,5 +210,29 @@ public final class Constants {
 
     /** Default spin speed for the intake when intaking a note. */
     public static final double INTAKE_SPIN_SPEED = 0;
+
+    /** Table of shooter spin speeds and the distance they shoot. <p>TODO: Make the table */
+    public static final double[][] SHOOTER_SPEED_ARRAY = {
+      {0, 0},
+    };
+
+    public static final LinearInterpolator SHOOTER_LINEAR_INTERPOLATOR = new LinearInterpolator(SHOOTER_SPEED_ARRAY);
+  }
+  public static class kNetworkTables {
+    public static final String MAIN_TABLE_NAME = "robot";
+  }
+
+  public static class kField {
+    public static final double RED_SPEAKER_X = 0.0;
+    public static final double RED_SPEAKER_Z = 0.0;
+
+    public static final double BLUE_SPEAKER_X = 0.0;
+    public static final double BLUE_SPEAKER_Z = 0.0;
+
+    public static final double RED_AMP_X = 0.0;
+    public static final double RED_AMP_Z = 0.0;
+
+    public static final double BLUE_AMP_X = 0.0;
+    public static final double BLUE_AMP_Z = 0.0;
   }
 }

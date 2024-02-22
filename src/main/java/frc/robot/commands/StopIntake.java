@@ -5,13 +5,13 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.ManipulatorSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 
 public class StopIntake extends Command {
-  private final ManipulatorSubsystem manipSubsystem;
+  private final IntakeSubsystem manipSubsystem;
 
   /** Creates a new StopIntake. */
-  public StopIntake(ManipulatorSubsystem subsystem) {
+  public StopIntake(IntakeSubsystem subsystem) {
     manipSubsystem = subsystem;
     addRequirements(subsystem);
   }

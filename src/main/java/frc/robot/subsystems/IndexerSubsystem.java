@@ -1,26 +1,23 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkMax;
 
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class IndexerSubsystem extends SubsystemBase{
 
-    public CANSparkMax motor;
+    public CANSparkMax indexerMotor;
     public IndexerSubsystem() {
-        motor = new CANSparkMax(14, MotorType.kBrushless);
-        motor.setSmartCurrentLimit(25);
+        indexerMotor = new CANSparkMax(14, MotorType.kBrushless);
     }
 
     /**
-     * Example command factory method.
-     *
-     * @return a command
+     * This runs the indexer at a speed
+     * @param speed the speed to run the indexer motor
      */
-    public void runWithSpeed(double input) {
-        motor.set(input);
+    public void runWithSpeed(double speed) {
+        indexerMotor.set(speed);
     }
 
     /**
@@ -41,5 +38,10 @@ public class IndexerSubsystem extends SubsystemBase{
     @Override
     public void simulationPeriodic() {
         // This method will be called once per scheduler run during simulation
+    }
+
+    /** This configures the motor controllers */
+    public void configureHardware() {
+        indexerMotor.setSmartCurrentLimit(25);
     }
 }

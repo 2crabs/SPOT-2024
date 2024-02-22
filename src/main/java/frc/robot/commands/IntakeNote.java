@@ -6,16 +6,16 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.kManip;
-import frc.robot.subsystems.ManipulatorSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 
 public class IntakeNote extends Command {
-  private final ManipulatorSubsystem manipSubsystem;
+  private final IntakeSubsystem manipSubsystem;
 
   // CHANGE THIS LATER. this boolean should turn true when the note is finished intake. we don't know how to do that yet.
   private boolean intakeFinished;
 
   /** Creates a new IntakeNote. */
-  public IntakeNote(ManipulatorSubsystem manipulator) {
+  public IntakeNote(IntakeSubsystem manipulator) {
     manipSubsystem = manipulator;
     addRequirements(manipulator);
   }

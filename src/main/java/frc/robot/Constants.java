@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import org.opencv.core.Point;
+import org.opencv.core.Scalar;
+
 import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
@@ -158,7 +161,7 @@ public final class Constants {
   public static class kVision {
     // This chooses if you want to run the vision calculations on the raspberry pi or the roborio. 
     // Usually keep as true unless testing something
-    public static final boolean PiVision = true;
+    public static final boolean PiVision = false;
 
     public static final int DEFAULT_PIPELINE = 1;
     public static final double TARGET_VANISH_DELAY = 2;
@@ -242,5 +245,12 @@ public final class Constants {
 
     public static final double BLUE_AMP_X = 0.0;
     public static final double BLUE_AMP_Z = 0.0;
+  }
+
+  /** Constants For Camera Displays */
+  public static class kDisplay {
+    public static final Point FPS_COUNTER_POSITION = new Point(100, 100);
+    public static final double FPS_COUNTER_SIZE = 10.0;
+    public static final Scalar FPS_COUNTER_COLOR = new Scalar(0, 0, 0);
   }
 }

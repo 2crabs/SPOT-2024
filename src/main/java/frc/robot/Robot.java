@@ -16,6 +16,7 @@ import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Constants.kDisplay;
 import frc.robot.Constants.kVision;
 
 /**
@@ -128,7 +129,7 @@ public class Robot extends TimedRobot {
 
         // This captures Mats from the camera
         CvSink cvSink = CameraServer.getVideo();
-        CvSource outputStream = CameraServer.putVideo("Rectangle", 640, 480);
+        CvSource outputStream = CameraServer.putVideo("Driver Camera", 640, 480);
 
         // Reuse this mat so the computer doesn't blow up
         Mat mat = new Mat();
@@ -141,6 +142,7 @@ public class Robot extends TimedRobot {
           }
           // Put rectangle on the image (TEST)
           Imgproc.rectangle(mat, new Point(100, 100), new Point(400, 400), new Scalar(255, 255, 255), 5);
+          Imgproc.putText(mat, "" + cvSink.getSource().getActualFPS(), kDisplay.FPS_COUNTER_POSITION, 0, kDisplay.FPS_COUNTER_SIZE, kDisplay.FPS_COUNTER_COLOR);
 
           outputStream.putFrame(mat);
         }

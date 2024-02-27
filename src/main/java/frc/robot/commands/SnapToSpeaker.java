@@ -44,27 +44,38 @@ public class SnapToSpeaker extends Command {
   public void execute() {
     double speakerOffset = 0.0;
 
-    if(FieldLayout.getClosestSpeaker(driveSubsystem.getPose().getX(), driveSubsystem.getPose().getY()) == FieldLayout.Landmark.BLUE_SPEAKER) {
-      if(visionSubsystem.hasValidTarget() && visionSubsystem.getTargetID() == kVision.SPEAKER_APRILTAG_ID_BLUE) {
-        speakerOffset = visionSubsystem.getTargetOffsetX();
+    if(kVision.USE_FIELD_POS_IN_SNAP_COMMANDS) { 
+      if(FieldLayout.getClosestSpeaker(driveSubsystem.getPose().getX(), driveSubsystem.getPose().getY()) == FieldLayout.Landmark.BLUE_SPEAKER) {
+        if(visionSubsystem.hasValidTarget() && visionSubsystem.getTargetID() == kVision.SPEAKER_APRILTAG_ID_BLUE) {
+          speakerOffset = visionSubsystem.getTargetOffsetX();
+        } else {
+          speakerOffset = driveSubsystem.getGyroRotation().getDegrees() 
+          - MathUtils.angleOfLine(
+            kField.RED_SPEAKER_X, kField.RED_SPEAKER_Z, 
+            driveSubsystem.getPose().getX(), 
+            driveSubsystem.getPose().getY()
+          );
+        }
       } else {
-        speakerOffset = driveSubsystem.getGyroRotation().getDegrees() 
-        - MathUtils.angleOfLine(
-          kField.RED_SPEAKER_X, kField.RED_SPEAKER_Z, 
-          driveSubsystem.getPose().getX(), 
-          driveSubsystem.getPose().getY()
-        );
+        if(visionSubsystem.hasValidTarget() && visionSubsystem.getTargetID() == kVision.SPEAKER_APRILTAG_ID_RED) {
+          speakerOffset = visionSubsystem.getTargetOffsetX();
+        } else {
+          speakerOffset = driveSubsystem.getGyroRotation().getDegrees() 
+          - MathUtils.angleOfLine(
+            kField.RED_SPEAKER_X, kField.RED_SPEAKER_Z, 
+            driveSubsystem.getPose().getX(), 
+            driveSubsystem.getPose().getY()
+          );
+        }
       }
     } else {
-      if(visionSubsystem.hasValidTarget() && visionSubsystem.getTargetID() == kVision.SPEAKER_APRILTAG_ID_RED) {
+      if(visionSubsystem.hasValidTarget() && (
+        visionSubsystem.getTargetID() == kVision.SPEAKER_APRILTAG_ID_RED || 
+        visionSubsystem.getTargetID() == kVision.SPEAKER_APRILTAG_ID_BLUE
+      )) {
         speakerOffset = visionSubsystem.getTargetOffsetX();
       } else {
-        speakerOffset = driveSubsystem.getGyroRotation().getDegrees() 
-        - MathUtils.angleOfLine(
-          kField.RED_SPEAKER_X, kField.RED_SPEAKER_Z, 
-          driveSubsystem.getPose().getX(), 
-          driveSubsystem.getPose().getY()
-        );
+        speakerOffset = 1.0;
       }
     }
 

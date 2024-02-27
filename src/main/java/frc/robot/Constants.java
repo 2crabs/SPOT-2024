@@ -30,7 +30,10 @@ import frc.robot.utils.math.LinearInterpolator;
  */
 
 public final class Constants {
+  /** All constants for controlling the robot */
   public static class kControls {
+    public static final boolean USE_LEFT_Y_FOR_INTAKING = false;
+
     public static final double TRANSLATION_DEADZONE = 0.1;
     public static final double ROTATION_DEADZONE = 0.05;
 
@@ -45,9 +48,9 @@ public final class Constants {
     public static final int ROTATION_AXIS = XboxController.Axis.kRightX.value;
 
     // Prevent from acclerating/decclerating to quick
-    public static final SlewRateLimiter X_DRIVE_LIMITER = new SlewRateLimiter(2);
-    public static final SlewRateLimiter Y_DRIVE_LIMITER = new SlewRateLimiter(2);
-    public static final SlewRateLimiter THETA_DRIVE_LIMITER = new SlewRateLimiter(4);
+    public static final SlewRateLimiter X_DRIVE_LIMITER = new SlewRateLimiter(10);
+    public static final SlewRateLimiter Y_DRIVE_LIMITER = new SlewRateLimiter(10);
+    public static final SlewRateLimiter THETA_DRIVE_LIMITER = new SlewRateLimiter(12);
   }
 
   /** All swerve constants. */
@@ -81,8 +84,8 @@ public final class Constants {
     public static final double CLOSED_LOOP_RAMP = 0.0;
 
     /** Current limiting. */
-    public static final int DRIVE_CURRENT_LIMIT = 35;
-    public static final int ANGLE_CURRENT_LIMIT = 25;
+    public static final int DRIVE_CURRENT_LIMIT = 45;
+    public static final int ANGLE_CURRENT_LIMIT = 45;
 
     /** Drive motor PID values. */
     public static final double DRIVE_KP = 0.05;
@@ -102,8 +105,8 @@ public final class Constants {
     public static final double ANGLE_KF = 0.0;
     
     /** Swerve constraints. */
-    public static final double MAX_VELOCITY_METERS_PER_SECOND = 3.0;
-    public static final double MAX_ANGULAR_RADIANS_PER_SECOND = 4.0;
+    public static final double MAX_VELOCITY_METERS_PER_SECOND = 10.0;
+    public static final double MAX_ANGULAR_RADIANS_PER_SECOND = 11.0;
 
     /** Inversions. */
     public static final boolean DRIVE_MOTOR_REVERSED = true;
@@ -164,8 +167,20 @@ public final class Constants {
     public static final boolean PiVision = false;
 
     public static final int DEFAULT_PIPELINE = 1;
+    /** 
+     * This is the delay {@link frc.robot.commands.LimelightDefault the limelight default command} 
+     * uses to determine wether or not to blink.
+     */
     public static final double TARGET_VANISH_DELAY = 2;
 
+    /** 
+     * This boolean tells {@link frc.robot.commands.SnapToAmp SnapToAmp()} 
+     * and {@link frc.robot.commands.SnapToSpeaker SnapToSpeaker()} if they should use relative field position
+     * as a factor in determining the angle to turn to.
+     */
+    public static final boolean USE_FIELD_POS_IN_SNAP_COMMANDS = false;
+
+    //#region AprilTag IDs
     // Blue Speaker
     public static final int SPEAKER_APRILTAG_ID_BLUE = 7;
     public static final int SPEAKER_SIDE_APRILTAG_ID_BLUE = 8;
@@ -190,17 +205,21 @@ public final class Constants {
     public static final int STAGE_CENTER_APRILTAG_ID_RED = 13;
     public static final int STAGE_LEFT_APRILTAG_ID_RED = 11;
     public static final int STAGE_RIGHT_APRILTAG_ID_RED = 12;
+    //#endregion
   }
 
   /** All manipulator constants. */
   public static class kManip {
-    public static final int INTAKE_ANGLE_MOTOR_ID = 0;
-    public static final int INTAKE_SPEED_MOTOR_ID = 0;
+    /** This is the amount of time that the shooter runs for when shooting a note*/
+    public static final double SHOOT_TIME = 2.0;
 
-    public static final int SHOOTER_MOTOR_A_ID = 0;
-    public static final int SHOOTER_MOTOR_B_ID = 0;
+    public static final int INTAKE_ANGLE_MOTOR_ID = 17;
+    public static final int INTAKE_SPEED_MOTOR_ID = 14;
 
-    public static final double INTAKE_ANGLE_DEADZONE = 0.0;
+    public static final int SHOOTER_MOTOR_A_ID = 15;
+    public static final int SHOOTER_MOTOR_B_ID = 16;
+
+    public static final double INTAKE_ANGLE_DEADZONE = 0.005;
 
     public static final double INTAKE_ANGLE_PID_P = 0.0;
     public static final double INTAKE_ANGLE_PID_I = 0.0;
@@ -215,35 +234,54 @@ public final class Constants {
     public static final double SHOOTER_MOTOR_B_PID_D = 0.0;
 
     // First item should be how it starts and second item should be when it is down.
-    public static final double[] INTAKE_ANGLE_TOGGLE_VALUES = new double[]{0, 180};
+    public static final double[] INTAKE_ANGLE_TOGGLE_VALUES = new double[]{0, 45};
     // First item should be how it starts, second should be amp shooting, and other ones should be speaker shooting.
     public static final double[] SHOOTER_SPEED_STATE_VALUES = new double[]{0, 0.3, 0.7};
 
+    public static final boolean USE_TUNED_INTAKE_VALUES = false;
+    public static final boolean USE_TUNED_SHOOTER_VALUES = false;
+
     /** Default spin speed for the intake when intaking a note. */
-    public static final double INTAKE_SPIN_SPEED = 0;
+    public static final double INTAKE_SPIN_SPEED = -1.0;
+
+    /** Default spin speed for the indexer when intaking a note. */
+    public static final double INDEXER_SPIN_SPEED = 1.0;
 
     /** Table of shooter spin speeds and the distance they shoot. <p>TODO: Make the table */
     public static final double[][] SHOOTER_SPEED_ARRAY = {
       {0, 0},
     };
 
+    /**
+     * This is used to linearly interpolate between the values collected by 
+     * {@link frc.robot.Constants.kManip#SHOOTER_SPEED_ARRAY this array} 
+     */
     public static final LinearInterpolator SHOOTER_LINEAR_INTERPOLATOR = new LinearInterpolator(SHOOTER_SPEED_ARRAY);
   }
   public static class kNetworkTables {
+    /** This is the name of the main networktables table for the robot. */
     public static final String MAIN_TABLE_NAME = "robot";
   }
 
   public static class kField {
+    /** The X position of the red speaker in field space */
     public static final double RED_SPEAKER_X = 0.0;
+    /** The Z position of the red speaker in field space */
     public static final double RED_SPEAKER_Z = 0.0;
 
+    /** The X position of the blue speaker in field space */
     public static final double BLUE_SPEAKER_X = 0.0;
+    /** The Z position of the blue speaker in field space */
     public static final double BLUE_SPEAKER_Z = 0.0;
 
+    /** The X position of the red amp in field space */
     public static final double RED_AMP_X = 0.0;
+    /** The Z position of the red amp in field space */
     public static final double RED_AMP_Z = 0.0;
 
+    /** The X position of the blue amp in field space */
     public static final double BLUE_AMP_X = 0.0;
+    /** The Z position of the blue amp in field space */
     public static final double BLUE_AMP_Z = 0.0;
   }
 

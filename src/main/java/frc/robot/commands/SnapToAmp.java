@@ -44,27 +44,38 @@ public class SnapToAmp extends Command {
   public void execute() {
     double ampOffset = 0.0;
     
-    if(FieldLayout.getClosestSpeaker(driveSubsystem.getPose().getX(), driveSubsystem.getPose().getY()) == FieldLayout.Landmark.BLUE_AMP) {
-      if(visionSubsystem.hasValidTarget() && visionSubsystem.getTargetID() == kVision.AMP_APRILTAG_ID_BLUE) {
-        ampOffset = visionSubsystem.getTargetOffsetX();
+    if(kVision.USE_FIELD_POS_IN_SNAP_COMMANDS) {
+      if(FieldLayout.getClosestSpeaker(driveSubsystem.getPose().getX(), driveSubsystem.getPose().getY()) == FieldLayout.Landmark.BLUE_AMP) {
+        if(visionSubsystem.hasValidTarget() && visionSubsystem.getTargetID() == kVision.AMP_APRILTAG_ID_BLUE) {
+          ampOffset = visionSubsystem.getTargetOffsetX();
+        } else {
+          ampOffset = driveSubsystem.getGyroRotation().getDegrees() 
+          - MathUtils.angleOfLine(
+            kField.RED_AMP_X, kField.RED_AMP_Z, 
+            driveSubsystem.getPose().getX(), 
+            driveSubsystem.getPose().getY()
+          );
+        }
       } else {
-        ampOffset = driveSubsystem.getGyroRotation().getDegrees() 
-        - MathUtils.angleOfLine(
-          kField.RED_AMP_X, kField.RED_AMP_Z, 
-          driveSubsystem.getPose().getX(), 
-          driveSubsystem.getPose().getY()
-        );
+        if(visionSubsystem.hasValidTarget() && visionSubsystem.getTargetID() == kVision.AMP_APRILTAG_ID_RED) {
+          ampOffset = visionSubsystem.getTargetOffsetX();
+        } else {
+          ampOffset = driveSubsystem.getGyroRotation().getDegrees() 
+          - MathUtils.angleOfLine(
+            kField.RED_AMP_X, kField.RED_AMP_Z, 
+            driveSubsystem.getPose().getX(), 
+            driveSubsystem.getPose().getY()
+          );
+        }
       }
     } else {
-      if(visionSubsystem.hasValidTarget() && visionSubsystem.getTargetID() == kVision.AMP_APRILTAG_ID_RED) {
+      if(visionSubsystem.hasValidTarget() && (
+        visionSubsystem.getTargetID() == kVision.AMP_APRILTAG_ID_RED || 
+        visionSubsystem.getTargetID() == kVision.AMP_APRILTAG_ID_BLUE
+      )) {
         ampOffset = visionSubsystem.getTargetOffsetX();
       } else {
-        ampOffset = driveSubsystem.getGyroRotation().getDegrees() 
-        - MathUtils.angleOfLine(
-          kField.RED_AMP_X, kField.RED_AMP_Z, 
-          driveSubsystem.getPose().getX(), 
-          driveSubsystem.getPose().getY()
-        );
+        ampOffset = 1.0;
       }
     }
 

@@ -5,18 +5,24 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.kControls;
+import frc.robot.Constants.kManip;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.FollowCurrentTarget;
 import frc.robot.commands.IntakeNote;
+import frc.robot.commands.MoveIntake;
+import frc.robot.commands.OuttakeNote;
 import frc.robot.commands.ShootNoteIntoAmp;
 import frc.robot.commands.ShootNoteIntoSpeaker;
-import frc.robot.commands.StopIntake;
+import frc.robot.commands.StopIndexer;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -32,7 +38,7 @@ public class RobotContainer {
   private final IndexerSubsystem m_indexerSubsystem = new IndexerSubsystem();
   private final SwerveDrive m_driveSubsystem = new SwerveDrive(m_visionSubsystem);
 
-  private final CommandXboxController m_driverController =
+  public final CommandXboxController m_driverController =
       new CommandXboxController(kControls.DRIVE_CONTROLLER_ID);
   private final CommandXboxController m_manipulatorController =
       new CommandXboxController(kControls.MANIPULATOR_CONTROLLER_ID);
@@ -58,23 +64,55 @@ public class RobotContainer {
     m_driverController.rightBumper().whileTrue(new FollowCurrentTarget(
       m_visionSubsystem, 
       m_driveSubsystem, 
-      () -> -Constants.kControls.X_DRIVE_LIMITER.calculate(m_driverController.getRawAxis(Constants.kControls.TRANSLATION_Y_AXIS)),
-      () -> -Constants.kControls.Y_DRIVE_LIMITER.calculate(m_driverController.getRawAxis(Constants.kControls.TRANSLATION_X_AXIS))
-      ));
-
-    m_driveSubsystem.setDefaultCommand(new DriveCommand(
-            () -> -kControls.Y_DRIVE_LIMITER.calculate(m_driverController.getRawAxis(kControls.TRANSLATION_Y_AXIS)),
-            () -> -kControls.X_DRIVE_LIMITER.calculate(m_driverController.getRawAxis(kControls.TRANSLATION_X_AXIS)),
-            () -> -kControls.THETA_DRIVE_LIMITER.calculate(m_driverController.getRawAxis(kControls.ROTATION_AXIS)),
-            m_driveSubsystem
+      () -> -kControls.X_DRIVE_LIMITER.calculate(m_driverController.getRawAxis(kControls.TRANSLATION_Y_AXIS)),
+      () -> -kControls.Y_DRIVE_LIMITER.calculate(m_driverController.getRawAxis(kControls.TRANSLATION_X_AXIS))
     ));
 
-    m_intakeSubsystem.setDefaultCommand(new StopIntake(m_intakeSubsystem));
+    m_driveSubsystem.setDefaultCommand(new DriveCommand(
+      () -> -kControls.Y_DRIVE_LIMITER.calculate(m_driverController.getRawAxis(kControls.TRANSLATION_Y_AXIS)),
+      () -> -kControls.X_DRIVE_LIMITER.calculate(m_driverController.getRawAxis(kControls.TRANSLATION_X_AXIS)),
+      () -> -kControls.THETA_DRIVE_LIMITER.calculate(-m_driverController.getRawAxis(kControls.ROTATION_AXIS)),
+      m_driveSubsystem
+    ));
 
-    m_manipulatorController.leftBumper().whileTrue(new IntakeNote(m_intakeSubsystem));
+    m_intakeSubsystem.setDefaultCommand(new MoveIntake(m_intakeSubsystem, () -> (m_manipulatorController.getRightY()/6)));
+    m_indexerSubsystem.setDefaultCommand(new StopIndexer(m_indexerSubsystem));
 
-    m_manipulatorController.a().onTrue(new ShootNoteIntoSpeaker(m_shooterSubsystem));
-    m_manipulatorController.x().onTrue(new ShootNoteIntoAmp(m_shooterSubsystem));
+    if(kControls.USE_LEFT_Y_FOR_INTAKING) {
+      m_intakeSubsystem.setDefaultCommand(
+        new RunCommand(() -> m_intakeSubsystem.setIntakeSpinSpeed(kManip.INTAKE_SPIN_SPEED * (
+          Math.abs(m_manipulatorController.getLeftY()) > kManip.INTAKE_ANGLE_DEADZONE ? 
+          m_manipulatorController.getLeftY() : 
+          0.0
+        )
+      ), m_intakeSubsystem));
+      m_indexerSubsystem.setDefaultCommand(
+        new RunCommand(() -> m_indexerSubsystem.runWithSpeed(kManip.INDEXER_SPIN_SPEED * (
+          Math.abs(m_manipulatorController.getLeftY()) > kManip.INTAKE_ANGLE_DEADZONE ? 
+          m_manipulatorController.getLeftY() * kManip.INTAKE_SPIN_SPEED : 
+          0.0
+        )
+      ), m_indexerSubsystem));
+    } else {
+      m_manipulatorController.leftBumper().whileTrue(new IntakeNote(m_intakeSubsystem, m_indexerSubsystem));
+      m_manipulatorController.rightBumper().whileTrue(new OuttakeNote(m_intakeSubsystem, m_indexerSubsystem));
+    }
+    
+    m_shooterSubsystem.setDefaultCommand(new ParallelDeadlineGroup(
+      new RunCommand(() -> m_shooterSubsystem.setShooterSpeed(
+        Math.abs(m_manipulatorController.getLeftY()) > 0.1 ? 
+        -m_manipulatorController.getLeftY() * 1 : 
+        0.0
+      ), m_shooterSubsystem)
+      )
+    );
+
+    // m_manipulatorController.b().whileTrue(new MoveIntake(m_intakeSubsystem, () -> (m_manipulatorController.getRightY()/6)));
+
+    m_manipulatorController.a().onTrue(new ShootNoteIntoSpeaker(m_shooterSubsystem, m_indexerSubsystem));
+    m_manipulatorController.x().onTrue(new ShootNoteIntoAmp(m_shooterSubsystem, m_indexerSubsystem));
+
+    // m_manipulatorController.y().whileTrue(new RunCommand(() -> m_shooterSubsystem.setShooterState(2), m_shooterSubsystem));
     
     //m_driveSubsystem.setDefaultCommand(m_driveSubsystem.jogTurnMotors(1 * Constants.kSwerve.MAX_VELOCITY_METERS_PER_SECOND, false));
 

@@ -39,16 +39,16 @@ public class DriveCommand extends Command {
     @Override
     public void execute() {
 
-        double deadzoneRotation = deadzone(rotationAxis.getAsDouble(), Constants.kControls.ROTATION_DEADZONE);
-        double deadzoneForward = deadzone(forwardAxis.getAsDouble(), Constants.kControls.TRANSLATION_DEADZONE);
-        double deadzoneSideways = deadzone(sidewaysAxis.getAsDouble(), Constants.kControls.TRANSLATION_DEADZONE);
+        double deadzoneRotation = deadzone(rotationAxis.getAsDouble(), Constants.kControls.ROTATION_DEADZONE) * 3;
+        double deadzoneForward = deadzone(forwardAxis.getAsDouble(), Constants.kControls.TRANSLATION_DEADZONE) * 2;
+        double deadzoneSideways = deadzone(sidewaysAxis.getAsDouble(), Constants.kControls.TRANSLATION_DEADZONE) * 2;
 
         //only use the pid rotation if going at a certain speed
-        if (deadzoneRotation == 0.0 && Math.sqrt((deadzoneForward*deadzoneForward)+(deadzoneSideways*deadzoneSideways)) > 0.15) {
-            swerveDrive.drive(deadzoneForward, deadzoneSideways, swerveDrive.targetRotation, true, true);
-        } else {
+        // if (deadzoneRotation == 0.0 && Math.sqrt((deadzoneForward*deadzoneForward)+(deadzoneSideways*deadzoneSideways)) > 0.15) {
+        //     swerveDrive.drive(deadzoneForward, deadzoneSideways, swerveDrive.targetRotation, true, true);
+        // } else {
             swerveDrive.basicDrive(deadzoneForward, deadzoneSideways, deadzoneRotation, true);
-        }
+        // }
     }
 
     public double deadzone(double input, double tolerance){

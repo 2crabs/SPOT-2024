@@ -11,11 +11,15 @@ import com.revrobotics.CANSparkMax;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.kManip;
+import frc.robot.utils.debug.TunableNumber;
 import frc.robot.utils.math.LinearInterpolator;
 
 public class ShooterSubsystem extends SubsystemBase {
 
   LinearInterpolator linearInterpolator = new LinearInterpolator(kManip.SHOOTER_SPEED_ARRAY);
+
+  TunableNumber speakerShootSpeed = new TunableNumber("Shooter Speed: Speaker");
+  TunableNumber ampShootSpeed = new TunableNumber("Shooter Speed: Amp");
 
   CANSparkMax shooterMotorA = new CANSparkMax(kManip.SHOOTER_MOTOR_A_ID, CANSparkLowLevel.MotorType.kBrushless);
   CANSparkMax shooterMotorB = new CANSparkMax(kManip.SHOOTER_MOTOR_B_ID, CANSparkLowLevel.MotorType.kBrushless);
@@ -40,12 +44,24 @@ public class ShooterSubsystem extends SubsystemBase {
   /** Creates a new ShooterSubsystem. */
   public ShooterSubsystem() {
     configureHardware();
+    speakerShootSpeed.setDefault(0.7);
+    ampShootSpeed.setDefault(0.3);
   }
 
   @Override
   public void periodic() {
-    shooterMotorA.set(shooterMotorAPID.calculate(shooterMotorASetPoint));
-    shooterMotorB.set(shooterMotorBPID.calculate(shooterMotorBSetPoint));
+    // shooterMotorA.set(shooterMotorAPID.calculate(shooterMotorASetPoint));
+    // shooterMotorB.set(shooterMotorBPID.calculate(shooterMotorBSetPoint));
+
+    shooterMotorA.set(shooterMotorASetPoint);
+    shooterMotorB.set(shooterMotorBSetPoint);
+
+    if(kManip.USE_TUNED_SHOOTER_VALUES) {
+      // shooterSpeedStateValues[2] = speakerShootSpeed.get();
+      // shooterSpeedStateValues[1] = ampShootSpeed.get();
+    } else {
+      // shooterSpeedStateValues = kManip.SHOOTER_SPEED_STATE_VALUES;
+    }
   }
 
   /** Use this to se the shooter to a custom speed. */
@@ -81,7 +97,7 @@ public class ShooterSubsystem extends SubsystemBase {
     shooterMotorA.setIdleMode(IdleMode.kBrake);
 
     shooterMotorB.restoreFactoryDefaults();
-    shooterMotorB.setInverted(false);
+    shooterMotorB.setInverted(true);
     shooterMotorB.setIdleMode(IdleMode.kBrake);
   }
 }

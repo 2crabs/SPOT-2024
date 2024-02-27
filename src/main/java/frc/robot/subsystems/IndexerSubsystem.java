@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -9,7 +10,7 @@ public class IndexerSubsystem extends SubsystemBase{
 
     public CANSparkMax indexerMotor;
     public IndexerSubsystem() {
-        indexerMotor = new CANSparkMax(14, MotorType.kBrushless);
+        indexerMotor = new CANSparkMax(18, MotorType.kBrushless);
     }
 
     /**
@@ -42,6 +43,7 @@ public class IndexerSubsystem extends SubsystemBase{
 
     /** This configures the motor controllers */
     public void configureHardware() {
-        indexerMotor.setSmartCurrentLimit(25);
+        indexerMotor.setSmartCurrentLimit(35);
+        indexerMotor.setIdleMode(IdleMode.kCoast);
     }
 }

@@ -9,15 +9,15 @@ import frc.robot.Constants.kManip;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 
-public class IntakeNote extends Command {
+public class OuttakeNote extends Command {
   private final IntakeSubsystem manipSubsystem;
   private final IndexerSubsystem indexerSubsystem;
 
   // CHANGE THIS LATER. this boolean should turn true when the note is finished intake. we don't know how to do that yet.
   private boolean intakeFinished;
 
-  /** Creates a new IntakeNote. */
-  public IntakeNote(IntakeSubsystem manipulator, IndexerSubsystem indexer) {
+  /** Creates a new OuttakeNote. */
+  public OuttakeNote(IntakeSubsystem manipulator, IndexerSubsystem indexer) {
     manipSubsystem = manipulator;
     indexerSubsystem  = indexer;
     addRequirements(manipulator);
@@ -34,8 +34,8 @@ public class IntakeNote extends Command {
   @Override
   public void execute() {
     // manipSubsystem.setPredeterminedIntakeMotorAngle(1);
-    manipSubsystem.setIntakeSpinSpeed(kManip.INTAKE_SPIN_SPEED);
-    indexerSubsystem.runWithSpeed(kManip.INDEXER_SPIN_SPEED);
+    manipSubsystem.setIntakeSpinSpeed(-kManip.INTAKE_SPIN_SPEED);
+    indexerSubsystem.runWithSpeed(-kManip.INDEXER_SPIN_SPEED);
   }
 
   // Called once the command ends or is interrupted.

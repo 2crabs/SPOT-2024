@@ -4,27 +4,37 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.Constants.kManip;
+import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ShootNoteIntoAmp extends SequentialCommandGroup {
-  private final ShooterSubsystem manipSubsystem;
+  private final ShooterSubsystem shooterSubsystem;
+  private final IndexerSubsystem indexerSubsystem;
   /** Creates a new ShootNoteIntoAmp. */
-  public ShootNoteIntoAmp(ShooterSubsystem subsystem) {
-    manipSubsystem = subsystem;
-    addRequirements(subsystem);
+  public ShootNoteIntoAmp(ShooterSubsystem shooter, IndexerSubsystem indexer) {
+    shooterSubsystem = shooter;
+    indexerSubsystem = indexer;
+    addRequirements(shooter, indexer);
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new RunCommand(() -> manipSubsystem.setShooterState(2), manipSubsystem),
-      new WaitCommand(1),
-      new RunCommand(() -> manipSubsystem.setShooterState(0), manipSubsystem)
+      new ParallelCommandGroup(
+        new RunCommand(() -> shooterSubsystem.setShooterState(1), shooterSubsystem),
+        new RunCommand(() -> indexerSubsystem.runWithSpeed(-0.6), indexerSubsystem)
+      ).withTimeout(kManip.SHOOT_TIME).andThen(
+        new ParallelCommandGroup(
+          new RunCommand(() -> shooterSubsystem.setShooterState(0), shooterSubsystem),
+          new RunCommand(() -> indexerSubsystem.runWithSpeed(0), indexerSubsystem)
+        )
+      )
     );
   }
 }

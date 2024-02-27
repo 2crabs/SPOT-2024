@@ -13,6 +13,7 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.CvSink;
 import edu.wpi.first.cscore.CvSource;
 import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.cscore.VideoSink;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -124,8 +125,13 @@ public class Robot extends TimedRobot {
     return new Thread(
       () -> {
         // Get the USBCamera from CameraServer
-        UsbCamera camera = CameraServer.startAutomaticCapture();
-        camera.setResolution(640, 480);
+        UsbCamera cameraA = CameraServer.startAutomaticCapture(0);
+        UsbCamera cameraB = CameraServer.startAutomaticCapture(1);
+
+        cameraA.setResolution(640, 480);
+        cameraB.setResolution(640, 480);
+
+        VideoSink server = CameraServer.getServer();
 
         // This captures Mats from the camera
         CvSink cvSink = CameraServer.getVideo();
@@ -136,13 +142,27 @@ public class Robot extends TimedRobot {
         
         // Stop the thread when restarting robot code or deploying
         while (!Thread.interrupted()) {
+          server.setSource(cameraA);
+          if(m_robotContainer.m_driverController != null) {
+            if(m_robotContainer.m_driverController.leftBumper().getAsBoolean()) {
+              server.setSource(cameraB);
+            }
+          }
+
           if (cvSink.grabFrame(mat) == 0) {
             outputStream.notifyError(cvSink.getError());
             continue;
           }
           // Put rectangle on the image (TEST)
           Imgproc.rectangle(mat, new Point(100, 100), new Point(400, 400), new Scalar(255, 255, 255), 5);
-          Imgproc.putText(mat, "" + cvSink.getSource().getActualFPS(), kDisplay.FPS_COUNTER_POSITION, 0, kDisplay.FPS_COUNTER_SIZE, kDisplay.FPS_COUNTER_COLOR);
+          Imgproc.putText(
+            mat,
+            "" + cvSink.getSource().getActualFPS(),
+            kDisplay.FPS_COUNTER_POSITION,
+            0,
+            kDisplay.FPS_COUNTER_SIZE,
+            kDisplay.FPS_COUNTER_COLOR
+          );
 
           outputStream.putFrame(mat);
         }

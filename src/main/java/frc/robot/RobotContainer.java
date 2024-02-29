@@ -17,11 +17,11 @@ import frc.robot.Constants.kManip;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.FollowCurrentTarget;
 import frc.robot.commands.IntakeNote;
-import frc.robot.commands.MoveIntake;
 import frc.robot.commands.OuttakeNote;
 import frc.robot.commands.ShootNoteIntoAmp;
 import frc.robot.commands.ShootNoteIntoSpeaker;
 import frc.robot.commands.StopIndexer;
+import frc.robot.commands.StopIntake;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -76,20 +76,20 @@ public class RobotContainer {
 
     // m_driverController.y().whileTrue(new RunCommand(() -> m_driveSubsystem.zeroGyroscope(), m_driveSubsystem));
 
-    m_intakeSubsystem.setDefaultCommand(new MoveIntake(m_intakeSubsystem, () -> (m_manipulatorController.getRightY()/6)));
+    m_intakeSubsystem.setDefaultCommand(new StopIntake(m_intakeSubsystem));
     m_indexerSubsystem.setDefaultCommand(new StopIndexer(m_indexerSubsystem));
 
     if(kControls.USE_LEFT_Y_FOR_INTAKING) {
       m_intakeSubsystem.setDefaultCommand(
         new RunCommand(() -> m_intakeSubsystem.setIntakeSpinSpeed(kManip.INTAKE_SPIN_SPEED * (
-          Math.abs(m_manipulatorController.getLeftY()) > kManip.INTAKE_ANGLE_DEADZONE ? 
+          Math.abs(m_manipulatorController.getLeftY()) > kManip.INTAKE_DEADZONE ? 
           m_manipulatorController.getLeftY() : 
           0.0
         )
       ), m_intakeSubsystem));
       m_indexerSubsystem.setDefaultCommand(
         new RunCommand(() -> m_indexerSubsystem.runWithSpeed(kManip.INDEXER_SPIN_SPEED * (
-          Math.abs(m_manipulatorController.getLeftY()) > kManip.INTAKE_ANGLE_DEADZONE ? 
+          Math.abs(m_manipulatorController.getLeftY()) > kManip.INTAKE_DEADZONE ? 
           m_manipulatorController.getLeftY() * kManip.INTAKE_SPIN_SPEED : 
           0.0
         )

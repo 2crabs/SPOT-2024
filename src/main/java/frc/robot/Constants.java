@@ -252,6 +252,10 @@ public final class Constants {
      * {@link frc.robot.Constants.kManip#SHOOTER_SPEED_ARRAY this array} 
      */
     public static final LinearInterpolator SHOOTER_LINEAR_INTERPOLATOR = new LinearInterpolator(SHOOTER_SPEED_ARRAY);
+
+    public static final double VISION_SHOOTING_LINEAR_MUL = 1;
+    public static final double VISION_SHOOTING_EXPONENT = 1;
+    public static final double VISION_SHOOTING_OFFSET = 0;
   }
   public static class kNetworkTables {
     /** This is the name of the main networktables table for the robot. */

@@ -55,7 +55,7 @@ public class SwerveDrive extends SubsystemBase {
     modules.put(ModulePosition.BACK_LEFT, new SwerveModule(Constants.kSwerve.BACK_LEFT_MODULE));
     modules.put(ModulePosition.BACK_RIGHT, new SwerveModule(Constants.kSwerve.BACK_RIGHT_MODULE));
     gyro.zeroYaw();
-    gyroOffset = gyro.getRotation3d().getZ();
+    zeroGyroscope();
     poseEstimator = new SwerveDrivePoseEstimator(Constants.kSwerve.KINEMATICS, getGyroRotation(), getModulePositions(), Constants.kSwerve.INITIAL_POSE);
 
     AutoBuilder.configureHolonomic(

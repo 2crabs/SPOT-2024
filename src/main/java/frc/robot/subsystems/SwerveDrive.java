@@ -34,8 +34,11 @@ import frc.robot.Constants;
 import frc.robot.Constants.kVision;
 import frc.robot.utils.ModulePosition;
 import frc.robot.utils.SwerveModule;
+import frc.robot.utils.math.MovingAverage;
 
 public class SwerveDrive extends SubsystemBase {
+  private MovingAverage gyroCorrection = new MovingAverage(10);
+
   private Vision visionSubsystem;
   private final AHRS gyro = new AHRS(SPI.Port.kMXP);;
   public double targetRotation = 0.0;
@@ -217,7 +220,10 @@ public class SwerveDrive extends SubsystemBase {
   public void correctGyro() {
     double realRotation = gyro.getRotation3d().getZ();
     if(visionSubsystem.hasValidTarget()) {
-      realRotation = visionSubsystem.getBotPose().getRotation().getRotations();
+      gyroCorrection.addNumber(visionSubsystem.getBotPose().getRotation().getRotations());
+      if(!gyroCorrection.isUnderMaxSize()) {
+        realRotation = gyroCorrection.getAverage();
+      }
     }
     double correctedZero = realRotation;
     gyroOffset = correctedZero;

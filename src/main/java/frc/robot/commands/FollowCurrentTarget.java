@@ -16,7 +16,7 @@ public class FollowCurrentTarget extends Command {
   private final Vision m_visionSubsystem;
   private final SwerveDrive m_driveSubsystem;
 
-  private double m_forward, m_turn = 0;
+  private double m_turn = 0;
 
   private double m_yAxis, m_xAxis;
 
@@ -46,27 +46,15 @@ public class FollowCurrentTarget extends Command {
     SmartDashboard.putBoolean("FollowingApriltag", true);
 
     //double turnA = Math.abs(m_visionSubsystem.getTargetOffsetX()/54);
-    double offset = m_visionSubsystem.getTargetOffsetX()/54;
-    if(m_visionSubsystem.getTargetArea() == 0) {
-      m_turn = m_turn * 0.95;
+    double offset = m_driveSubsystem.getGyroRotation().getRotations()+(m_visionSubsystem.getTargetOffsetX()/360);
+    if(m_visionSubsystem.hasValidTarget()) {
+      m_turn = offset;
     } else {
-    //  m_turn = Math.pow(turnA, 1.4);
-    //  m_turn = ((turnB) * 0.6) + (m_driveSubsystem.getRotationalVelocity() * 0.001);
-    //  m_turn = -Math.copySign(m_turn, turnB);
-      m_turn = m_angleController.calculate(offset, 0);
-    }
-    double targetXOffset = m_turn;
-
-    double targetArea = m_visionSubsystem.getTargetArea();
-
-    m_forward = 0;
-    double forwardAxis = m_forward;
-
-    if(targetArea <= 2.1 && targetArea != 0.0) {
-      //m_forward = -0.2 * (2.1 - targetArea);
+      m_turn = m_driveSubsystem.getGyroRotation().getRotations();
     }
 
-    m_driveSubsystem.basicDrive(m_yAxis, m_xAxis, targetXOffset, true);
+    // m_driveSubsystem.basicDrive(m_yAxis, m_xAxis, m_turn, true); 
+    m_driveSubsystem.drive(m_yAxis, m_xAxis, m_turn, true, true);
   }
 
   // Called once the command ends or is interrupted.

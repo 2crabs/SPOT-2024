@@ -90,6 +90,22 @@ public class ShooterSubsystem extends SubsystemBase {
     setShooterSpeed(linearInterpolator.getInterpolatedValue(distance));
   }
 
+  /** 
+   * This sets the speed of the shooter to match the distance you want to shoot the note. 
+   * <p>This uses a Linear Interpolator based on the table kManip.SHOOTER_SPEED_ARRAY
+   * @param distance the distance you want to shoot
+   * @param linearMul this multiplies the final speed by a value
+   * @param exponentialMul this takes the final speed to an exponent speed^exponentialMul
+   * @param speedOffset this adds a certain amount to the final speed
+   */
+  public void setShooterDistance(double distance, double linearMul, double exponent, double speedOffset) {
+    double finalSpeed = linearInterpolator.getInterpolatedValue(distance);
+    finalSpeed *= linearMul;
+    finalSpeed = Math.pow(finalSpeed, exponent);
+    finalSpeed += speedOffset;
+    setShooterSpeed(finalSpeed);
+  }
+
   /** This configures the motor controllers */
   public void configureHardware() {
     shooterMotorA.restoreFactoryDefaults();

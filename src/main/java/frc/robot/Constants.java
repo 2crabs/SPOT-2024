@@ -211,7 +211,7 @@ public final class Constants {
   /** All manipulator constants. */
   public static class kManip {
     /** This is the amount of time that the shooter runs for when shooting a note*/
-    public static final double SHOOT_TIME = 2.0;
+    public static final double SHOOT_TIME = 0.4;
 
     public static final int INTAKE_ANGLE_MOTOR_ID = 17;
     public static final int INTAKE_SPEED_MOTOR_ID = 14;
@@ -234,9 +234,13 @@ public final class Constants {
     public static final double SHOOTER_MOTOR_B_PID_D = 0.0;
 
     // First item should be how it starts and second item should be when it is down.
-    public static final double[] INTAKE_ANGLE_TOGGLE_VALUES = new double[]{0, 45};
+    public static final double[] INTAKE_ANGLE_TOGGLE_VALUES = new double[]{
+      0, 45
+    };
     // First item should be how it starts, second should be amp shooting, and other ones should be speaker shooting.
-    public static final double[] SHOOTER_SPEED_STATE_VALUES = new double[]{0, 0.3, 0.7};
+    public static final double[] SHOOTER_SPEED_STATE_VALUES = new double[]{
+      0, 0.26, 1.0
+    };
 
     public static final boolean USE_TUNED_INTAKE_VALUES = false;
     public static final boolean USE_TUNED_SHOOTER_VALUES = false;
@@ -245,7 +249,7 @@ public final class Constants {
     public static final double INTAKE_SPIN_SPEED = -1.0;
 
     /** Default spin speed for the indexer when intaking a note. */
-    public static final double INDEXER_SPIN_SPEED = 1.0;
+    public static final double INDEXER_SPIN_SPEED = -0.5;
 
     /** Table of shooter spin speeds and the distance they shoot. <p>TODO: Make the table */
     public static final double[][] SHOOTER_SPEED_ARRAY = {

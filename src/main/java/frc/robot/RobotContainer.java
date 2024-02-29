@@ -9,7 +9,6 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -75,6 +74,8 @@ public class RobotContainer {
       m_driveSubsystem
     ));
 
+    // m_driverController.y().whileTrue(new RunCommand(() -> m_driveSubsystem.zeroGyroscope(), m_driveSubsystem));
+
     m_intakeSubsystem.setDefaultCommand(new MoveIntake(m_intakeSubsystem, () -> (m_manipulatorController.getRightY()/6)));
     m_indexerSubsystem.setDefaultCommand(new StopIndexer(m_indexerSubsystem));
 
@@ -98,19 +99,36 @@ public class RobotContainer {
       m_manipulatorController.rightBumper().whileTrue(new OuttakeNote(m_intakeSubsystem, m_indexerSubsystem));
     }
     
-    m_shooterSubsystem.setDefaultCommand(new ParallelDeadlineGroup(
+    m_shooterSubsystem.setDefaultCommand(
       new RunCommand(() -> m_shooterSubsystem.setShooterSpeed(
         Math.abs(m_manipulatorController.getLeftY()) > 0.1 ? 
         -m_manipulatorController.getLeftY() * 1 : 
         0.0
       ), m_shooterSubsystem)
-      )
     );
 
     // m_manipulatorController.b().whileTrue(new MoveIntake(m_intakeSubsystem, () -> (m_manipulatorController.getRightY()/6)));
 
-    m_manipulatorController.a().onTrue(new ShootNoteIntoSpeaker(m_shooterSubsystem, m_indexerSubsystem));
-    m_manipulatorController.x().onTrue(new ShootNoteIntoAmp(m_shooterSubsystem, m_indexerSubsystem));
+    //m_manipulatorController.a().onTrue(new ShootNoteIntoSpeaker(m_shooterSubsystem, m_indexerSubsystem));
+    //m_manipulatorController.x().onTrue(new ShootNoteIntoAmp(m_shooterSubsystem, m_indexerSubsystem));
+
+    m_manipulatorController.a().onTrue(new RunCommand(() -> m_shooterSubsystem.setShooterState(2), m_shooterSubsystem));
+    m_manipulatorController.x().onTrue(new RunCommand(() -> m_shooterSubsystem.setShooterState(1), m_shooterSubsystem));
+
+    m_manipulatorController.a().onFalse(
+      new RunCommand(() -> m_shooterSubsystem.setShooterSpeed(
+        Math.abs(m_manipulatorController.getLeftY()) > 0.1 ? 
+        -m_manipulatorController.getLeftY() * 1 : 
+        0.0
+      ), m_shooterSubsystem)
+    );
+    m_manipulatorController.x().onFalse(
+      new RunCommand(() -> m_shooterSubsystem.setShooterSpeed(
+        Math.abs(m_manipulatorController.getLeftY()) > 0.1 ? 
+        -m_manipulatorController.getLeftY() * 1 : 
+        0.0
+      ), m_shooterSubsystem)
+    );
 
     // m_manipulatorController.y().whileTrue(new RunCommand(() -> m_shooterSubsystem.setShooterState(2), m_shooterSubsystem));
     

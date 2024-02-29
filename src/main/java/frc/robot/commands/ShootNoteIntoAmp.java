@@ -27,12 +27,12 @@ public class ShootNoteIntoAmp extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new ParallelCommandGroup(
-        new RunCommand(() -> shooterSubsystem.setShooterState(1), shooterSubsystem),
-        new RunCommand(() -> indexerSubsystem.runWithSpeed(-0.6), indexerSubsystem)
+        new RunCommand(() -> shooterSubsystem.setShooterState(1), shooterSubsystem)//,
+        //new RunCommand(() -> indexerSubsystem.runWithSpeed(-0.6), indexerSubsystem)
       ).withTimeout(kManip.SHOOT_TIME).andThen(
         new ParallelCommandGroup(
-          new RunCommand(() -> shooterSubsystem.setShooterState(0), shooterSubsystem),
-          new RunCommand(() -> indexerSubsystem.runWithSpeed(0), indexerSubsystem)
+          new RunCommand(() -> shooterSubsystem.setShooterState(0), shooterSubsystem)//,
+          //new RunCommand(() -> indexerSubsystem.runWithSpeed(0), indexerSubsystem)
         )
       )
     );

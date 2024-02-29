@@ -7,11 +7,11 @@ package frc.robot.subsystems;
 import java.util.EnumMap;
 
 import com.kauailabs.navx.frc.AHRS;
-
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
+
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.Vector;
 import edu.wpi.first.math.controller.PIDController;
@@ -22,12 +22,12 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.interfaces.Gyro;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -41,8 +41,8 @@ public class SwerveDrive extends SubsystemBase {
   public double gyroOffset = 0.0;
   public PIDController robotRotationPID = new PIDController(25.0, 0.0, 0.0);
 
-  public Vector<N3> modelStdDevs = VecBuilder.fill(0.1, 0.1, 0.1);
-  public Vector<N3> visionsStdDevs = VecBuilder.fill(0.9, 0.9, 0.9);
+  public Vector<N3> modelStdDevs = VecBuilder.fill(0.0, 0.0, 0.0);
+  public Vector<N3> visionsStdDevs = VecBuilder.fill(1.0, 1.0, 1.0);
 
   SwerveDrivePoseEstimator poseEstimator;
   private final EnumMap<ModulePosition,SwerveModule> modules;
@@ -66,8 +66,8 @@ public class SwerveDrive extends SubsystemBase {
             new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
                     new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
                     new PIDConstants(5.0, 0.0, 0.0), // Rotation PID constants
-                    4.5, // Max module speed, in m/s
-                    0.4, // Drive base radius in meters. Distance from robot center to furthest module.
+                    3.0, // Max module speed, in m/s
+                    0.35, // Drive base radius in meters. Distance from robot center to furthest module.
                     new ReplanningConfig() // Default path replanning config. See the API for the options here
             ),
             () -> {
@@ -75,8 +75,8 @@ public class SwerveDrive extends SubsystemBase {
               // This will flip the path being followed to the red side of the field.
               // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
 
-              DriverStation.Alliance alliance = DriverStation.getAlliance().get();
-              return alliance == DriverStation.Alliance.Red;
+              DriverStation.Alliance alliance = DriverStation.getAlliance().orElse(Alliance.Blue);
+              return false;
 
             },
             this // Reference to this subsystem to set requirements
@@ -201,12 +201,21 @@ public class SwerveDrive extends SubsystemBase {
 
   // Zero Gyro
   public void zeroGyroscope() {
-    gyroOffset = getGyroRotation().getRadians();
+    gyroOffset = getGyroRotation().getRotations();
   }
 
   public Rotation2d getGyroRotation() {
     SmartDashboard.putNumber("gyro z", gyro.getAngle());
     return new Rotation2d(gyro.getRotation3d().getZ()-gyroOffset);
+  }
+
+  public double correctGyro() {
+    double realRotation = getGyroRotation().getRotations();
+    if(visionSubsystem.hasValidTarget()) {
+      realRotation = visionSubsystem.getBotPose().getRotation().getRotations();
+    }
+    double correctedZero = realRotation;
+    return correctedZero;
   }
 
   /**

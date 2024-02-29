@@ -166,6 +166,8 @@ public final class Constants {
     // Usually keep as true unless testing something
     public static final boolean PiVision = false;
 
+    public static final boolean USE_VISION_TO_CORRECT_GYRO_DRIFT = true;
+
     public static final int DEFAULT_PIPELINE = 1;
     /** 
      * This is the delay {@link frc.robot.commands.LimelightDefault the limelight default command} 

@@ -31,6 +31,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.kVision;
 import frc.robot.utils.ModulePosition;
 import frc.robot.utils.SwerveModule;
 
@@ -92,6 +93,9 @@ public class SwerveDrive extends SubsystemBase {
   }
 
   public void periodic(){
+    if(kVision.USE_VISION_TO_CORRECT_GYRO_DRIFT) {
+      correctGyro();
+    }
     poseEstimator.update(getGyroRotation(), getModulePositions());
     poseEstimator.addVisionMeasurement(visionSubsystem.getBotPose(), Timer.getFPGATimestamp());
   }
@@ -201,7 +205,8 @@ public class SwerveDrive extends SubsystemBase {
 
   // Zero Gyro
   public void zeroGyroscope() {
-    gyroOffset = getGyroRotation().getRotations();
+    // gyroOffset = getGyroRotation().getRotations();
+    gyro.zeroYaw();
   }
 
   public Rotation2d getGyroRotation() {
@@ -209,13 +214,13 @@ public class SwerveDrive extends SubsystemBase {
     return new Rotation2d(gyro.getRotation3d().getZ()-gyroOffset);
   }
 
-  public double correctGyro() {
-    double realRotation = getGyroRotation().getRotations();
+  public void correctGyro() {
+    double realRotation = gyro.getRotation3d().getZ();
     if(visionSubsystem.hasValidTarget()) {
       realRotation = visionSubsystem.getBotPose().getRotation().getRotations();
     }
     double correctedZero = realRotation;
-    return correctedZero;
+    gyroOffset = correctedZero;
   }
 
   /**

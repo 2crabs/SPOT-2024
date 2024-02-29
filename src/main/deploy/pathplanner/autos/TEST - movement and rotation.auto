@@ -1,12 +1,6 @@
 {
   "version": 1.0,
-  "startingPose": {
-    "position": {
-      "x": 1.5578118905525558,
-      "y": 5.449475970177011
-    },
-    "rotation": -0.1426313488519799
-  },
+  "startingPose": null,
   "command": {
     "type": "sequential",
     "data": {
@@ -14,7 +8,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Example Path"
+            "pathName": "Horizontal+Vertical"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Donut"
           }
         }
       ]

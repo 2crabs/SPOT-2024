@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Constants.kDisplay;
 import frc.robot.Constants.kVision;
+import frc.robot.utils.vision.ShapeDetection;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -124,6 +125,9 @@ public class Robot extends TimedRobot {
   public Thread setupVisionThread() {
     return new Thread(
       () -> {
+        // Create a new ShapeDetection Object.
+        ShapeDetection shapeDetection = new ShapeDetection(999, kVision.MIN_CONTOUR_AREA);
+
         // Get the USBCamera from CameraServer
         UsbCamera cameraA = CameraServer.startAutomaticCapture(0);
         UsbCamera cameraB = CameraServer.startAutomaticCapture(1);
@@ -163,6 +167,18 @@ public class Robot extends TimedRobot {
             kDisplay.FPS_COUNTER_SIZE,
             kDisplay.FPS_COUNTER_COLOR
           );
+
+          shapeDetection.detectShapesFromImage(mat);
+          if(shapeDetection.containsNotes()) {
+            Imgproc.putText(
+              mat,
+              shapeDetection.getNoteIndexes().size() + "Notes Detected",
+              kDisplay.NOTE_COUNTER_POSITION,
+              0,
+              kDisplay.NOTE_COUNTER_SIZE,
+              kDisplay.NOTE_COUNTER_COLOR
+            );
+          }
 
           outputStream.putFrame(mat);
         }

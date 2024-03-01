@@ -166,6 +166,9 @@ public final class Constants {
     // Usually keep as true unless testing something
     public static final boolean PiVision = false;
 
+    /** This is the minimum area a contour can be in order to be detected by {@link frc.robot.utils.vision.ShapeDetection ShapeDetection} */
+    public static final double MIN_CONTOUR_AREA = 0.05;
+
     public static final int DEFAULT_PIPELINE = 1;
     /** 
      * This is the delay {@link frc.robot.commands.LimelightDefault the limelight default command} 
@@ -294,5 +297,9 @@ public final class Constants {
     public static final Point FPS_COUNTER_POSITION = new Point(100, 100);
     public static final double FPS_COUNTER_SIZE = 10.0;
     public static final Scalar FPS_COUNTER_COLOR = new Scalar(0, 0, 0);
+
+    public static final Point NOTE_COUNTER_POSITION = new Point(100, 100);
+    public static final double NOTE_COUNTER_SIZE = 10.0;
+    public static final Scalar NOTE_COUNTER_COLOR = new Scalar(0, 0, 0);
   }
 }

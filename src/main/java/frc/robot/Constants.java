@@ -253,9 +253,11 @@ public final class Constants {
      */
     public static final LinearInterpolator SHOOTER_LINEAR_INTERPOLATOR = new LinearInterpolator(SHOOTER_SPEED_ARRAY);
 
-    public static final double VISION_SHOOTING_LINEAR_MUL = 1;
-    public static final double VISION_SHOOTING_EXPONENT = 1;
-    public static final double VISION_SHOOTING_OFFSET = 0;
+    public static final double VISION_SHOOTING_LINEAR_MUL = 1.0;
+    public static final double VISION_SHOOTING_EXPONENT = 1.0;
+    public static final double VISION_SHOOTING_OFFSET = 0.0;
+
+    public static final double MAX_SHOOTING_DISTANCE_SPEAKER = 0.0;
   }
   public static class kNetworkTables {
     /** This is the name of the main networktables table for the robot. */

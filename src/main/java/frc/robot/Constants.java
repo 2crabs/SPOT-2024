@@ -215,8 +215,8 @@ public final class Constants {
 
     public static final double INTAKE_DEADZONE = 0.1;
 
-    public static final int INTAKE_SPEED_MOTOR_A_ID = 14;
-    public static final int INTAKE_SPEED_MOTOR_B_ID = 19;
+    public static final int INTAKE_SPEED_MOTOR_A_ID = 20;
+    public static final int INTAKE_SPEED_MOTOR_B_ID = 21;
 
     public static final int SHOOTER_MOTOR_A_ID = 15;
     public static final int SHOOTER_MOTOR_B_ID = 16;
@@ -237,10 +237,10 @@ public final class Constants {
     public static final boolean USE_TUNED_SHOOTER_VALUES = false;
 
     /** Default spin speed for the intake when intaking a note. */
-    public static final double INTAKE_SPIN_SPEED = -1.0;
+    public static final double INTAKE_SPIN_SPEED = -0.6;
 
     /** Default spin speed for the indexer when intaking a note. */
-    public static final double INDEXER_SPIN_SPEED = -0.5;
+    public static final double INDEXER_SPIN_SPEED = -0.8;
 
     /** Table of shooter spin speeds and the distance they shoot. <p>TODO: Make the table */
     public static final double[][] SHOOTER_SPEED_ARRAY = {

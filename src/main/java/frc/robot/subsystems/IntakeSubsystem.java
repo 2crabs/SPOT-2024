@@ -36,11 +36,11 @@ public class IntakeSubsystem extends SubsystemBase {
   /** This configures the motor controllers */
   private void configureHardware() {
     intakeSpinMotorA.restoreFactoryDefaults();
-    intakeSpinMotorA.setInverted(false);
+    intakeSpinMotorA.setInverted(true);
     intakeSpinMotorA.setIdleMode(IdleMode.kBrake);
 
     intakeSpinMotorB.restoreFactoryDefaults();
-    intakeSpinMotorB.setInverted(false);
+    intakeSpinMotorB.setInverted(true);
     intakeSpinMotorB.setIdleMode(IdleMode.kBrake);
   }
 }

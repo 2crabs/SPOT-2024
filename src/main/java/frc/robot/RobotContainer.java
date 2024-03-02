@@ -4,11 +4,15 @@
 
 package frc.robot;
 
+import java.util.HashMap;
+
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -19,9 +23,9 @@ import frc.robot.commands.FollowCurrentTarget;
 import frc.robot.commands.IntakeNote;
 import frc.robot.commands.MoveIntake;
 import frc.robot.commands.OuttakeNote;
-import frc.robot.commands.ShootNoteIntoAmp;
-import frc.robot.commands.ShootNoteIntoSpeaker;
 import frc.robot.commands.StopIndexer;
+import frc.robot.commands.StopIntake;
+import frc.robot.commands.StopShooter;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -29,6 +33,7 @@ import frc.robot.subsystems.SwerveDrive;
 import frc.robot.subsystems.Vision;
 
 public class RobotContainer {
+  public HashMap<String, Command> autoMap = new HashMap<>();
 
   private final SendableChooser<Command> autoChooser;
   private final Vision m_visionSubsystem = new Vision();
@@ -43,6 +48,7 @@ public class RobotContainer {
       new CommandXboxController(kControls.MANIPULATOR_CONTROLLER_ID);
 
   public RobotContainer() {
+    configureAutoMap();
     configureBindings();
 
     autoChooser = AutoBuilder.buildAutoChooser();
@@ -137,6 +143,14 @@ public class RobotContainer {
     //m_driveSubsystem.setDefaultCommand(m_driveSubsystem.CANCoderTuningCommand());
   }
 
+  public void configureAutoMap() {
+    autoMap.put("startIntake", new IntakeNote(m_intakeSubsystem, m_indexerSubsystem));
+    autoMap.put("stopIntake", new ParallelCommandGroup(new StopIntake(m_intakeSubsystem), new StopIndexer(m_indexerSubsystem)));
+    autoMap.put("speakerShoot", new RunCommand(() -> m_shooterSubsystem.setShooterState(2), m_shooterSubsystem));
+    autoMap.put("ampShoot", new RunCommand(() -> m_shooterSubsystem.setShooterState(1), m_shooterSubsystem));
+    autoMap.put("stopShooter", new StopShooter(m_shooterSubsystem));
+    NamedCommands.registerCommands(autoMap);
+  }
 
   public Command getAutonomousCommand() {
     return autoChooser.getSelected();

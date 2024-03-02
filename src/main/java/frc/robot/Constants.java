@@ -261,7 +261,7 @@ public final class Constants {
     public static final double VISION_SHOOTING_EXPONENT = 1.0;
     public static final double VISION_SHOOTING_OFFSET = 0.0;
 
-    public static final double MAX_SHOOTING_DISTANCE_SPEAKER = 0.0;
+    public static final double MAX_SHOOTING_DISTANCE_SPEAKER = 1.8;
   }
   public static class kNetworkTables {
     /** This is the name of the main networktables table for the robot. */

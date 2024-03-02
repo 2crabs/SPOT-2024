@@ -9,6 +9,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.kControls;
 import frc.robot.Constants.kField;
@@ -22,17 +23,17 @@ import frc.robot.utils.math.MathUtils;
 
 public class VisionSpeakerShooting extends Command {
   private Vision visionSubsystem;
-  private ShooterSubsystem shooterSubsystem;
   private SwerveDrive driveSubsystem;
 
   private boolean driveTowardsTarget = false;
+  private boolean testMode = false;
 
   /** Creates a new VisionSpeakerShooting. */
-  public VisionSpeakerShooting(Vision vision, ShooterSubsystem shooter, SwerveDrive drive, boolean doDriving) {
+  public VisionSpeakerShooting(Vision vision, SwerveDrive drive, boolean doDriving, boolean isInTestMode) {
     visionSubsystem = vision;
-    shooterSubsystem = shooter;
     driveTowardsTarget = doDriving;
-    addRequirements(vision, shooter);
+    testMode = isInTestMode;
+    addRequirements(vision);
     if(doDriving) {
       addRequirements(drive);
     }
@@ -75,13 +76,16 @@ public class VisionSpeakerShooting extends Command {
     }
 
     double distance = MathUtils.distance(0, robotPose.getX(), 0, robotPose.getY(), 0, 0);
+    SmartDashboard.putNumber("Distance To Target", distance);
     
-    double rotate = deadzone(visionSubsystem.getTargetOffsetX()/360, kControls.ROTATION_DEADZONE);
-    if(distance < kManip.MAX_SHOOTING_DISTANCE_SPEAKER) {
-      shooterSubsystem.setShooterDistance(distance, kManip.VISION_SHOOTING_LINEAR_MUL, kManip.VISION_SHOOTING_EXPONENT, kManip.VISION_SHOOTING_OFFSET);
-    } else {
-      if(driveTowardsTarget && visionSubsystem.hasValidTarget()) {
-        driveTowardsSpeaker(robotPose, rotate);
+    if(!testMode) {
+      double rotate = deadzone(visionSubsystem.getTargetOffsetX()/360, kControls.ROTATION_DEADZONE);
+      if(distance < kManip.MAX_SHOOTING_DISTANCE_SPEAKER) {
+        driveTowardsSpeaker(0.0, rotate);
+      } else {
+        if(driveTowardsTarget && visionSubsystem.hasValidTarget()) {
+          driveTowardsSpeaker(0.05, rotate);
+        }
       }
     }
   }
@@ -96,8 +100,8 @@ public class VisionSpeakerShooting extends Command {
     return false;
   }
 
-  private void driveTowardsSpeaker(Pose2d botPose, double rotation) {
-    driveSubsystem.basicDrive(0.1, 0.0, rotation, false);
+  private void driveTowardsSpeaker(double speed, double rotation) {
+    driveSubsystem.basicDrive(speed, 0.0, rotation, false);
   }
 
   public double deadzone(double input, double tolerance){

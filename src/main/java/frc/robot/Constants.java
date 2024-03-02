@@ -165,6 +165,10 @@ public final class Constants {
     // This chooses if you want to run the vision calculations on the raspberry pi or the roborio. 
     // Usually keep as true unless testing something
     public static final boolean PiVision = false;
+    public static final boolean detectNotes = false;
+
+    /** This is the minimum area a contour can be in order to be detected by {@link frc.robot.utils.vision.ShapeDetection ShapeDetection} */
+    public static final double MIN_CONTOUR_AREA = 0.05;
 
     public static final int DEFAULT_PIPELINE = 1;
     /** 
@@ -288,8 +292,20 @@ public final class Constants {
 
   /** Constants For Camera Displays */
   public static class kDisplay {
+    public static final int RENDER_POINT_RADIUS = 2;
+    public static final int NAME_RENDER_SIZE = 2;
+    public static final Point NAME_RENDER_OFFSET = new Point(0, 0);
+    public static final int LINE_THICKNESS = 1;
+
+    public static final Scalar LINE_COLOR = new Scalar(255, 255, 0);
+    public static final Scalar DETAIL_COLOR = new Scalar(255, 100, 0);
+
     public static final Point FPS_COUNTER_POSITION = new Point(100, 100);
     public static final double FPS_COUNTER_SIZE = 10.0;
     public static final Scalar FPS_COUNTER_COLOR = new Scalar(0, 0, 0);
+
+    public static final Point NOTE_COUNTER_POSITION = new Point(100, 100);
+    public static final double NOTE_COUNTER_SIZE = 10.0;
+    public static final Scalar NOTE_COUNTER_COLOR = new Scalar(0, 0, 0);
   }
 }

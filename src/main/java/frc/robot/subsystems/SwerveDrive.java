@@ -201,7 +201,7 @@ public class SwerveDrive extends SubsystemBase {
 
   // Zero Gyro
   public void zeroGyroscope() {
-    gyroOffset = getGyroRotation().getRadians();
+    gyroOffset = gyro.getRotation3d().getZ();
   }
 
   public Rotation2d getGyroRotation() {

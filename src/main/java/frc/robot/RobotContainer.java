@@ -79,7 +79,7 @@ public class RobotContainer {
       m_driveSubsystem
     ));
 
-    // m_driverController.y().whileTrue(new RunCommand(() -> m_driveSubsystem.zeroGyroscope(), m_driveSubsystem));
+    m_driverController.y().whileTrue(new RunCommand(() -> m_driveSubsystem.zeroGyroscope(), m_driveSubsystem));
 
     m_intakeSubsystem.setDefaultCommand(new StopIntake(m_intakeSubsystem));
     m_indexerSubsystem.setDefaultCommand(new StopIndexer(m_indexerSubsystem));

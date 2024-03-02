@@ -39,7 +39,7 @@ public class DriveCommand extends Command {
     @Override
     public void execute() {
 
-        double deadzoneRotation = deadzone(rotationAxis.getAsDouble(), Constants.kControls.ROTATION_DEADZONE) * -3;
+        double deadzoneRotation = deadzone(rotationAxis.getAsDouble(), Constants.kControls.ROTATION_DEADZONE) * -3.75;
         double deadzoneForward = deadzone(forwardAxis.getAsDouble(), Constants.kControls.TRANSLATION_DEADZONE) * 3.5;
         double deadzoneSideways = deadzone(sidewaysAxis.getAsDouble(), Constants.kControls.TRANSLATION_DEADZONE) * 3.5;
 

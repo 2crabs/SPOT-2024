@@ -129,11 +129,9 @@ public class Robot extends TimedRobot {
         ShapeDetection shapeDetection = new ShapeDetection(999, kVision.MIN_CONTOUR_AREA);
 
         // Get the USBCamera from CameraServer
-        UsbCamera cameraA = CameraServer.startAutomaticCapture(0);
-        UsbCamera cameraB = CameraServer.startAutomaticCapture(1);
+        UsbCamera camera = CameraServer.startAutomaticCapture(1);
 
-        cameraA.setResolution(640, 480);
-        cameraB.setResolution(640, 480);
+        camera.setResolution(640, 480);
 
         VideoSink server = CameraServer.getServer();
 
@@ -146,12 +144,7 @@ public class Robot extends TimedRobot {
         
         // Stop the thread when restarting robot code or deploying
         while (!Thread.interrupted()) {
-          server.setSource(cameraA);
-          if(m_robotContainer.m_driverController != null) {
-            if(m_robotContainer.m_driverController.leftBumper().getAsBoolean()) {
-              server.setSource(cameraB);
-            }
-          }
+          server.setSource(camera);
 
           if (cvSink.grabFrame(mat) == 0) {
             outputStream.notifyError(cvSink.getError());

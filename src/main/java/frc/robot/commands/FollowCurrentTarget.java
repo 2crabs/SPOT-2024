@@ -9,6 +9,7 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.kControls;
 import frc.robot.subsystems.SwerveDrive;
 import frc.robot.subsystems.Vision;
 
@@ -18,7 +19,7 @@ public class FollowCurrentTarget extends Command {
 
   private double m_turn = 0;
 
-  private double m_yAxis, m_xAxis;
+  private DoubleSupplier m_yAxis, m_xAxis;
 
   private PIDController m_angleController = new PIDController(0.5, 0, 0.015);
 
@@ -27,8 +28,8 @@ public class FollowCurrentTarget extends Command {
     m_visionSubsystem = visionSubsystem;
     m_driveSubsystem = driveSubsystem;
 
-    m_yAxis = forwardBackAxis.getAsDouble();
-    m_xAxis = leftRightAxis.getAsDouble();
+    m_yAxis = forwardBackAxis;
+    m_xAxis = leftRightAxis;
 
     addRequirements(visionSubsystem, driveSubsystem);
   }
@@ -54,7 +55,7 @@ public class FollowCurrentTarget extends Command {
     }
 
     // m_driveSubsystem.basicDrive(m_yAxis, m_xAxis, m_turn, true); 
-    m_driveSubsystem.drive(m_yAxis, m_xAxis, m_turn, true, true);
+    m_driveSubsystem.drive(deadzone(m_yAxis.getAsDouble(), kControls.TRANSLATION_DEADZONE), deadzone(m_xAxis.getAsDouble(), kControls.TRANSLATION_DEADZONE), m_turn, true, true);
   }
 
   // Called once the command ends or is interrupted.
@@ -67,5 +68,12 @@ public class FollowCurrentTarget extends Command {
   @Override
   public boolean isFinished() {
     return false;
+  }
+
+  public double deadzone(double input, double tolerance){
+      if (Math.abs(input) < tolerance){
+          return 0.0;
+      }
+      return input;
   }
 }

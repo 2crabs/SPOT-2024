@@ -10,6 +10,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.kControls;
 import frc.robot.Constants.kField;
 import frc.robot.Constants.kManip;
 import frc.robot.Constants.kVision;
@@ -74,12 +75,13 @@ public class VisionSpeakerShooting extends Command {
     }
 
     double distance = MathUtils.distance(0, robotPose.getX(), 0, robotPose.getY(), 0, 0);
-
+    
+    double rotate = deadzone(visionSubsystem.getTargetOffsetX()/360, kControls.ROTATION_DEADZONE);
     if(distance < kManip.MAX_SHOOTING_DISTANCE_SPEAKER) {
       shooterSubsystem.setShooterDistance(distance, kManip.VISION_SHOOTING_LINEAR_MUL, kManip.VISION_SHOOTING_EXPONENT, kManip.VISION_SHOOTING_OFFSET);
     } else {
       if(driveTowardsTarget && visionSubsystem.hasValidTarget()) {
-        driveTowardsSpeaker(robotPose);
+        driveTowardsSpeaker(robotPose, rotate);
       }
     }
   }
@@ -94,7 +96,14 @@ public class VisionSpeakerShooting extends Command {
     return false;
   }
 
-  private void driveTowardsSpeaker(Pose2d botPose) {
-    driveSubsystem.basicDrive(0.1, 0.0, 0.0, false);
+  private void driveTowardsSpeaker(Pose2d botPose, double rotation) {
+    driveSubsystem.basicDrive(0.1, 0.0, rotation, false);
+  }
+
+  public double deadzone(double input, double tolerance){
+      if (Math.abs(input) < tolerance){
+          return 0.0;
+      }
+      return input;
   }
 }

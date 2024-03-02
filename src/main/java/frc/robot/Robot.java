@@ -168,19 +168,21 @@ public class Robot extends TimedRobot {
             kDisplay.FPS_COUNTER_COLOR
           );
 
-          shapeDetection.detectShapesFromImage(mat);
-          if(shapeDetection.containsNotes()) {
-            Imgproc.putText(
-              mat,
-              shapeDetection.getNoteIndexes().size() + "Notes Detected",
-              kDisplay.NOTE_COUNTER_POSITION,
-              0,
-              kDisplay.NOTE_COUNTER_SIZE,
-              kDisplay.NOTE_COUNTER_COLOR
-            );
-          }
+          if(kVision.detectNotes) {
+            shapeDetection.detectShapesFromImage(mat);
+            if(shapeDetection.containsNotes()) {
+              Imgproc.putText(
+                mat,
+                shapeDetection.getNoteIndexes().size() + "Notes Detected",
+                kDisplay.NOTE_COUNTER_POSITION,
+                0,
+                kDisplay.NOTE_COUNTER_SIZE,
+                kDisplay.NOTE_COUNTER_COLOR
+              );
+            }
 
-          mat = shapeDetection.renderShapeDetails(mat, kDisplay.LINE_COLOR, kDisplay.DETAIL_COLOR, true, true, true, true, true);
+            mat = shapeDetection.renderShapeDetails(mat, kDisplay.LINE_COLOR, kDisplay.DETAIL_COLOR, true, true, true, true, true);
+          }
 
           outputStream.putFrame(mat);
         }

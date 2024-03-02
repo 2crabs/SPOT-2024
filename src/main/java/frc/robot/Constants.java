@@ -165,6 +165,7 @@ public final class Constants {
     // This chooses if you want to run the vision calculations on the raspberry pi or the roborio. 
     // Usually keep as true unless testing something
     public static final boolean PiVision = false;
+    public static final boolean detectNotes = false;
 
     /** This is the minimum area a contour can be in order to be detected by {@link frc.robot.utils.vision.ShapeDetection ShapeDetection} */
     public static final double MIN_CONTOUR_AREA = 0.05;

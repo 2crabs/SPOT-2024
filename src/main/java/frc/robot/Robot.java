@@ -180,6 +180,8 @@ public class Robot extends TimedRobot {
             );
           }
 
+          mat = shapeDetection.renderShapeDetails(mat, kDisplay.LINE_COLOR, kDisplay.DETAIL_COLOR, true, true, true, true, true);
+
           outputStream.putFrame(mat);
         }
       }

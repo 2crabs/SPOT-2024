@@ -13,9 +13,13 @@ import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.MatOfPoint2f;
 import org.opencv.core.Point;
+import org.opencv.core.Rect;
+import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.imgproc.Moments;
+
+import frc.robot.Constants.kDisplay;
 
 /** Add your docs here. */
 public class ShapeDetection {
@@ -135,5 +139,51 @@ public class ShapeDetection {
 
     public Shape getBiggestNote() {
         return foundShapes.get(getNoteIndexes().get(0));
+    }
+
+    /**
+     * Renders the details of all detected shapes on top of a source image
+     * @param src The source image to render details on to
+     * @param lineColor The color of the bounding box and center
+     * @param detailsColor The colors of the details like name and points
+     * @param renderBoundingBox Enable rendering the bounding box
+     * @param renderName Enable rendering the name of the shape
+     * @param renderCenterPoint Enable rendering the center point as crosshair
+     * @param renderOuterPoints Enable rendering the outer points of the bounding box
+     * @param renderContourPoints Enable rendering the points on the contour
+     */
+    public Mat renderShapeDetails(Mat src, Scalar lineColor, Scalar detailsColor, boolean renderBoundingBox, boolean renderName, boolean renderCenterPoint, boolean renderOuterPoints, boolean renderContourPoints) {
+        Mat rendered = src;
+
+        for(int i = 0; i < foundShapes.size(); i++) {
+            Rect boundingBox = Imgproc.boundingRect(getShape(i).getContour());
+            if(renderBoundingBox) {
+                Imgproc.rectangle(rendered, boundingBox, detailsColor, kDisplay.LINE_THICKNESS);
+                if(renderOuterPoints) {
+                    Imgproc.circle(rendered, boundingBox.br(), kDisplay.RENDER_POINT_RADIUS, detailsColor);
+                    Imgproc.circle(rendered, new Point(boundingBox.br().x - boundingBox.width, boundingBox.br().y), kDisplay.RENDER_POINT_RADIUS, detailsColor);
+                    Imgproc.circle(rendered, boundingBox.tl(), kDisplay.RENDER_POINT_RADIUS, detailsColor);
+                    Imgproc.circle(rendered, new Point(boundingBox.tl().x + boundingBox.width, boundingBox.tl().y), kDisplay.RENDER_POINT_RADIUS, detailsColor);
+                }
+            }
+            if(renderContourPoints) {
+                MatOfPoint contourPoints = getShape(i).getContour();
+                List<Point> pointList = contourPoints.toList();
+                for(int j = 0; j < getShape(i).getNumberOfPoints(); j++) {
+                    Imgproc.circle(rendered, pointList.get(j), kDisplay.RENDER_POINT_RADIUS, detailsColor);
+                }
+            }
+            if(renderName) {
+                Imgproc.putText(rendered, getShape(i).getShapeName().toString(), new Point(
+                    (boundingBox.tl().x) + kDisplay.NAME_RENDER_OFFSET.x,
+                    boundingBox.tl().y + kDisplay.NAME_RENDER_OFFSET.y
+                ), 1, kDisplay.NAME_RENDER_SIZE, detailsColor);
+            }
+            if(renderCenterPoint) {
+                Imgproc.circle(rendered, getShape(i).getCenter(), kDisplay.RENDER_POINT_RADIUS * 2, lineColor);
+            }
+        }
+
+        return rendered;
     }
 }

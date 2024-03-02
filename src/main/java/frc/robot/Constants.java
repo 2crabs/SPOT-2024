@@ -294,6 +294,14 @@ public final class Constants {
 
   /** Constants For Camera Displays */
   public static class kDisplay {
+    public static final int RENDER_POINT_RADIUS = 2;
+    public static final int NAME_RENDER_SIZE = 2;
+    public static final Point NAME_RENDER_OFFSET = new Point(0, 0);
+    public static final int LINE_THICKNESS = 1;
+
+    public static final Scalar LINE_COLOR = new Scalar(255, 255, 0);
+    public static final Scalar DETAIL_COLOR = new Scalar(255, 100, 0);
+
     public static final Point FPS_COUNTER_POSITION = new Point(100, 100);
     public static final double FPS_COUNTER_SIZE = 10.0;
     public static final Scalar FPS_COUNTER_COLOR = new Scalar(0, 0, 0);

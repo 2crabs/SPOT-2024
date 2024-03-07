@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Constants.kDisplay;
 import frc.robot.Constants.kVision;
+import frc.robot.utils.vision.ShapeDetection;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -124,12 +125,13 @@ public class Robot extends TimedRobot {
   public Thread setupVisionThread() {
     return new Thread(
       () -> {
-        // Get the USBCamera from CameraServer
-        UsbCamera cameraA = CameraServer.startAutomaticCapture(0);
-        UsbCamera cameraB = CameraServer.startAutomaticCapture(1);
+        // Create a new ShapeDetection Object.
+        ShapeDetection shapeDetection = new ShapeDetection(999, kVision.MIN_CONTOUR_AREA);
 
-        cameraA.setResolution(640, 480);
-        cameraB.setResolution(640, 480);
+        // Get the USBCamera from CameraServer
+        UsbCamera camera = CameraServer.startAutomaticCapture(1);
+
+        camera.setResolution(640, 480);
 
         VideoSink server = CameraServer.getServer();
 
@@ -142,12 +144,7 @@ public class Robot extends TimedRobot {
         
         // Stop the thread when restarting robot code or deploying
         while (!Thread.interrupted()) {
-          server.setSource(cameraA);
-          if(m_robotContainer.m_driverController != null) {
-            if(m_robotContainer.m_driverController.leftBumper().getAsBoolean()) {
-              server.setSource(cameraB);
-            }
-          }
+          server.setSource(camera);
 
           if (cvSink.grabFrame(mat) == 0) {
             outputStream.notifyError(cvSink.getError());
@@ -163,6 +160,22 @@ public class Robot extends TimedRobot {
             kDisplay.FPS_COUNTER_SIZE,
             kDisplay.FPS_COUNTER_COLOR
           );
+
+          if(kVision.detectNotes) {
+            shapeDetection.detectShapesFromImage(mat);
+            if(shapeDetection.containsNotes()) {
+              Imgproc.putText(
+                mat,
+                shapeDetection.getNoteIndexes().size() + "Notes Detected",
+                kDisplay.NOTE_COUNTER_POSITION,
+                0,
+                kDisplay.NOTE_COUNTER_SIZE,
+                kDisplay.NOTE_COUNTER_COLOR
+              );
+            }
+
+            mat = shapeDetection.renderShapeDetails(mat, kDisplay.LINE_COLOR, kDisplay.DETAIL_COLOR, true, true, true, true, true);
+          }
 
           outputStream.putFrame(mat);
         }

@@ -21,11 +21,10 @@ import frc.robot.Constants.kManip;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.FollowCurrentTarget;
 import frc.robot.commands.IntakeNote;
-import frc.robot.commands.MoveIntake;
 import frc.robot.commands.OuttakeNote;
 import frc.robot.commands.StopIndexer;
 import frc.robot.commands.StopIntake;
-import frc.robot.commands.StopShooter;
+import frc.robot.commands.VisionSpeakerShooting;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -66,12 +65,16 @@ public class RobotContainer {
    */
   private void configureBindings() {
     
+    /*
     m_driverController.rightBumper().whileTrue(new FollowCurrentTarget(
       m_visionSubsystem, 
       m_driveSubsystem, 
       () -> -kControls.X_DRIVE_LIMITER.calculate(m_driverController.getRawAxis(kControls.TRANSLATION_Y_AXIS)),
       () -> -kControls.Y_DRIVE_LIMITER.calculate(m_driverController.getRawAxis(kControls.TRANSLATION_X_AXIS))
     ));
+    */
+
+    m_driverController.rightBumper().whileTrue(new VisionSpeakerShooting(m_visionSubsystem, m_driveSubsystem, true, false));
 
     m_driveSubsystem.setDefaultCommand(new DriveCommand(
       () -> -kControls.Y_DRIVE_LIMITER.calculate(m_driverController.getRawAxis(kControls.TRANSLATION_Y_AXIS)),
@@ -80,22 +83,22 @@ public class RobotContainer {
       m_driveSubsystem
     ));
 
-    // m_driverController.y().whileTrue(new RunCommand(() -> m_driveSubsystem.zeroGyroscope(), m_driveSubsystem));
+    m_driverController.y().whileTrue(new RunCommand(() -> m_driveSubsystem.zeroGyroscope(), m_driveSubsystem));
 
-    m_intakeSubsystem.setDefaultCommand(new MoveIntake(m_intakeSubsystem, () -> (m_manipulatorController.getRightY()/6)));
+    m_intakeSubsystem.setDefaultCommand(new StopIntake(m_intakeSubsystem));
     m_indexerSubsystem.setDefaultCommand(new StopIndexer(m_indexerSubsystem));
 
     if(kControls.USE_LEFT_Y_FOR_INTAKING) {
       m_intakeSubsystem.setDefaultCommand(
         new RunCommand(() -> m_intakeSubsystem.setIntakeSpinSpeed(kManip.INTAKE_SPIN_SPEED * (
-          Math.abs(m_manipulatorController.getLeftY()) > kManip.INTAKE_ANGLE_DEADZONE ? 
+          Math.abs(m_manipulatorController.getLeftY()) > kManip.INTAKE_DEADZONE ? 
           m_manipulatorController.getLeftY() : 
           0.0
         )
       ), m_intakeSubsystem));
       m_indexerSubsystem.setDefaultCommand(
         new RunCommand(() -> m_indexerSubsystem.runWithSpeed(kManip.INDEXER_SPIN_SPEED * (
-          Math.abs(m_manipulatorController.getLeftY()) > kManip.INTAKE_ANGLE_DEADZONE ? 
+          Math.abs(m_manipulatorController.getLeftY()) > kManip.INTAKE_DEADZONE ? 
           m_manipulatorController.getLeftY() * kManip.INTAKE_SPIN_SPEED : 
           0.0
         )

@@ -165,6 +165,10 @@ public final class Constants {
     // This chooses if you want to run the vision calculations on the raspberry pi or the roborio. 
     // Usually keep as true unless testing something
     public static final boolean PiVision = false;
+    public static final boolean detectNotes = false;
+
+    /** This is the minimum area a contour can be in order to be detected by {@link frc.robot.utils.vision.ShapeDetection ShapeDetection} */
+    public static final double MIN_CONTOUR_AREA = 0.05;
 
     public static final int DEFAULT_PIPELINE = 1;
     /** 
@@ -213,17 +217,13 @@ public final class Constants {
     /** This is the amount of time that the shooter runs for when shooting a note*/
     public static final double SHOOT_TIME = 0.4;
 
-    public static final int INTAKE_ANGLE_MOTOR_ID = 17;
-    public static final int INTAKE_SPEED_MOTOR_ID = 14;
+    public static final double INTAKE_DEADZONE = 0.1;
+
+    public static final int INTAKE_SPEED_MOTOR_A_ID = 20;
+    public static final int INTAKE_SPEED_MOTOR_B_ID = 21;
 
     public static final int SHOOTER_MOTOR_A_ID = 15;
     public static final int SHOOTER_MOTOR_B_ID = 16;
-
-    public static final double INTAKE_ANGLE_DEADZONE = 0.005;
-
-    public static final double INTAKE_ANGLE_PID_P = 0.0;
-    public static final double INTAKE_ANGLE_PID_I = 0.0;
-    public static final double INTAKE_ANGLE_PID_D = 0.0;
 
     public static final double SHOOTER_MOTOR_A_PID_P = 0.0;
     public static final double SHOOTER_MOTOR_A_PID_I = 0.0;
@@ -233,23 +233,18 @@ public final class Constants {
     public static final double SHOOTER_MOTOR_B_PID_I = 0.0;
     public static final double SHOOTER_MOTOR_B_PID_D = 0.0;
 
-    // First item should be how it starts and second item should be when it is down.
-    public static final double[] INTAKE_ANGLE_TOGGLE_VALUES = new double[]{
-      0, 45
-    };
     // First item should be how it starts, second should be amp shooting, and other ones should be speaker shooting.
     public static final double[] SHOOTER_SPEED_STATE_VALUES = new double[]{
       0, 0.26, 1.0
     };
 
-    public static final boolean USE_TUNED_INTAKE_VALUES = false;
     public static final boolean USE_TUNED_SHOOTER_VALUES = false;
 
     /** Default spin speed for the intake when intaking a note. */
-    public static final double INTAKE_SPIN_SPEED = -1.0;
+    public static final double INTAKE_SPIN_SPEED = -0.6;
 
     /** Default spin speed for the indexer when intaking a note. */
-    public static final double INDEXER_SPIN_SPEED = -0.5;
+    public static final double INDEXER_SPIN_SPEED = -0.8;
 
     /** Table of shooter spin speeds and the distance they shoot. <p>TODO: Make the table */
     public static final double[][] SHOOTER_SPEED_ARRAY = {
@@ -261,6 +256,12 @@ public final class Constants {
      * {@link frc.robot.Constants.kManip#SHOOTER_SPEED_ARRAY this array} 
      */
     public static final LinearInterpolator SHOOTER_LINEAR_INTERPOLATOR = new LinearInterpolator(SHOOTER_SPEED_ARRAY);
+
+    public static final double VISION_SHOOTING_LINEAR_MUL = 1.0;
+    public static final double VISION_SHOOTING_EXPONENT = 1.0;
+    public static final double VISION_SHOOTING_OFFSET = 0.0;
+
+    public static final double MAX_SHOOTING_DISTANCE_SPEAKER = 1.8;
   }
   public static class kNetworkTables {
     /** This is the name of the main networktables table for the robot. */
@@ -291,8 +292,20 @@ public final class Constants {
 
   /** Constants For Camera Displays */
   public static class kDisplay {
+    public static final int RENDER_POINT_RADIUS = 2;
+    public static final int NAME_RENDER_SIZE = 2;
+    public static final Point NAME_RENDER_OFFSET = new Point(0, 0);
+    public static final int LINE_THICKNESS = 1;
+
+    public static final Scalar LINE_COLOR = new Scalar(255, 255, 0);
+    public static final Scalar DETAIL_COLOR = new Scalar(255, 100, 0);
+
     public static final Point FPS_COUNTER_POSITION = new Point(100, 100);
     public static final double FPS_COUNTER_SIZE = 10.0;
     public static final Scalar FPS_COUNTER_COLOR = new Scalar(0, 0, 0);
+
+    public static final Point NOTE_COUNTER_POSITION = new Point(100, 100);
+    public static final double NOTE_COUNTER_SIZE = 10.0;
+    public static final Scalar NOTE_COUNTER_COLOR = new Scalar(0, 0, 0);
   }
 }

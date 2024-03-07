@@ -24,6 +24,7 @@ import frc.robot.commands.IntakeNote;
 import frc.robot.commands.OuttakeNote;
 import frc.robot.commands.StopIndexer;
 import frc.robot.commands.StopIntake;
+import frc.robot.commands.StopShooter;
 import frc.robot.commands.VisionSpeakerShooting;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;

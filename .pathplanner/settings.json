@@ -4,6 +4,7 @@
   "holonomicMode": true,
   "pathFolders": [],
   "autoFolders": [
+    "Amp Start",
     "Speaker Start"
   ],
   "defaultMaxVel": 3.0,

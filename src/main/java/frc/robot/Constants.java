@@ -235,7 +235,7 @@ public final class Constants {
 
     // First item should be how it starts, second should be amp shooting, and other ones should be speaker shooting.
     public static final double[] SHOOTER_SPEED_STATE_VALUES = new double[]{
-      0, 0.26, 1.0
+      0, 0.1875, 1.0
     };
 
     public static final boolean USE_TUNED_SHOOTER_VALUES = false;
@@ -288,6 +288,10 @@ public final class Constants {
     public static final double BLUE_AMP_X = 0.0;
     /** The Z position of the blue amp in field space */
     public static final double BLUE_AMP_Z = 0.0;
+  }
+
+  public static class kAuto {
+    public static final int AUTO_SHOOT_STATE = 2;
   }
 
   /** Constants For Camera Displays */

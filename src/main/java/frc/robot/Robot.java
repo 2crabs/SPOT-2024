@@ -126,10 +126,10 @@ public class Robot extends TimedRobot {
     return new Thread(
       () -> {
         // Create a new ShapeDetection Object.
-        ShapeDetection shapeDetection = new ShapeDetection(999, kVision.MIN_CONTOUR_AREA);
+        // ShapeDetection shapeDetection = new ShapeDetection(999, kVision.MIN_CONTOUR_AREA);
 
         // Get the USBCamera from CameraServer
-        UsbCamera camera = CameraServer.startAutomaticCapture(1);
+        UsbCamera camera = CameraServer.startAutomaticCapture(0);
 
         camera.setResolution(640, 480);
 
@@ -161,6 +161,7 @@ public class Robot extends TimedRobot {
             kDisplay.FPS_COUNTER_COLOR
           );
 
+          /*
           if(kVision.detectNotes) {
             shapeDetection.detectShapesFromImage(mat);
             if(shapeDetection.containsNotes()) {
@@ -176,6 +177,7 @@ public class Robot extends TimedRobot {
 
             mat = shapeDetection.renderShapeDetails(mat, kDisplay.LINE_COLOR, kDisplay.DETAIL_COLOR, true, true, true, true, true);
           }
+          */
 
           outputStream.putFrame(mat);
         }

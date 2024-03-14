@@ -4,11 +4,15 @@
 
 package frc.robot;
 
+import java.util.HashMap;
+
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -17,11 +21,11 @@ import frc.robot.Constants.kManip;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.FollowCurrentTarget;
 import frc.robot.commands.IntakeNote;
-import frc.robot.commands.MoveIntake;
 import frc.robot.commands.OuttakeNote;
-import frc.robot.commands.ShootNoteIntoAmp;
-import frc.robot.commands.ShootNoteIntoSpeaker;
 import frc.robot.commands.StopIndexer;
+import frc.robot.commands.StopIntake;
+import frc.robot.commands.StopShooter;
+import frc.robot.commands.VisionSpeakerShooting;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -29,6 +33,7 @@ import frc.robot.subsystems.SwerveDrive;
 import frc.robot.subsystems.Vision;
 
 public class RobotContainer {
+  public HashMap<String, Command> autoMap = new HashMap<>();
 
   private final SendableChooser<Command> autoChooser;
   private final Vision m_visionSubsystem = new Vision();
@@ -43,6 +48,7 @@ public class RobotContainer {
       new CommandXboxController(kControls.MANIPULATOR_CONTROLLER_ID);
 
   public RobotContainer() {
+    configureAutoMap();
     configureBindings();
 
     autoChooser = AutoBuilder.buildAutoChooser();
@@ -60,12 +66,16 @@ public class RobotContainer {
    */
   private void configureBindings() {
     
+    /*
     m_driverController.rightBumper().whileTrue(new FollowCurrentTarget(
       m_visionSubsystem, 
       m_driveSubsystem, 
       () -> -kControls.X_DRIVE_LIMITER.calculate(m_driverController.getRawAxis(kControls.TRANSLATION_Y_AXIS)),
       () -> -kControls.Y_DRIVE_LIMITER.calculate(m_driverController.getRawAxis(kControls.TRANSLATION_X_AXIS))
     ));
+    */
+
+    m_driverController.rightBumper().whileTrue(new VisionSpeakerShooting(m_visionSubsystem, m_driveSubsystem, true, false));
 
     m_driveSubsystem.setDefaultCommand(new DriveCommand(
       () -> -kControls.Y_DRIVE_LIMITER.calculate(m_driverController.getRawAxis(kControls.TRANSLATION_Y_AXIS)),
@@ -74,22 +84,22 @@ public class RobotContainer {
       m_driveSubsystem
     ));
 
-    // m_driverController.y().whileTrue(new RunCommand(() -> m_driveSubsystem.zeroGyroscope(), m_driveSubsystem));
+    m_driverController.y().whileTrue(new RunCommand(() -> m_driveSubsystem.zeroGyroscope(), m_driveSubsystem));
 
-    m_intakeSubsystem.setDefaultCommand(new MoveIntake(m_intakeSubsystem, () -> (m_manipulatorController.getRightY()/6)));
+    m_intakeSubsystem.setDefaultCommand(new StopIntake(m_intakeSubsystem));
     m_indexerSubsystem.setDefaultCommand(new StopIndexer(m_indexerSubsystem));
 
     if(kControls.USE_LEFT_Y_FOR_INTAKING) {
       m_intakeSubsystem.setDefaultCommand(
         new RunCommand(() -> m_intakeSubsystem.setIntakeSpinSpeed(kManip.INTAKE_SPIN_SPEED * (
-          Math.abs(m_manipulatorController.getLeftY()) > kManip.INTAKE_ANGLE_DEADZONE ? 
+          Math.abs(m_manipulatorController.getLeftY()) > kManip.INTAKE_DEADZONE ? 
           m_manipulatorController.getLeftY() : 
           0.0
         )
       ), m_intakeSubsystem));
       m_indexerSubsystem.setDefaultCommand(
         new RunCommand(() -> m_indexerSubsystem.runWithSpeed(kManip.INDEXER_SPIN_SPEED * (
-          Math.abs(m_manipulatorController.getLeftY()) > kManip.INTAKE_ANGLE_DEADZONE ? 
+          Math.abs(m_manipulatorController.getLeftY()) > kManip.INTAKE_DEADZONE ? 
           m_manipulatorController.getLeftY() * kManip.INTAKE_SPIN_SPEED : 
           0.0
         )
@@ -137,6 +147,14 @@ public class RobotContainer {
     //m_driveSubsystem.setDefaultCommand(m_driveSubsystem.CANCoderTuningCommand());
   }
 
+  public void configureAutoMap() {
+    autoMap.put("startIntake", new IntakeNote(m_intakeSubsystem, m_indexerSubsystem));
+    autoMap.put("stopIntake", new ParallelCommandGroup(new StopIntake(m_intakeSubsystem), new StopIndexer(m_indexerSubsystem)));
+    autoMap.put("speakerShoot", new RunCommand(() -> m_shooterSubsystem.setShooterState(2), m_shooterSubsystem));
+    autoMap.put("ampShoot", new RunCommand(() -> m_shooterSubsystem.setShooterState(1), m_shooterSubsystem));
+    autoMap.put("stopShooter", new StopShooter(m_shooterSubsystem));
+    NamedCommands.registerCommands(autoMap);
+  }
 
   public Command getAutonomousCommand() {
     return autoChooser.getSelected();

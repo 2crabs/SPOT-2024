@@ -22,8 +22,6 @@ import frc.robot.commands.DriveCommand;
 import frc.robot.commands.FollowCurrentTarget;
 import frc.robot.commands.IntakeNote;
 import frc.robot.commands.OuttakeNote;
-import frc.robot.commands.SpeakerJustShootAuto;
-import frc.robot.commands.SpeakerTwoNoteAuto;
 import frc.robot.commands.StopIndexer;
 import frc.robot.commands.StopIntake;
 import frc.robot.commands.StopShooter;
@@ -37,7 +35,7 @@ import frc.robot.subsystems.Vision;
 public class RobotContainer {
   public HashMap<String, Command> autoMap = new HashMap<>();
 
-  private final SendableChooser<Command> autoChooser = new SendableChooser<>();
+  private final SendableChooser<Command> autoChooser;
   private final Vision m_visionSubsystem = new Vision();
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
@@ -53,9 +51,7 @@ public class RobotContainer {
     configureAutoMap();
     configureBindings();
 
-    //autoChooser = AutoBuilder.buildAutoChooser();
-    autoChooser.setDefaultOption("Do Nothing", null);
-    // autoChooser.addOption("Speaker Start: 1 Note", new SpeakerJustShootAuto(m_intakeSubsystem, m_indexerSubsystem, m_shooterSubsystem, m_driveSubsystem));
+    autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Chooser", autoChooser);
   }
 
@@ -162,9 +158,6 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
     return autoChooser.getSelected();
-    // return new SpeakerJustShootAuto(m_intakeSubsystem, m_indexerSubsystem, m_shooterSubsystem, m_driveSubsystem);
-    //return new SpeakerTwoNoteAuto(m_intakeSubsystem, m_indexerSubsystem, m_shooterSubsystem, m_driveSubsystem);
-    //return autoChooser.getSelected();
   }
 }
 

@@ -35,7 +35,7 @@ import frc.robot.subsystems.Vision;
 public class RobotContainer {
   public HashMap<String, Command> autoMap = new HashMap<>();
 
-  private final SendableChooser<Command> autoChooser;
+  //private final SendableChooser<Command> autoChooser;
   private final Vision m_visionSubsystem = new Vision();
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
@@ -51,8 +51,8 @@ public class RobotContainer {
     configureAutoMap();
     configureBindings();
 
-    autoChooser = AutoBuilder.buildAutoChooser();
-    SmartDashboard.putData("Auto Chooser", autoChooser);
+    //autoChooser = AutoBuilder.buildAutoChooser();
+    //SmartDashboard.putData("Auto Chooser", autoChooser);
   }
 
   /**
@@ -66,16 +66,14 @@ public class RobotContainer {
    */
   private void configureBindings() {
     
-    /*
     m_driverController.rightBumper().whileTrue(new FollowCurrentTarget(
       m_visionSubsystem, 
       m_driveSubsystem, 
       () -> -kControls.X_DRIVE_LIMITER.calculate(m_driverController.getRawAxis(kControls.TRANSLATION_Y_AXIS)),
       () -> -kControls.Y_DRIVE_LIMITER.calculate(m_driverController.getRawAxis(kControls.TRANSLATION_X_AXIS))
     ));
-    */
 
-    m_driverController.rightBumper().whileTrue(new VisionSpeakerShooting(m_visionSubsystem, m_driveSubsystem, true, false));
+    // m_driverController.rightBumper().whileTrue(new VisionSpeakerShooting(m_visionSubsystem, m_driveSubsystem, true, false));
 
     m_driveSubsystem.setDefaultCommand(new DriveCommand(
       () -> -kControls.Y_DRIVE_LIMITER.calculate(m_driverController.getRawAxis(kControls.TRANSLATION_Y_AXIS)),
@@ -157,7 +155,8 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return autoChooser.getSelected();
+    return AutoBuilder.buildAuto("Test1");
+    //return autoChooser.getSelected();
   }
 }
 

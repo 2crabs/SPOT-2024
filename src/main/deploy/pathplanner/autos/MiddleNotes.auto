@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.5578118905525558,
-      "y": 5.449475970177011
+      "x": 0.4981415879991524,
+      "y": 7.302549674132879
     },
-    "rotation": -0.1426313488519799
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
@@ -14,7 +14,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": null
+            "pathName": "MessUpOtherTeam'sAutos"
           }
         }
       ]

@@ -10,6 +10,8 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.kControls;
+import frc.robot.Constants.kSwerve;
+import frc.robot.Constants.kVision;
 import frc.robot.subsystems.SwerveDrive;
 import frc.robot.subsystems.Vision;
 
@@ -47,15 +49,17 @@ public class FollowCurrentTarget extends Command {
     SmartDashboard.putBoolean("FollowingApriltag", true);
 
     //double turnA = Math.abs(m_visionSubsystem.getTargetOffsetX()/54);
-    double offset = m_driveSubsystem.getGyroRotation().getRotations()+(m_visionSubsystem.getTargetOffsetX()/360);
-    if(m_visionSubsystem.hasValidTarget()) {
+    double offset = m_driveSubsystem.getGyroRotation().getRotations() - (m_visionSubsystem.getTargetOffsetX()/(360 * 0.7));
+    if(m_visionSubsystem.hasValidTarget() && (m_visionSubsystem.getTargetID() == kVision.SPEAKER_APRILTAG_ID_BLUE || m_visionSubsystem.getTargetID() == kVision.SPEAKER_APRILTAG_ID_RED)) {
       m_turn = offset;
     } else {
       m_turn = m_driveSubsystem.getGyroRotation().getRotations();
     }
 
-    // m_driveSubsystem.basicDrive(m_yAxis, m_xAxis, m_turn, true); 
-    m_driveSubsystem.drive(deadzone(m_yAxis.getAsDouble(), kControls.TRANSLATION_DEADZONE), deadzone(m_xAxis.getAsDouble(), kControls.TRANSLATION_DEADZONE), m_turn, true, true);
+    SmartDashboard.putNumber("FollowTargetOffset", m_visionSubsystem.getTargetOffsetX()/(360 * 1));
+
+    // m_driveSubsystem.basicDrive(m_yAxis.getAsDouble(), m_xAxis.getAsDouble(), offset, true); 
+    m_driveSubsystem.drive(deadzone(m_yAxis.getAsDouble(), kControls.TRANSLATION_DEADZONE) * 3.5, deadzone(m_xAxis.getAsDouble(), kControls.TRANSLATION_DEADZONE) * 3.5, m_turn, true, true);
   }
 
   // Called once the command ends or is interrupted.

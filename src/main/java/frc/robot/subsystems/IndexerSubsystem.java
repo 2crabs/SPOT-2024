@@ -4,13 +4,20 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class IndexerSubsystem extends SubsystemBase{
 
     // public CANSparkMax indexerMotor;
     public TalonFX indexerMotor;
+
+    public boolean indexerBeamBreakSensorInput;
+
+    public double lastBeamBreakTriggerTimeStamp;
+
     public IndexerSubsystem() {
+        lastBeamBreakTriggerTimeStamp = -999.999;
         indexerMotor = new TalonFX(18);
     }
 
@@ -22,24 +29,26 @@ public class IndexerSubsystem extends SubsystemBase{
         indexerMotor.set(speed);
     }
 
-    /**
-     * An example method querying a boolean state of the subsystem (for example, a digital sensor).
-     *
-     * @return value of some boolean subsystem state, such as a digital sensor.
-     */
-    public boolean exampleCondition() {
-        // Query some boolean state, such as a digital sensor.
-        return false;
+    /** Returns the current state of the beam break sensor */
+    public boolean getIndexerBeamBreakSensor() {
+        return indexerBeamBreakSensorInput;
+    }
+
+    /** Returns the last time the beam break sensor was triggered in seconds */
+    public double getLastBeamBreakSensorTriggerTimeStamp() {
+        return lastBeamBreakTriggerTimeStamp;
+    }
+
+    /** Returns the time since the last time the beam break sensor was toggled */
+    public double timeSinceLastBeamBreakSensorToggle() {
+        return Timer.getFPGATimestamp() - lastBeamBreakTriggerTimeStamp;
     }
 
     @Override
     public void periodic() {
-        // This method will be called once per scheduler run
-    }
-
-    @Override
-    public void simulationPeriodic() {
-        // This method will be called once per scheduler run during simulation
+        if(getIndexerBeamBreakSensor()) {
+            lastBeamBreakTriggerTimeStamp = Timer.getFPGATimestamp();
+        }
     }
 
     /** This configures the motor controllers */

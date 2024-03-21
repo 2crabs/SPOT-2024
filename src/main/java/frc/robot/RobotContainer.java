@@ -35,7 +35,7 @@ import frc.robot.subsystems.Vision;
 public class RobotContainer {
   public HashMap<String, Command> autoMap = new HashMap<>();
 
-  private final SendableChooser<Command> autoChooser;
+  //private final SendableChooser<Command> autoChooser;
   private final Vision m_visionSubsystem = new Vision();
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
@@ -51,8 +51,8 @@ public class RobotContainer {
     configureAutoMap();
     configureBindings();
 
-    autoChooser = AutoBuilder.buildAutoChooser();
-    SmartDashboard.putData("Auto Chooser", autoChooser);
+    //autoChooser = AutoBuilder.buildAutoChooser();
+    //SmartDashboard.putData("Auto Chooser", autoChooser);
   }
 
   /**
@@ -157,7 +157,8 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return autoChooser.getSelected();
+    return null;
+    //return autoChooser.getSelected();
   }
 }
 

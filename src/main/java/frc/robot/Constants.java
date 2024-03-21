@@ -264,6 +264,9 @@ public final class Constants {
     /** Default spin speed for the indexer when intaking a note. */
     public static final double INDEXER_SPIN_SPEED = -0.8;
 
+    /** The delay that will happen in between the beam break sensor triggering and the intake stopping */
+    public static double BEAM_BREAK_SENSOR_INDEXER_DELAY = 0.0;
+
     /** Table of shooter spin speeds and the distance they shoot. <p>TODO: Make the table */
     public static final double[][] SHOOTER_SPEED_ARRAY = {
       {0, 0},

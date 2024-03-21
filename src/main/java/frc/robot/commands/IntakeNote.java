@@ -13,6 +13,8 @@ public class IntakeNote extends Command {
   private final IntakeSubsystem manipSubsystem;
   private final IndexerSubsystem indexerSubsystem;
 
+  private boolean beamBroken;
+
   // CHANGE THIS LATER. this boolean should turn true when the note is finished intake. we don't know how to do that yet.
   private boolean intakeFinished;
 
@@ -28,11 +30,16 @@ public class IntakeNote extends Command {
   public void initialize() {
     //manipSubsystem.setPredeterminedIntakeMotorAngle(1);
     intakeFinished = false;
+    beamBroken = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if(indexerSubsystem.getIndexerBeamBreakSensor()) {
+      beamBroken = true;
+    }
+
     // manipSubsystem.setPredeterminedIntakeMotorAngle(1);
     manipSubsystem.setIntakeSpinSpeed(kManip.INTAKE_SPIN_SPEED);
     indexerSubsystem.runWithSpeed(kManip.INDEXER_SPIN_SPEED);
@@ -45,6 +52,9 @@ public class IntakeNote extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    if(beamBroken && indexerSubsystem.timeSinceLastBeamBreakSensorToggle() >= kManip.BEAM_BREAK_SENSOR_INDEXER_DELAY) {
+      return true;
+    }
     return false;
   }
 }

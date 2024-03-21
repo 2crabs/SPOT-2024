@@ -4,7 +4,9 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class IndexerSubsystem extends SubsystemBase{
@@ -12,7 +14,7 @@ public class IndexerSubsystem extends SubsystemBase{
     // public CANSparkMax indexerMotor;
     public TalonFX indexerMotor;
 
-    public boolean indexerBeamBreakSensorInput;
+    public DigitalInput beamBreakSensor = new DigitalInput(1);
 
     public double lastBeamBreakTriggerTimeStamp;
 
@@ -31,7 +33,7 @@ public class IndexerSubsystem extends SubsystemBase{
 
     /** Returns the current state of the beam break sensor */
     public boolean getIndexerBeamBreakSensor() {
-        return indexerBeamBreakSensorInput;
+        return beamBreakSensor.get();
     }
 
     /** Returns the last time the beam break sensor was triggered in seconds */
@@ -49,6 +51,8 @@ public class IndexerSubsystem extends SubsystemBase{
         if(getIndexerBeamBreakSensor()) {
             lastBeamBreakTriggerTimeStamp = Timer.getFPGATimestamp();
         }
+        SmartDashboard.putBoolean("Beam Break", getIndexerBeamBreakSensor());
+        SmartDashboard.putNumber("TimeStamp Beam Break", lastBeamBreakTriggerTimeStamp);
     }
 
     /** This configures the motor controllers */

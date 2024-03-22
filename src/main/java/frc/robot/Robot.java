@@ -19,7 +19,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Constants.kDisplay;
 import frc.robot.Constants.kVision;
-import frc.robot.utils.vision.ShapeDetection;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -121,6 +120,36 @@ public class Robot extends TimedRobot {
   /** This function is called periodically whilst in simulation. */
   @Override
   public void simulationPeriodic() {}
+
+  public Thread indicatorThread() {
+    return new Thread(
+      ()-> {
+        Mat mat = new Mat();
+        mat.reshape(480, 480);
+
+        CvSource outputSource = CameraServer.putVideo("Note Indicator", 480, 480);
+
+        while(!Thread.interrupted()) {
+          if(m_robotContainer != null) {
+            if(m_robotContainer.getIndexerSubsystem().hasNote()) {
+              for(int x = 0; x < mat.width(); x++) {
+                for(int y = 0; y < mat.height(); y++) {
+                  mat.put(x, y, new double[]{0.0, 255.0, 0.0});
+                }
+              }
+            } else {
+              for(int x = 0; x < mat.width(); x++) {
+                for(int y = 0; y < mat.height(); y++) {
+                  mat.put(x, y, new double[]{255.0, 0.0, 0.0});
+                }
+              }
+            }
+          }
+          outputSource.putFrame(mat);
+        }
+      }
+    );
+  }
 
   public Thread setupVisionThread() {
     return new Thread(

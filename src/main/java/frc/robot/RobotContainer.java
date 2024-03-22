@@ -156,6 +156,18 @@ public class RobotContainer {
     NamedCommands.registerCommands(autoMap);
   }
 
+  public IntakeSubsystem getIntakeSubsystem() {
+    return m_intakeSubsystem;
+  }
+
+  public IndexerSubsystem getIndexerSubsystem() {
+    return m_indexerSubsystem;
+  }
+
+  public ShooterSubsystem getShooterSubsystem() {
+    return m_shooterSubsystem;
+  }
+
   public Command getAutonomousCommand() {
     return null;
     //return autoChooser.getSelected();

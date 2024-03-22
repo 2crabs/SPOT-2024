@@ -46,6 +46,11 @@ public class IndexerSubsystem extends SubsystemBase{
         return Timer.getFPGATimestamp() - lastBeamBreakTriggerTimeStamp;
     }
 
+    /** Returns true if the robot has a notein the indexer */
+    public boolean hasNote() {
+        return getIndexerBeamBreakSensor();
+    }
+
     @Override
     public void periodic() {
         if(getIndexerBeamBreakSensor()) {

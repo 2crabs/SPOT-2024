@@ -36,7 +36,7 @@ public class IntakeNote extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(indexerSubsystem.getIndexerBeamBreakSensor()) {
+    if(!indexerSubsystem.getIndexerBeamBreakSensor()) {
       beamBroken = true;
     }
 

@@ -4,131 +4,115 @@
     {
       "anchor": {
         "x": 0.4981415879991524,
-        "y": 7.302549674132879
+        "y": 2.023988268883835
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.004772135665829,
-        "y": 7.302549674132879
+        "x": 1.4981415879991555,
+        "y": 1.5239882688838349
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 7.816883168283102,
-        "y": 7.432084923341445
+        "x": 7.897842699038456,
+        "y": 0.8257872137046044
       },
       "prevControl": {
-        "x": 6.90999186475575,
-        "y": 7.432084923341445
+        "x": 7.461349130127781,
+        "y": 0.8532122798232088
       },
       "nextControl": {
-        "x": 8.189297009757732,
-        "y": 7.432084923341445
+        "x": 8.351216071268436,
+        "y": 0.7973015827688453
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 7.816883168283102,
-        "y": 5.861470026687588
+        "x": 7.897842699038456,
+        "y": 2.525937359567027
       },
       "prevControl": {
-        "x": 7.141646182148574,
-        "y": 5.8839779262254055
+        "x": 6.877752611521001,
+        "y": 2.5097454534159556
       },
       "nextControl": {
-        "x": 8.302640352815224,
-        "y": 5.845278120536517
+        "x": 8.428756297846592,
+        "y": 2.5343645595481092
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 7.816883168283102,
-        "y": 4.323238942335873
+        "x": 7.897842699038456,
+        "y": 4.161319880825166
       },
       "prevControl": {
-        "x": 7.298742171448841,
-        "y": 4.744228502263711
+        "x": 6.60087202706881,
+        "y": 4.161319880825166
       },
       "nextControl": {
-        "x": 8.206655521965418,
-        "y": 4.006548904968991
+        "x": 8.223295984812701,
+        "y": 4.161319880825166
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 7.962610323642737,
-        "y": 2.5907049841713095
+        "x": 7.897842699038456,
+        "y": 5.796702402083306
       },
       "prevControl": {
-        "x": 7.185398828391346,
-        "y": 2.898351201041653
+        "x": 6.485800788313906,
+        "y": 5.796702402083306
       },
       "nextControl": {
-        "x": 8.098108396400187,
-        "y": 2.5370703303714857
+        "x": 8.286448446664147,
+        "y": 5.796702402083306
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 7.962610323642737,
-        "y": 1.101049618272807
+        "x": 7.897842699038456,
+        "y": 7.464468735643586
       },
       "prevControl": {
-        "x": 7.557812669865971,
-        "y": 1.4734634597474319
+        "x": 6.602490206952802,
+        "y": 7.4482768294925155
       },
       "nextControl": {
-        "x": 8.09422823587062,
-        "y": 0.9799611390231535
+        "x": 8.286755249151863,
+        "y": 7.469330142520004
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 7.298742171448841,
-        "y": 6.7682167711475465
+        "x": 5.890046336305691,
+        "y": 0.8257872137046044
       },
       "prevControl": {
-        "x": 7.395893608355264,
-        "y": 6.233883868162215
+        "x": 8.156913197455587,
+        "y": 0.9067467444599585
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 5,
-      "rotationDegrees": -41.185925165709655,
-      "rotateFast": false
-    },
-    {
-      "waypointRelativePos": 1,
-      "rotationDegrees": 0,
-      "rotateFast": false
-    },
-    {
-      "waypointRelativePos": 2,
-      "rotationDegrees": -12.264773727892244,
-      "rotateFast": false
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "StartIntaking",
+      "name": "Start Intaking",
       "waypointRelativePos": 0.05,
       "command": {
         "type": "parallel",
@@ -151,8 +135,8 @@
       }
     },
     {
-      "name": "Max Shoot",
-      "waypointRelativePos": 0.65,
+      "name": "Max SHoot",
+      "waypointRelativePos": 0.6000000000000001,
       "command": {
         "type": "parallel",
         "data": {
@@ -168,8 +152,8 @@
       }
     },
     {
-      "name": "Stop",
-      "waypointRelativePos": 0,
+      "name": "New Event Marker",
+      "waypointRelativePos": 5.45,
       "command": {
         "type": "parallel",
         "data": {
@@ -199,7 +183,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -81.86989764584425,
+    "rotation": 0,
     "rotateFast": false
   },
   "reversed": false,

@@ -1,0 +1,25 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.4981415879991524,
+      "y": 7.302549674132879
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "MessUpOtherTeam'sAutos"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Amp Start",
+  "choreoAuto": false
+}

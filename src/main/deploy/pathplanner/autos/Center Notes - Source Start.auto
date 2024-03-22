@@ -1,0 +1,25 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.4981415879991524,
+      "y": 2.023988268883835
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "MessUpOtherTeam'sAutosSourceSide"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Source Start",
+  "choreoAuto": false
+}

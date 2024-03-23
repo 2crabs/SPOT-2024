@@ -37,7 +37,7 @@ import frc.robot.subsystems.Vision;
 public class RobotContainer {
   public HashMap<String, Command> autoMap = new HashMap<>();
 
-  //private final SendableChooser<Command> autoChooser;
+  private final SendableChooser<Command> autoChooser;
   private final Vision m_visionSubsystem = new Vision();
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();

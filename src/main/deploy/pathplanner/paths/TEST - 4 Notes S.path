@@ -80,16 +80,16 @@
     },
     {
       "anchor": {
-        "x": 2.5752033270448305,
-        "y": 4.081259900411539
+        "x": 2.68045071702679,
+        "y": 4.128036518181299
       },
       "prevControl": {
-        "x": 2.352114842296745,
-        "y": 4.065067994260469
+        "x": 2.4573622322787045,
+        "y": 4.111844612030228
       },
       "nextControl": {
-        "x": 3.105504255081417,
-        "y": 4.1197494838980635
+        "x": 3.2107516450633766,
+        "y": 4.166526101667823
       },
       "isLocked": false,
       "linkedName": null
@@ -112,16 +112,16 @@
     },
     {
       "anchor": {
-        "x": 3.0546636591848677,
-        "y": 7.1217400554459225
+        "x": 3.194993512494147,
+        "y": 7.028186819906404
       },
       "prevControl": {
-        "x": 1.7916949794013546,
-        "y": 7.1217400554459225
+        "x": 1.4993411183403553,
+        "y": 7.028186819906404
       },
       "nextControl": {
-        "x": 3.398828387592143,
-        "y": 7.1217400554459225
+        "x": 3.539158240901422,
+        "y": 7.028186819906404
       },
       "isLocked": false,
       "linkedName": null
@@ -185,7 +185,7 @@
     },
     {
       "name": "Shoot Note 1",
-      "waypointRelativePos": 0.15000000000000002,
+      "waypointRelativePos": 0.15,
       "command": {
         "type": "parallel",
         "data": {
@@ -248,7 +248,7 @@
     },
     {
       "name": "Shoot Note 2",
-      "waypointRelativePos": 1.85,
+      "waypointRelativePos": 1.95,
       "command": {
         "type": "parallel",
         "data": {
@@ -288,7 +288,7 @@
     },
     {
       "name": "shooter",
-      "waypointRelativePos": 5.35,
+      "waypointRelativePos": 5.25,
       "command": {
         "type": "parallel",
         "data": {
@@ -311,7 +311,7 @@
     },
     {
       "name": "Shoot Note 3",
-      "waypointRelativePos": 6.1,
+      "waypointRelativePos": 6.05,
       "command": {
         "type": "parallel",
         "data": {
@@ -391,8 +391,8 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 2.0,
-    "maxAcceleration": 1.75,
+    "maxVelocity": 2.5,
+    "maxAcceleration": 2.1,
     "maxAngularVelocity": 270.0,
     "maxAngularAcceleration": 360.0
   },

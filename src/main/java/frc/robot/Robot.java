@@ -14,12 +14,13 @@ import edu.wpi.first.cscore.CvSink;
 import edu.wpi.first.cscore.CvSource;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.cscore.VideoSink;
+import edu.wpi.first.wpilibj.AddressableLED;
+import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Constants.kDisplay;
 import frc.robot.Constants.kVision;
-import frc.robot.utils.vision.ShapeDetection;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -28,6 +29,11 @@ import frc.robot.utils.vision.ShapeDetection;
  * project.
  */
 public class Robot extends TimedRobot {
+  AddressableLED leds;
+  AddressableLEDBuffer buff;
+
+  int patternRainbowStart = 0;
+
   Thread m_visionThread;
 
   private Command m_autonomousCommand;
@@ -49,6 +55,12 @@ public class Robot extends TimedRobot {
       m_visionThread.setDaemon(true);
       m_visionThread.start();
     }
+
+    leds = new AddressableLED(0);
+    buff = new AddressableLEDBuffer(10);
+    leds.setLength(buff.getLength());
+    leds.setData(buff);
+    leds.start();
   }
 
   /**
@@ -65,6 +77,20 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+
+    rainbowPattern();
+    leds.setData(buff);
+  }
+
+  public void rainbowPattern() {
+    for(int i = 0; i < buff.getLength(); i++) {
+      int hue = (patternRainbowStart + (i*180 / buff.getLength())) % 180;
+      buff.setHSV(i, hue, 255, 128);
+    }
+
+    patternRainbowStart += 3;
+
+    patternRainbowStart %= 180;
   }
 
   /** This function is called once each time the robot enters Disabled mode. */

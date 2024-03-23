@@ -17,12 +17,19 @@ public class LEDSubsystem extends SubsystemBase {
 
   /** Creates a new LEDSubsystem. */
   public LEDSubsystem() {
-    leds = new AddressableLED(1);
+    leds = null;
     ledBuffer = new AddressableLEDBuffer(kLED.STRIP_LENGTH);
-    leds.setLength(kLED.STRIP_LENGTH);
+  }
 
-    leds.setData(ledBuffer);
-    leds.start();
+  public void setLEDObject(AddressableLED ledObj) {
+    leds = ledObj;
+  }
+
+  @Override
+  public void periodic() {
+    if(leds != null) {
+      setColorRGB(new int[]{255, 255, 0});
+    }
   }
 
   /** 
@@ -61,10 +68,5 @@ public class LEDSubsystem extends SubsystemBase {
     patternRainbowStart += 3;
 
     patternRainbowStart %= 180;
-  }
-
-  @Override
-  public void periodic() {
-    
   }
 }

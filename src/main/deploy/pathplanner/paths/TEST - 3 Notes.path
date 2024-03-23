@@ -64,27 +64,43 @@
     },
     {
       "anchor": {
-        "x": 2.7164327306958365,
-        "y": 4.01559272546553
+        "x": 1.777302173933737,
+        "y": 4.3385312981452175
       },
       "prevControl": {
-        "x": 1.7422197106064177,
-        "y": 4.023688678541066
+        "x": 1.7722736233714407,
+        "y": 4.5813025826587035
       },
       "nextControl": {
-        "x": 3.248110264822213,
-        "y": 4.011174352605754
+        "x": 1.7823307244960331,
+        "y": 4.095760013631732
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.938422531553584,
+        "x": 2.7164327306958365,
+        "y": 4.01559272546553
+      },
+      "prevControl": {
+        "x": 2.493344245947751,
+        "y": 3.99940081931446
+      },
+      "nextControl": {
+        "x": 3.246733658732423,
+        "y": 4.054082308952055
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.0606605315774735,
         "y": 5.531335051274091
       },
       "prevControl": {
-        "x": 3.138422531553583,
+        "x": 3.260660531577473,
         "y": 5.531335051274091
       },
       "nextControl": null,
@@ -126,7 +142,7 @@
     },
     {
       "name": "Shoot Note 1",
-      "waypointRelativePos": 0.25,
+      "waypointRelativePos": 0.15000000000000002,
       "command": {
         "type": "parallel",
         "data": {
@@ -143,7 +159,7 @@
     },
     {
       "name": "Intake Note 2",
-      "waypointRelativePos": 0.35,
+      "waypointRelativePos": 0.4,
       "command": {
         "type": "parallel",
         "data": {
@@ -166,7 +182,7 @@
     },
     {
       "name": "shooter",
-      "waypointRelativePos": 0.8999999999999999,
+      "waypointRelativePos": 0.65,
       "command": {
         "type": "parallel",
         "data": {
@@ -189,7 +205,7 @@
     },
     {
       "name": "Shoot Note 2",
-      "waypointRelativePos": 1.9500000000000002,
+      "waypointRelativePos": 1.85,
       "command": {
         "type": "parallel",
         "data": {
@@ -206,7 +222,7 @@
     },
     {
       "name": "Intake Note 3",
-      "waypointRelativePos": 3.5,
+      "waypointRelativePos": 4.0,
       "command": {
         "type": "parallel",
         "data": {
@@ -229,7 +245,7 @@
     },
     {
       "name": "shooter",
-      "waypointRelativePos": 4.5,
+      "waypointRelativePos": 5.25,
       "command": {
         "type": "parallel",
         "data": {
@@ -252,7 +268,7 @@
     },
     {
       "name": "Shoot Note 3",
-      "waypointRelativePos": 5.0,
+      "waypointRelativePos": 5.95,
       "command": {
         "type": "parallel",
         "data": {
@@ -269,8 +285,8 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 2.5,
-    "maxAcceleration": 2.5,
+    "maxVelocity": 1.5,
+    "maxAcceleration": 1.5,
     "maxAngularVelocity": 270.0,
     "maxAngularAcceleration": 360.0
   },

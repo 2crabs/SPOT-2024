@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.4981415879991524,
-      "y": 7.302549674132879
+      "x": 0.5521146085027211,
+      "y": 7.273764063197643
     },
     "rotation": 0
   },
@@ -14,7 +14,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "MessUpOtherTeam'sAutos"
+            "pathName": "do NOT the swipe"
           }
         }
       ]

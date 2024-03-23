@@ -12,6 +12,7 @@ import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -50,8 +51,9 @@ public class RobotContainer {
   public RobotContainer() {
     configureAutoMap();
     configureBindings();
+    autoChooser = new SendableChooser<Command>();
+    configureAutoChooser();
 
-    autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Chooser", autoChooser);
   }
 
@@ -66,16 +68,14 @@ public class RobotContainer {
    */
   private void configureBindings() {
     
-    /*
     m_driverController.rightBumper().whileTrue(new FollowCurrentTarget(
       m_visionSubsystem, 
       m_driveSubsystem, 
       () -> -kControls.X_DRIVE_LIMITER.calculate(m_driverController.getRawAxis(kControls.TRANSLATION_Y_AXIS)),
       () -> -kControls.Y_DRIVE_LIMITER.calculate(m_driverController.getRawAxis(kControls.TRANSLATION_X_AXIS))
     ));
-    */
 
-    m_driverController.rightBumper().whileTrue(new VisionSpeakerShooting(m_visionSubsystem, m_driveSubsystem, true, false));
+    // m_driverController.rightBumper().whileTrue(new VisionSpeakerShooting(m_visionSubsystem, m_driveSubsystem, true, false));
 
     m_driveSubsystem.setDefaultCommand(new DriveCommand(
       () -> -kControls.Y_DRIVE_LIMITER.calculate(m_driverController.getRawAxis(kControls.TRANSLATION_Y_AXIS)),
@@ -153,10 +153,23 @@ public class RobotContainer {
     autoMap.put("speakerShoot", new RunCommand(() -> m_shooterSubsystem.setShooterState(2), m_shooterSubsystem));
     autoMap.put("ampShoot", new RunCommand(() -> m_shooterSubsystem.setShooterState(1), m_shooterSubsystem));
     autoMap.put("stopShooter", new StopShooter(m_shooterSubsystem));
+    autoMap.put("smartIntake", new IntakeNote(m_intakeSubsystem, m_indexerSubsystem));
     NamedCommands.registerCommands(autoMap);
   }
 
+  public void configureAutoChooser() {
+    autoChooser.addOption("Burn in the depths of hell", Commands.none());
+    autoChooser.addOption("Center Notes - Source Start", AutoBuilder.buildAuto("Center Notes - Amp Start"));
+    autoChooser.addOption("Center Notes - Amp Start", AutoBuilder.buildAuto("Center Notes - Source Start"));
+    //autoChooser.addOption("1 Note - Speaker Start", getAutonomousCommand());
+    autoChooser.addOption("2 Note - Speaker Start", AutoBuilder.buildAuto("Speaker Start - 2 Note"));
+    autoChooser.addOption("3 Note - Speaker Start", AutoBuilder.buildAuto("3 Notes"));
+    autoChooser.addOption("4 Note - Speaker Start", AutoBuilder.buildAuto("Speaker Start - 4 Note"));
+    autoChooser.addOption("Swiper, No Swiping! - Amp Start", AutoBuilder.buildAuto("Swiper Amp"));
+  }
+
   public Command getAutonomousCommand() {
+    //return AutoBuilder.buildAuto("Test1");
     return autoChooser.getSelected();
   }
 }

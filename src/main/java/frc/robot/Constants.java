@@ -84,8 +84,8 @@ public final class Constants {
     public static final double CLOSED_LOOP_RAMP = 0.0;
 
     /** Current limiting. */
-    public static final int DRIVE_CURRENT_LIMIT = 45;
-    public static final int ANGLE_CURRENT_LIMIT = 45;
+    public static final int DRIVE_CURRENT_LIMIT = 25;
+    public static final int ANGLE_CURRENT_LIMIT = 30;
 
     /** Drive motor PID values. */
     public static final double DRIVE_KP = 0.05;

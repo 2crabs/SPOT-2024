@@ -76,7 +76,7 @@ public class SwerveDrive extends SubsystemBase {
               // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
 
               DriverStation.Alliance alliance = DriverStation.getAlliance().orElse(Alliance.Blue);
-              return false;
+              return alliance == Alliance.Red;
 
             },
             this // Reference to this subsystem to set requirements

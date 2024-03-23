@@ -53,7 +53,7 @@ public class RobotContainer {
       new CommandXboxController(kControls.MANIPULATOR_CONTROLLER_ID);
 
   public RobotContainer() {
-    //configureAutoMap();
+    configureAutoMap();
     configureBindings();
     autoChooser = new SendableChooser<Command>();
     configureAutoChooser();
@@ -72,6 +72,8 @@ public class RobotContainer {
    */
   private void configureBindings() {
     
+    m_ledSubsystem.setDefaultCommand(new RunCommand(() -> m_ledSubsystem.rainbowPattern(), m_ledSubsystem));
+
     m_driverController.rightBumper().whileTrue(new FollowCurrentTarget(
       m_visionSubsystem, 
       m_driveSubsystem, 
@@ -110,12 +112,12 @@ public class RobotContainer {
       ), m_indexerSubsystem));
     } else {
       m_manipulatorController.leftBumper().whileTrue(new ParallelCommandGroup(
-        new IntakeNote(m_intakeSubsystem, m_indexerSubsystem),
-        new RunCommand(() -> m_ledSubsystem.setColorRGB(new int[]{0, 0, 255}), m_ledSubsystem)
+        new IntakeNote(true, m_intakeSubsystem, m_indexerSubsystem)
+        ,new RunCommand(() -> m_ledSubsystem.setColorRGB(new int[]{0, 0, 255}), m_ledSubsystem)
       ));
       m_manipulatorController.rightBumper().whileTrue(new ParallelDeadlineGroup(
-        new OuttakeNote(m_intakeSubsystem, m_indexerSubsystem), 
-        new RunCommand(() -> m_ledSubsystem.setColorRGB(new int[]{255, 0, 0}), m_ledSubsystem)
+        new OuttakeNote(m_intakeSubsystem, m_indexerSubsystem)
+        ,new RunCommand(() -> m_ledSubsystem.setColorRGB(new int[]{255, 0, 0}), m_ledSubsystem)
       ));
     }
     
@@ -131,6 +133,9 @@ public class RobotContainer {
 
     //m_manipulatorController.a().onTrue(new ShootNoteIntoSpeaker(m_shooterSubsystem, m_indexerSubsystem));
     //m_manipulatorController.x().onTrue(new ShootNoteIntoAmp(m_shooterSubsystem, m_indexerSubsystem));
+
+    m_manipulatorController.povUp().onTrue(new RunCommand(() -> m_intakeSubsystem.toggleTop(), m_intakeSubsystem));
+    m_manipulatorController.povDown().onTrue(new RunCommand(() -> m_intakeSubsystem.toggleBottom(), m_intakeSubsystem));
 
     m_manipulatorController.a().onTrue(new RunCommand(() -> m_shooterSubsystem.setShooterState(2), m_shooterSubsystem));
     m_manipulatorController.x().onTrue(new RunCommand(() -> m_shooterSubsystem.setShooterState(1), m_shooterSubsystem));
@@ -158,12 +163,12 @@ public class RobotContainer {
   }
 
   public void configureAutoMap() {
-    autoMap.put("startIntake", new IntakeNote(m_intakeSubsystem, m_indexerSubsystem));
+    autoMap.put("startIntake", new IntakeNote(false, m_intakeSubsystem, m_indexerSubsystem));
     autoMap.put("stopIntake", new ParallelCommandGroup(new StopIntake(m_intakeSubsystem), new StopIndexer(m_indexerSubsystem)));
     autoMap.put("speakerShoot", new RunCommand(() -> m_shooterSubsystem.setShooterState(2), m_shooterSubsystem));
     autoMap.put("ampShoot", new RunCommand(() -> m_shooterSubsystem.setShooterState(1), m_shooterSubsystem));
     autoMap.put("stopShooter", new StopShooter(m_shooterSubsystem));
-    autoMap.put("smartIntake", new IntakeNote(m_intakeSubsystem, m_indexerSubsystem));
+    autoMap.put("smartIntake", new IntakeNote(true, m_intakeSubsystem, m_indexerSubsystem));
     NamedCommands.registerCommands(autoMap);
   }
 
@@ -185,6 +190,10 @@ public class RobotContainer {
 
   public void setLEDStripObject(AddressableLED leds) {
     m_ledSubsystem.setLEDObject(leds);
+  }
+
+  public IndexerSubsystem getIndexerSubsystem() {
+    return m_indexerSubsystem;
   }
 }
 

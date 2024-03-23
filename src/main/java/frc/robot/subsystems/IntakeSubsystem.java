@@ -14,6 +14,9 @@ import frc.robot.Constants.kManip;
 
 public class IntakeSubsystem extends SubsystemBase {
 
+  boolean topReversed = false;
+  boolean bottomReversed = false;
+
   CANSparkMax intakeSpinMotorA = new CANSparkMax(kManip.INTAKE_SPEED_MOTOR_A_ID, CANSparkLowLevel.MotorType.kBrushless);
   CANSparkMax intakeSpinMotorB = new CANSparkMax(kManip.INTAKE_SPEED_MOTOR_B_ID, CANSparkLowLevel.MotorType.kBrushless);
 
@@ -29,8 +32,31 @@ public class IntakeSubsystem extends SubsystemBase {
 
   /** Use this to set the intake to a custom speed. */
   public void setIntakeSpinSpeed(double speed) {
-    intakeSpinMotorA.set(speed);
-    intakeSpinMotorB.set(speed);
+    if(topReversed) {
+      intakeSpinMotorA.set(-speed);
+    } else {
+      intakeSpinMotorA.set(speed);
+    }
+    if(bottomReversed) {
+      intakeSpinMotorB.set(-speed);
+    } else {
+      intakeSpinMotorB.set(speed);
+    }
+  }
+
+  public void toggleTop() {
+    if(topReversed) {
+      topReversed = false;
+    } else {
+      topReversed = true;
+    }
+  }
+  public void toggleBottom() {
+    if(bottomReversed) {
+      bottomReversed = false;
+    } else {
+      bottomReversed = true;
+    }
   }
 
   /** This configures the motor controllers */

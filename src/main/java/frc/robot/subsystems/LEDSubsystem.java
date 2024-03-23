@@ -28,7 +28,7 @@ public class LEDSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     if(leds != null) {
-      setColorRGB(new int[]{255, 255, 0});
+      rainbowPattern();
     }
   }
 

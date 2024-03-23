@@ -14,7 +14,7 @@ public class IndexerSubsystem extends SubsystemBase{
     // public CANSparkMax indexerMotor;
     public TalonFX indexerMotor;
 
-    public DigitalInput beamBreakSensor = new DigitalInput(1);
+    public DigitalInput beamBreakSensor = new DigitalInput(2);
 
     public double lastBeamBreakTriggerTimeStamp;
 

@@ -72,7 +72,7 @@ public class RobotContainer {
    */
   private void configureBindings() {
     
-    m_ledSubsystem.setDefaultCommand(new RunCommand(() -> m_ledSubsystem.rainbowPattern(), m_ledSubsystem));
+    m_ledSubsystem.setDefaultCommand(new RunCommand(() -> m_ledSubsystem.idleMode(m_driveSubsystem.getGyroRotation().getDegrees()), m_ledSubsystem));
 
     m_driverController.rightBumper().whileTrue(new FollowCurrentTarget(
       m_visionSubsystem, 
@@ -117,7 +117,7 @@ public class RobotContainer {
       ));
       m_manipulatorController.rightBumper().whileTrue(new ParallelDeadlineGroup(
         new OuttakeNote(m_intakeSubsystem, m_indexerSubsystem)
-        ,new RunCommand(() -> m_ledSubsystem.setColorRGB(new int[]{255, 0, 0}), m_ledSubsystem)
+        ,new RunCommand(() -> m_ledSubsystem.setColorRGB(new int[]{255, 100, 0}), m_ledSubsystem)
       ));
     }
     
@@ -168,7 +168,7 @@ public class RobotContainer {
     autoMap.put("speakerShoot", new RunCommand(() -> m_shooterSubsystem.setShooterState(2), m_shooterSubsystem));
     autoMap.put("ampShoot", new RunCommand(() -> m_shooterSubsystem.setShooterState(1), m_shooterSubsystem));
     autoMap.put("stopShooter", new StopShooter(m_shooterSubsystem));
-    autoMap.put("smartIntake", new IntakeNote(m_intakeSubsystem, m_indexerSubsystem));
+    autoMap.put("smartIntake", new IntakeNote(true, m_intakeSubsystem, m_indexerSubsystem));
     autoMap.put("smartShoot", new RunCommand(() -> m_shooterSubsystem.setShooterState(2), m_shooterSubsystem).withTimeout(0.2));
     NamedCommands.registerCommands(autoMap);
   }

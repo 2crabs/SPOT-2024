@@ -83,12 +83,12 @@ public final class Constants {
     public static final double ANGLE_RPM_TO_RADIANS_PER_SECOND = DRIVE_ROTATIONS_TO_METERS / 60.0;
 
     /** Speed ramp. */
-    public static final double OPEN_LOOP_RAMP = 0.25;
-    public static final double CLOSED_LOOP_RAMP = 0.0;
+    public static final double OPEN_LOOP_RAMP = 0.3;
+    public static final double CLOSED_LOOP_RAMP = 0.2;
 
     /** Current limiting. */
-    public static final int DRIVE_CURRENT_LIMIT = 30;
-    public static final int ANGLE_CURRENT_LIMIT = 30;
+    public static final int DRIVE_CURRENT_LIMIT = 25;
+    public static final int ANGLE_CURRENT_LIMIT = 27;
 
     /** Drive motor PID values. */
     public static final double DRIVE_KP = 0.05;

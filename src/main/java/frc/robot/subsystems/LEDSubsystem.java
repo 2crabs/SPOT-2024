@@ -10,6 +10,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.kLED;
 
 public class LEDSubsystem extends SubsystemBase {
+  private boolean idle;
+
   private AddressableLED leds;
   private AddressableLEDBuffer ledBuffer;
 
@@ -18,6 +20,7 @@ public class LEDSubsystem extends SubsystemBase {
   /** Creates a new LEDSubsystem. */
   public LEDSubsystem() {
     leds = null;
+    idle = true;
     ledBuffer = new AddressableLEDBuffer(kLED.STRIP_LENGTH);
   }
 
@@ -27,9 +30,14 @@ public class LEDSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    if(leds != null) {
+    if(leds != null && idle) {
       rainbowPattern();
     }
+  }
+
+  public void idleMode(double rot) {
+    idle = true;
+    patternRainbowStart = (int)Math.round(rot/2) % 180;
   }
 
   /** 
@@ -42,6 +50,8 @@ public class LEDSubsystem extends SubsystemBase {
     }
 
     leds.setData(ledBuffer);
+
+    idle = false;
   }
 
   /** 
@@ -54,6 +64,8 @@ public class LEDSubsystem extends SubsystemBase {
     }
 
     leds.setData(ledBuffer);
+
+    idle = false;
   }
 
   /** ok i pull up */
@@ -64,9 +76,5 @@ public class LEDSubsystem extends SubsystemBase {
     }
 
     leds.setData(ledBuffer);
-
-    patternRainbowStart += 3;
-
-    patternRainbowStart %= 180;
   }
 }

@@ -308,4 +308,8 @@ public final class Constants {
     public static final double NOTE_COUNTER_SIZE = 10.0;
     public static final Scalar NOTE_COUNTER_COLOR = new Scalar(0, 0, 0);
   }
+
+  public static class kLED {
+    public static final int STRIP_LENGTH = 99;
+  }
 }

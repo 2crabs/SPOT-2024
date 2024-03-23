@@ -28,6 +28,7 @@ import frc.robot.commands.StopShooter;
 import frc.robot.commands.VisionSpeakerShooting;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveDrive;
 import frc.robot.subsystems.Vision;
@@ -35,12 +36,13 @@ import frc.robot.subsystems.Vision;
 public class RobotContainer {
   public HashMap<String, Command> autoMap = new HashMap<>();
 
-  private final SendableChooser<Command> autoChooser;
+  //private final SendableChooser<Command> autoChooser;
   private final Vision m_visionSubsystem = new Vision();
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
   private final IndexerSubsystem m_indexerSubsystem = new IndexerSubsystem();
   private final SwerveDrive m_driveSubsystem = new SwerveDrive(m_visionSubsystem);
+  private final LEDSubsystem m_ledSubsystem = new LEDSubsystem();
 
   public final CommandXboxController m_driverController =
       new CommandXboxController(kControls.DRIVE_CONTROLLER_ID);
@@ -48,11 +50,11 @@ public class RobotContainer {
       new CommandXboxController(kControls.MANIPULATOR_CONTROLLER_ID);
 
   public RobotContainer() {
-    configureAutoMap();
+    //configureAutoMap();
     configureBindings();
 
-    autoChooser = AutoBuilder.buildAutoChooser();
-    SmartDashboard.putData("Auto Chooser", autoChooser);
+    //autoChooser = AutoBuilder.buildAutoChooser();
+    //SmartDashboard.putData("Auto Chooser", autoChooser);
   }
 
   /**
@@ -74,6 +76,8 @@ public class RobotContainer {
       () -> -kControls.Y_DRIVE_LIMITER.calculate(m_driverController.getRawAxis(kControls.TRANSLATION_X_AXIS))
     ));
     */
+
+    m_ledSubsystem.setDefaultCommand(new RunCommand(() -> m_ledSubsystem.rainbowPattern(), m_ledSubsystem));
 
     m_driverController.rightBumper().whileTrue(new VisionSpeakerShooting(m_visionSubsystem, m_driveSubsystem, true, false));
 
@@ -157,7 +161,8 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return autoChooser.getSelected();
+    return null;
+    //return autoChooser.getSelected();
   }
 }
 

@@ -148,6 +148,36 @@ public class Robot extends TimedRobot {
   @Override
   public void simulationPeriodic() {}
 
+  public Thread indicatorThread() {
+    return new Thread(
+      ()-> {
+        Mat mat = new Mat();
+        mat.reshape(480, 480);
+
+        CvSource outputSource = CameraServer.putVideo("Note Indicator", 480, 480);
+
+        while(!Thread.interrupted()) {
+          if(m_robotContainer != null) {
+            if(m_robotContainer.getIndexerSubsystem().hasNote()) {
+              for(int x = 0; x < mat.width(); x++) {
+                for(int y = 0; y < mat.height(); y++) {
+                  mat.put(x, y, new double[]{0.0, 255.0, 0.0});
+                }
+              }
+            } else {
+              for(int x = 0; x < mat.width(); x++) {
+                for(int y = 0; y < mat.height(); y++) {
+                  mat.put(x, y, new double[]{255.0, 0.0, 0.0});
+                }
+              }
+            }
+          }
+          outputSource.putFrame(mat);
+        }
+      }
+    );
+  }
+
   public Thread setupVisionThread() {
     return new Thread(
       () -> {

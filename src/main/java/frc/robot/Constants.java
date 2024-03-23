@@ -7,6 +7,9 @@ package frc.robot;
 import org.opencv.core.Point;
 import org.opencv.core.Scalar;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
@@ -225,6 +228,21 @@ public final class Constants {
     public static final int SHOOTER_MOTOR_A_ID = 15;
     public static final int SHOOTER_MOTOR_B_ID = 16;
 
+    public static final int CLIMB_MOTOR_A_ID = 0;
+    public static final int CLIMB_MOTOR_B_ID = 0;
+
+    public static final double CLIMB_MOTOR_PID_P = 0.0;
+    public static final double CLIMB_MOTOR_PID_I = 0.0;
+    public static final double CLIMB_MOTOR_PID_D = 0.0;
+
+    public static final boolean CLIMB_MOTOR_A_INVERTED = false;
+    public static final boolean CLIMB_MOTOR_B_INVERTED = false;
+
+    public static final NeutralMode CLIMB_MOTOR_NEUTRAL_MODE = NeutralMode.Brake;
+
+    public static final int CLIMB_CURRENT_LIMIT = 20;
+    public static final double CLIMB_VOLTAGE_RAMP = 0;
+
     public static final double SHOOTER_MOTOR_A_PID_P = 0.0;
     public static final double SHOOTER_MOTOR_A_PID_I = 0.0;
     public static final double SHOOTER_MOTOR_A_PID_D = 0.0;
@@ -245,6 +263,9 @@ public final class Constants {
 
     /** Default spin speed for the indexer when intaking a note. */
     public static final double INDEXER_SPIN_SPEED = -0.8;
+
+    /** The delay that will happen in between the beam break sensor triggering and the intake stopping */
+    public static double BEAM_BREAK_SENSOR_INDEXER_DELAY = 0.0;
 
     /** Table of shooter spin speeds and the distance they shoot. <p>TODO: Make the table */
     public static final double[][] SHOOTER_SPEED_ARRAY = {

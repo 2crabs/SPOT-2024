@@ -37,10 +37,16 @@ public class IntakeSubsystem extends SubsystemBase {
   private void configureHardware() {
     intakeSpinMotorA.restoreFactoryDefaults();
     intakeSpinMotorA.setInverted(true);
-    intakeSpinMotorA.setIdleMode(IdleMode.kBrake);
+    intakeSpinMotorA.setIdleMode(IdleMode.kCoast);
+    intakeSpinMotorA.setSmartCurrentLimit(20);
+    //intakeSpinMotorA.setOpenLoopRampRate(0.25);
+    //intakeSpinMotorA.setClosedLoopRampRate(0.25);
 
     intakeSpinMotorB.restoreFactoryDefaults();
     intakeSpinMotorB.setInverted(true);
-    intakeSpinMotorB.setIdleMode(IdleMode.kBrake);
+    intakeSpinMotorB.setIdleMode(IdleMode.kCoast);
+    intakeSpinMotorB.setSmartCurrentLimit(20);
+    //intakeSpinMotorB.setOpenLoopRampRate(0.25);
+    //intakeSpinMotorB.setClosedLoopRampRate(0.25);
   }
 }

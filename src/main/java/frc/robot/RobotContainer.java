@@ -168,7 +168,8 @@ public class RobotContainer {
     autoMap.put("speakerShoot", new RunCommand(() -> m_shooterSubsystem.setShooterState(2), m_shooterSubsystem));
     autoMap.put("ampShoot", new RunCommand(() -> m_shooterSubsystem.setShooterState(1), m_shooterSubsystem));
     autoMap.put("stopShooter", new StopShooter(m_shooterSubsystem));
-    autoMap.put("smartIntake", new IntakeNote(true, m_intakeSubsystem, m_indexerSubsystem));
+    autoMap.put("smartIntake", new IntakeNote(m_intakeSubsystem, m_indexerSubsystem));
+    autoMap.put("smartShoot", new RunCommand(() -> m_shooterSubsystem.setShooterState(2), m_shooterSubsystem).withTimeout(0.2));
     NamedCommands.registerCommands(autoMap);
   }
 
@@ -179,8 +180,11 @@ public class RobotContainer {
     //autoChooser.addOption("1 Note - Speaker Start", getAutonomousCommand());
     autoChooser.addOption("2 Note - Speaker Start", AutoBuilder.buildAuto("Speaker Start - 2 Note"));
     autoChooser.addOption("3 Note - Speaker Start", AutoBuilder.buildAuto("3 Notes"));
-    autoChooser.addOption("4 Note - Speaker Start", AutoBuilder.buildAuto("Speaker Start - 4 Note"));
+    autoChooser.addOption("4 Note - Speaker Start", AutoBuilder.buildAuto("Speaker 4 Note"));
+    autoChooser.addOption("5 Note - Speaker Start", AutoBuilder.buildAuto("Speaker Start - 5 Note"));
     autoChooser.addOption("Swiper, No Swiping! - Amp Start", AutoBuilder.buildAuto("Swiper Amp"));
+    autoChooser.addOption("Swiper, No Swiping! - Source Start", AutoBuilder.buildAuto("Swiper Source"));
+    autoChooser.addOption("Testing Auto", AutoBuilder.buildAuto("Testing"));
   }
 
   public Command getAutonomousCommand() {

@@ -61,7 +61,7 @@ public final class Constants {
     /** Constants that apply to the whole drive train. */
     public static final double TRACK_WIDTH = Units.inchesToMeters(19.5); // Width of the drivetrain measured from the middle of the wheels.
     public static final double WHEEL_BASE = Units.inchesToMeters(19.5); // Length of the drivetrain measured from the middle of the wheels.
-    public static final double WHEEL_DIAMETER = Units.inchesToMeters(4);
+    public static final double WHEEL_DIAMETER = Units.inchesToMeters(3.865);
     public static final double WHEEL_CIRCUMFRENCE = WHEEL_DIAMETER * Math.PI;
 
     public static final SwerveDriveKinematics KINEMATICS = new SwerveDriveKinematics(

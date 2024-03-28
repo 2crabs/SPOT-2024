@@ -26,6 +26,7 @@ import frc.robot.commands.StopIndexer;
 import frc.robot.commands.StopIntake;
 import frc.robot.commands.StopShooter;
 import frc.robot.commands.VisionSpeakerShooting;
+import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -40,6 +41,7 @@ public class RobotContainer {
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
   private final IndexerSubsystem m_indexerSubsystem = new IndexerSubsystem();
+  private final ClimbSubsystem m_climbSubsystem = new ClimbSubsystem();
   private final SwerveDrive m_driveSubsystem = new SwerveDrive(m_visionSubsystem);
 
   public final CommandXboxController m_driverController =
@@ -139,6 +141,9 @@ public class RobotContainer {
         0.0
       ), m_shooterSubsystem)
     );
+
+    m_driverController.y().whileTrue(new RunCommand(() -> m_climbSubsystem.setClimbSpeed(0.1), m_climbSubsystem));
+    m_driverController.a().whileTrue(new RunCommand(() -> m_climbSubsystem.setClimbSpeed(-0.1), m_climbSubsystem));
 
     // m_manipulatorController.y().whileTrue(new RunCommand(() -> m_shooterSubsystem.setShooterState(2), m_shooterSubsystem));
     

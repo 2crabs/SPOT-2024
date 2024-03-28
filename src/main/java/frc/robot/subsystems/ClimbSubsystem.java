@@ -17,7 +17,13 @@ public class ClimbSubsystem extends SubsystemBase {
   private TalonSRX climbMotorA = new TalonSRX(kManip.CLIMB_MOTOR_A_ID);
   private TalonSRX climbMotorB = new TalonSRX(kManip.CLIMB_MOTOR_B_ID);
 
-  private PIDController climbMotorPID = new PIDController(
+  private PIDController climbMotorAPID = new PIDController(
+    kManip.CLIMB_MOTOR_PID_P, 
+    kManip.CLIMB_MOTOR_PID_I, 
+    kManip.CLIMB_MOTOR_PID_D
+  );
+
+  private PIDController climbMotorBPID = new PIDController(
     kManip.CLIMB_MOTOR_PID_P, 
     kManip.CLIMB_MOTOR_PID_I, 
     kManip.CLIMB_MOTOR_PID_D
@@ -32,8 +38,12 @@ public class ClimbSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    //double pidCalculation = climbMotorPID.calculate(targetPosition);
-    //climbMotorA.set()
+    /*
+    double pidCalculation = climbMotorAPID.calculate(climbMotorA.getSelectedSensorPosition(), targetPosition);
+    climbMotorA.set(ControlMode.PercentOutput, pidCalculation);
+    pidCalculation = climbMotorBPID.calculate(climbMotorB.getSelectedSensorPosition(), targetPosition);
+    climbMotorB.set(ControlMode.PercentOutput, pidCalculation);
+    */
   }
 
   public void setClimbSpeed(double speed) {

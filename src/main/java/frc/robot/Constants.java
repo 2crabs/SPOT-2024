@@ -243,6 +243,12 @@ public final class Constants {
     public static final int CLIMB_CURRENT_LIMIT = 20;
     public static final double CLIMB_VOLTAGE_RAMP = 0;
 
+    public static final double CLIMB_ROTATION_TO_HEIGHT = 1/360;
+    public static final double CLIMB_HEIGHT_TO_ROTATION = 1/CLIMB_ROTATION_TO_HEIGHT;
+
+    public static final double MINIMUM_CLIMB_HEIGHT = 0;
+    public static final double MAXIMUM_CLIMB_HEIGHT = 1.0;
+
     public static final double SHOOTER_MOTOR_A_PID_P = 0.0;
     public static final double SHOOTER_MOTOR_A_PID_I = 0.0;
     public static final double SHOOTER_MOTOR_A_PID_D = 0.0;

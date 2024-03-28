@@ -37,7 +37,7 @@ public class LEDSubsystem extends SubsystemBase {
 
   public void idleMode(double rot) {
     idle = true;
-    patternRainbowStart = (int)Math.round(rot/2) % 180;
+    patternRainbowStart = (int)Math.round(rot/2);
   }
 
   /** 
@@ -71,7 +71,7 @@ public class LEDSubsystem extends SubsystemBase {
   /** ok i pull up */
   public void rainbowPattern() {
     for(int i = 0; i < ledBuffer.getLength(); i++) {
-      int hue = (patternRainbowStart + (i*180 / ledBuffer.getLength())) % 180;
+      int hue = (patternRainbowStart + (i*5 /* / ledBuffer.getLength()*/)) % 180;
       ledBuffer.setHSV(i, hue, 255, 128);
     }
 

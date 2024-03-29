@@ -124,6 +124,8 @@ public class RobotContainer {
     //m_manipulatorController.a().onTrue(new ShootNoteIntoSpeaker(m_shooterSubsystem, m_indexerSubsystem));
     //m_manipulatorController.x().onTrue(new ShootNoteIntoAmp(m_shooterSubsystem, m_indexerSubsystem));
 
+    m_climbSubsystem.setDefaultCommand(new RunCommand(() -> m_climbSubsystem.setClimbSpeed(0), m_climbSubsystem));
+
     m_manipulatorController.a().onTrue(new RunCommand(() -> m_shooterSubsystem.setShooterState(2), m_shooterSubsystem));
     m_manipulatorController.x().onTrue(new RunCommand(() -> m_shooterSubsystem.setShooterState(1), m_shooterSubsystem));
 
@@ -142,8 +144,8 @@ public class RobotContainer {
       ), m_shooterSubsystem)
     );
 
-    m_driverController.y().whileTrue(new RunCommand(() -> m_climbSubsystem.setClimbSpeed(0.1), m_climbSubsystem));
-    m_driverController.a().whileTrue(new RunCommand(() -> m_climbSubsystem.setClimbSpeed(-0.1), m_climbSubsystem));
+    m_manipulatorController.y().whileTrue(new RunCommand(() -> m_climbSubsystem.setClimbSpeed(0.75), m_climbSubsystem));
+    m_manipulatorController.b().whileTrue(new RunCommand(() -> m_climbSubsystem.setClimbSpeed(-0.75), m_climbSubsystem));
 
     // m_manipulatorController.y().whileTrue(new RunCommand(() -> m_shooterSubsystem.setShooterState(2), m_shooterSubsystem));
     

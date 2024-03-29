@@ -228,14 +228,14 @@ public final class Constants {
     public static final int SHOOTER_MOTOR_A_ID = 15;
     public static final int SHOOTER_MOTOR_B_ID = 16;
 
-    public static final int CLIMB_MOTOR_A_ID = 0;
-    public static final int CLIMB_MOTOR_B_ID = 0;
+    public static final int CLIMB_MOTOR_A_ID = 4;
+    public static final int CLIMB_MOTOR_B_ID = 5;
 
     public static final double CLIMB_MOTOR_PID_P = 0.0;
     public static final double CLIMB_MOTOR_PID_I = 0.0;
     public static final double CLIMB_MOTOR_PID_D = 0.0;
 
-    public static final boolean CLIMB_MOTOR_A_INVERTED = false;
+    public static final boolean CLIMB_MOTOR_A_INVERTED = true;
     public static final boolean CLIMB_MOTOR_B_INVERTED = false;
 
     public static final NeutralMode CLIMB_MOTOR_NEUTRAL_MODE = NeutralMode.Brake;

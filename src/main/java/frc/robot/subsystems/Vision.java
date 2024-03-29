@@ -104,74 +104,118 @@ public class Vision extends SubsystemBase {
 
   }
 
+  /** 
+   * Sets the limelight's LED mode
+   * @param pipelineNumber The LED mode
+  */
   public void setLEDMode(LimelightLEDMode mode) {
     led_mode.setNumber(mode.modeID);
   }
 
+  /** 
+   * Gets the current LED mode of the limelight
+   * @return The LED mode
+   */
   public LimelightLEDMode getLEDMode() {
     return LimelightLEDMode.fromModeID(led_mode.getNumber(1).intValue());
   }
 
+  /** 
+   * Gets the current pipeline of the limelight
+   * @return The pipeline number as an int
+   */
   public int getCurrentPipeline() {
     return pipeline_get.getNumber(0).intValue();
   }
 
+  /** 
+   * Sets the limelight's pipeline
+   * @param pipelineNumber The pipeline number as an int
+  */
   public void setPipeline(int pipelineNumber) {
     pipeline_set.setNumber(pipelineNumber);
   }
 
+  /** Returns true if the limelight has a valid target apriltag */
   public boolean hasValidTarget() {
     return target_valid.getDouble(0) != 0.0;
   }
 
+  /** The latency from the limelight */
   public double getLatencyMS() {
     return pipeline_latency.getDouble(0) + image_latency.getDouble(0.0);
   }
 
+  /** The X offset of the targeted apriltag (54 degree range) */
   public double getTargetOffsetX() {
     return targetOffsetX;
   }
+  /** The Y offset of the targeted apriltag */
   public double getTargetOffsetY() {
     return targetOffsetY;
   }
+  /** The area of the targeted apriltag */
   public double getTargetArea() {
     return targetArea;
   }
+  /** The skew of the targeted apriltag */
   public double getTargetSkew() {
     return targetSkew;
   }
 
+  /** The length of the shortest side on the targeted apriltag in pixels */
   public double getTargetShortSideLength() {
     return short_side_length.getDouble(0);
   }
+  /** The length of the longest side on the targeted apriltag in pixels */
   public double getTargetLongSideLength() {
     return long_side_length.getDouble(0);
   }
+  /** The length of the x side on the targeted apriltag in pixels */
   public double getTargetXSideLength() {
     return x_side_length.getDouble(0);
   }
+  /** The length of the y side on the targeted apriltag in pixels */
   public double getTargetYSideLength() {
     return y_side_length.getDouble(0);
   }
 
+  /**
+   * This is the position of the robot on the field
+   * @return A {@link edu.wpi.first.math.geometry.Pose2d Pose2d} contatining the position of the robot
+   */
   public Pose2d getBotPose() {
     Rotation2d rotation = new Rotation2d(botPose[5]);
     Translation2d translation = new Translation2d(botPose[0],botPose[2]);
     return new Pose2d(translation, rotation);
   }
 
+  /**
+   * This is the position of the robot on the field based on the red alliance.
+   * @return A {@link edu.wpi.first.math.geometry.Pose2d Pose2d} contatining the position of the robot
+   */
   public Pose2d getBotPoseRed() {
     Rotation2d rotation = new Rotation2d(botPoseRed[5]);
     Translation2d translation = new Translation2d(botPoseRed[0],botPoseRed[2]);
     return new Pose2d(translation, rotation);
   }
 
+  /**
+   * This is the position of the robot on the field based on the blue alliance.
+   * @return A {@link edu.wpi.first.math.geometry.Pose2d Pose2d} contatining the position of the robot
+   */
   public Pose2d getBotPoseBlue() {
     Rotation2d rotation = new Rotation2d(botPoseBlue[5]);
     Translation2d translation = new Translation2d(botPoseBlue[0],botPoseBlue[2]);
     return new Pose2d(translation, rotation);
   }
 
+  /**
+   * This is the pose _x_ in _y_ space, based on vision measurements of the limelight.
+   * @param get A {@link frc.robot.subsystems.Vision.PoseSpace PoseEnum} of the space you want to return.
+   * @param space A {@link frc.robot.subsystems.Vision.PoseSpace PoseEnum} of the space you want to return.
+   * @return The position of [get] in [space] space.
+   */
   public Pose2d getPoseCustomSpace(PoseSpace get, PoseSpace space) {
     Rotation2d rotation = null;
     Translation2d translation = null;
@@ -208,6 +252,10 @@ public class Vision extends SubsystemBase {
     ROBOT, CAMERA, TARGET;
   }
 
+  /**
+   * The ID of the targeted april tag.
+   * @return The ID as an integer.
+   */
   public int getTargetID() {
     return target_id.getNumber(0).intValue();
   }
@@ -234,6 +282,11 @@ public class Vision extends SubsystemBase {
 
   // ### Raspberry Pi ### \\
 
+  /**
+   * This returns the x and y offset of the note
+   * @return A {@link edu.wpi.first.math.geometry.Translation2d Translation2d} 
+   * containig the position of the note in pixels
+   */
   public Translation2d getNoteScreenPose() {
     return new Translation2d(
       noteOffsetX,
@@ -241,24 +294,51 @@ public class Vision extends SubsystemBase {
     );
   }
 
+  /**
+   * This returns the x offset of the note based on the center
+   * @return The x offset of the note in pixels
+   */
   public double getNoteScreenOffsetX() {
     return noteOffsetX;
   }
+  /**
+   * This returns the y offset of the note based on the center
+   * @return The y offset of the note in pixels
+   */
   public double getNoteScreenOffsetY() {
     return noteOffsetY;
   }
+  /**
+   * This returns the area of the target note
+   * @return The area of the note in pixels
+   */
   public double getNoteScreenArea() {
     return noteScreenArea;
   }
 
+  /**
+   * This returns the homography matrix estimated by the raspberry pi.
+   * @return A double array containing all values in the homography matrix
+   */
   public double[] getNoteHomographyMatrix() {
     return noteHomographyMatrix;
   }
 
+  /** 
+   * This returns the estimated 3d pose of the raspberry pi's target note
+   * @return A double array containing the 3d pose of the note in camera space
+   * <p> getNotePos3D()[0] = X position
+   * <p> getNotePos3D()[1] = Y position
+   * <p> getNotePos3D()[2] = Z position
+   */
   public double[] getNotePose3D() {
     return note3dPose;
   }
 
+  /** 
+   * This returns the distance that the raspberry pi belives the note to be from the camera
+   * @return The distance from the target note to the robot's camera
+   */
   public double getNoteDistance() {
     return noteDistance;
   }

@@ -84,6 +84,17 @@ public class ClimbSubsystem extends SubsystemBase {
     }
   }
 
+  public void setClimbSpeedA(double speed) {
+    if(!motorAAtBound) {
+      climbMotorA.set(ControlMode.PercentOutput, speed);
+    }
+  }
+  public void setClimbSpeedB(double speed) {
+    if(!motorBAtBound) {
+      climbMotorB.set(ControlMode.PercentOutput, speed);
+    }
+  }
+
   private void configureHardware() {
     TalonSRXConfiguration configA = new TalonSRXConfiguration();
     TalonSRXConfiguration configB = new TalonSRXConfiguration();

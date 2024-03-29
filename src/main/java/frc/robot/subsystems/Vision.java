@@ -64,7 +64,8 @@ public class Vision extends SubsystemBase {
     target_note_area,
     target_note_homography_matrix,
     target_note_estimated_3d_pose,
-    target_note_estimated_distance;
+    target_note_estimated_distance,
+    has_valid_target_note;
 
   /** Creates a new Vision. */
   public Vision() {
@@ -343,6 +344,11 @@ public class Vision extends SubsystemBase {
     return noteDistance;
   }
 
+  /** Returns true if the raspberry pi has a valid target note */
+  public boolean hasValidNote() {
+    return has_valid_target_note.getBoolean(false);
+  }
+
   public void configureEntries() {
     target_valid = m_limelightTable.getEntry("tv");
     target_x = m_limelightTable.getEntry("tx");
@@ -374,5 +380,6 @@ public class Vision extends SubsystemBase {
     target_note_homography_matrix = m_raspberryPiTable.getEntry("homography");
     target_note_estimated_3d_pose = m_raspberryPiTable.getEntry("pose");
     target_note_estimated_distance = m_raspberryPiTable.getEntry("td");
+    has_valid_target_note = m_raspberryPiTable.getEntry("tv");
   }
 }

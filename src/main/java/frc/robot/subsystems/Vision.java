@@ -16,8 +16,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Vision extends SubsystemBase {
 
   private final NetworkTable m_limelightTable;
+  private final NetworkTable m_raspberryPiTable;
 
+  // Simple target estimations
   private double targetOffsetX, targetOffsetY, targetArea, targetSkew;
+  // 3d estimations from limelight
   private double[] 
     botPose, 
     botPoseTargetSpace,  
@@ -27,6 +30,16 @@ public class Vision extends SubsystemBase {
     camPoseTargetSpace, 
     targetPoseBotSpace, 
     targetPoseCamSpace;
+  // Simple note estimations
+  private double
+    noteOffsetX,
+    noteOffsetY,
+    noteScreenArea,
+    noteDistance;
+  // 3d estimations for notes
+  private double[]
+    noteHomographyMatrix,
+    note3dPose;
   private NetworkTableEntry 
     target_valid,
     target_x,
@@ -45,10 +58,18 @@ public class Vision extends SubsystemBase {
     led_mode,
     cam_mode,
     streaming_mode;
+  private NetworkTableEntry
+    target_note_x,
+    target_note_y,
+    target_note_area,
+    target_note_homography_matrix,
+    target_note_estimated_3d_pose,
+    target_note_estimated_distance;
 
   /** Creates a new Vision. */
   public Vision() {
     m_limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
+    m_raspberryPiTable = NetworkTableInstance.getDefault().getTable("notevision");
     configureEntries();
   }
 
@@ -68,6 +89,13 @@ public class Vision extends SubsystemBase {
     camPoseRobotSpace = m_limelightTable.getEntry("camerapose_targetspace").getDoubleArray(new double[6]);
     targetPoseCamSpace = m_limelightTable.getEntry("targetpose_cameraspace").getDoubleArray(new double[6]);
     targetPoseBotSpace = m_limelightTable.getEntry("targetpose_robotspace").getDoubleArray(new double[6]);
+
+    noteOffsetX = target_note_x.getDouble(0);
+    noteOffsetY = target_note_y.getDouble(0);
+    noteScreenArea = target_note_area.getDouble(0);
+    noteDistance = target_note_estimated_distance.getDouble(0);
+    noteHomographyMatrix = target_note_homography_matrix.getDoubleArray(new double[9]);
+    note3dPose = target_note_estimated_3d_pose.getDoubleArray(new double[6]);
 
     SmartDashboard.putNumber("targetXOffset", targetOffsetX);
     SmartDashboard.putNumber("targetYOffset", targetOffsetY);
@@ -204,6 +232,37 @@ public class Vision extends SubsystemBase {
     }
   }
 
+  // ### Raspberry Pi ### \\
+
+  public Translation2d getNoteScreenPose() {
+    return new Translation2d(
+      noteOffsetX,
+      noteOffsetY
+    );
+  }
+
+  public double getNoteScreenOffsetX() {
+    return noteOffsetX;
+  }
+  public double getNoteScreenOffsetY() {
+    return noteOffsetY;
+  }
+  public double getNoteScreenArea() {
+    return noteScreenArea;
+  }
+
+  public double[] getNoteHomographyMatrix() {
+    return noteHomographyMatrix;
+  }
+
+  public double[] getNotePose3D() {
+    return note3dPose;
+  }
+
+  public double getNoteDistance() {
+    return noteDistance;
+  }
+
   public void configureEntries() {
     target_valid = m_limelightTable.getEntry("tv");
     target_x = m_limelightTable.getEntry("tx");
@@ -226,5 +285,14 @@ public class Vision extends SubsystemBase {
     led_mode = m_limelightTable.getEntry("ledMode");
     cam_mode = m_limelightTable.getEntry("camMode");
     streaming_mode = m_limelightTable.getEntry("stream");
+
+    // ### Raspberry Pi ### \\
+
+    target_note_x = m_raspberryPiTable.getEntry("tx");
+    target_note_y = m_raspberryPiTable.getEntry("ty");
+    target_note_area = m_raspberryPiTable.getEntry("ta");
+    target_note_homography_matrix = m_raspberryPiTable.getEntry("homography");
+    target_note_estimated_3d_pose = m_raspberryPiTable.getEntry("pose");
+    target_note_estimated_distance = m_raspberryPiTable.getEntry("td");
   }
 }

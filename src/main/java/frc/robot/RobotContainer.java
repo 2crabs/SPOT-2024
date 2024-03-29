@@ -147,6 +147,9 @@ public class RobotContainer {
     m_manipulatorController.povLeft().whileTrue(new RunCommand(() -> m_climbSubsystem.setClimbSpeedA(0.25 * m_manipulatorController.getRightY()), m_climbSubsystem));
     m_manipulatorController.povRight().whileTrue(new RunCommand(() -> m_climbSubsystem.setClimbSpeedB(0.25 * m_manipulatorController.getRightY()), m_climbSubsystem));
 
+    m_manipulatorController.y().whileTrue(new RunCommand(() -> m_climbSubsystem.setClimbSpeed(0.25), m_climbSubsystem));
+    m_manipulatorController.b().whileTrue(new RunCommand(() -> m_climbSubsystem.setClimbSpeed(-0.25), m_climbSubsystem));
+
     // m_manipulatorController.y().whileTrue(new RunCommand(() -> m_shooterSubsystem.setShooterState(2), m_shooterSubsystem));
     
     //m_driveSubsystem.setDefaultCommand(m_driveSubsystem.jogTurnMotors(1 * Constants.kSwerve.MAX_VELOCITY_METERS_PER_SECOND, false));

@@ -235,12 +235,12 @@ public final class Constants {
     public static final double CLIMB_MOTOR_PID_I = 0.0;
     public static final double CLIMB_MOTOR_PID_D = 0.0;
 
-    public static final boolean CLIMB_MOTOR_A_INVERTED = true;
+    public static final boolean CLIMB_MOTOR_A_INVERTED = false;
     public static final boolean CLIMB_MOTOR_B_INVERTED = false;
 
     public static final NeutralMode CLIMB_MOTOR_NEUTRAL_MODE = NeutralMode.Brake;
 
-    public static final int CLIMB_CURRENT_LIMIT = 20;
+    public static final int CLIMB_CURRENT_LIMIT = 80;
     public static final double CLIMB_VOLTAGE_RAMP = 0;
 
     public static final double CLIMB_ROTATION_TO_HEIGHT = 1/360;

@@ -91,9 +91,9 @@ public class SnapToSpeaker extends Command {
     if(visionSubsystem.hasValidTarget()) {
       rotation = visionSubsystem.getTargetOffsetX()/(360 * 0.7);
     } else {
-      rotation = -1.2;
+      rotation = 1.2;
       if(driveSubsystem.getGyroRotation().getDegrees() > 0) {
-        rotation = 1.2;
+        rotation = -1.2;
       }
     }
 

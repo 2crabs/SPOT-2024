@@ -96,7 +96,7 @@ public class ClimbSubsystem extends SubsystemBase {
       if(reversed) {
         climbMotorA.set(ControlMode.PercentOutput, -speed);
       } else {
-        climbMotorA.set(ControlMode.PercentOutput, -speed);
+        climbMotorA.set(ControlMode.PercentOutput, speed);
       }
     }
   }

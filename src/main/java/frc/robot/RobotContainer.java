@@ -144,8 +144,8 @@ public class RobotContainer {
       ), m_shooterSubsystem)
     );
 
-    m_manipulatorController.povLeft().whileTrue(new RunCommand(() -> m_climbSubsystem.setClimbSpeedA(0.25 * m_manipulatorController.getRightY()), m_climbSubsystem));
-    m_manipulatorController.povRight().whileTrue(new RunCommand(() -> m_climbSubsystem.setClimbSpeedB(0.25 * m_manipulatorController.getRightY()), m_climbSubsystem));
+    m_manipulatorController.leftBumper().whileTrue(new RunCommand(() -> m_climbSubsystem.setClimbSpeedA(0.25), m_climbSubsystem));
+    m_manipulatorController.rightBumper().whileTrue(new RunCommand(() -> m_climbSubsystem.setClimbSpeedB(0.25), m_climbSubsystem));
 
     m_manipulatorController.y().whileTrue(new RunCommand(() -> m_climbSubsystem.setClimbSpeed(0.25), m_climbSubsystem));
     m_manipulatorController.b().whileTrue(new RunCommand(() -> m_climbSubsystem.setClimbSpeed(-0.25), m_climbSubsystem));

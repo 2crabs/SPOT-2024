@@ -38,6 +38,8 @@ public class ClimbSubsystem extends SubsystemBase {
 
   private double targetPosition = 0.0;
 
+  private boolean reversed = false;
+
   /** Creates a new ClimbSubsystem. */
   public ClimbSubsystem() {
     configureHardware();
@@ -82,16 +84,29 @@ public class ClimbSubsystem extends SubsystemBase {
       climbMotorA.set(ControlMode.PercentOutput, speed);
       climbMotorB.set(ControlMode.PercentOutput, speed);
     }
+    if(speed < 0) {
+      reversed = true;
+    } else {
+      reversed = false;
+    }
   }
 
   public void setClimbSpeedA(double speed) {
     if(!motorAAtBound) {
-      climbMotorA.set(ControlMode.PercentOutput, speed);
+      if(reversed) {
+        climbMotorA.set(ControlMode.PercentOutput, -speed);
+      } else {
+        climbMotorA.set(ControlMode.PercentOutput, -speed);
+      }
     }
   }
   public void setClimbSpeedB(double speed) {
     if(!motorBAtBound) {
-      climbMotorB.set(ControlMode.PercentOutput, speed);
+      if(reversed) {
+        climbMotorB.set(ControlMode.PercentOutput, -speed);
+      } else {
+        climbMotorB.set(ControlMode.PercentOutput, speed);
+      }
     }
   }
 

@@ -42,6 +42,7 @@ public class SnapToSpeaker extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    /*
     double speakerOffset = 0.0;
 
     if(kVision.USE_FIELD_POS_IN_SNAP_COMMANDS) { 
@@ -84,6 +85,22 @@ public class SnapToSpeaker extends Command {
     double finalRotation = driveSubsystem.getGyroRotation().getDegrees() + speakerOffset;
 
     driveSubsystem.drive(deadzoneForward, deadzoneSideways, finalRotation, true, true);
+    */
+
+    double rotation = 0;
+    if(visionSubsystem.hasValidTarget()) {
+      rotation = visionSubsystem.getTargetOffsetX()/(360 * 0.7);
+    } else {
+      rotation = -1.2;
+      if(driveSubsystem.getGyroRotation().getDegrees() > 0) {
+        rotation = 1.2;
+      }
+    }
+
+    double deadzoneForward = deadzone(forwardAxis.getAsDouble(), Constants.kControls.TRANSLATION_DEADZONE) * 3.5;
+    double deadzoneSideways = deadzone(sidewaysAxis.getAsDouble(), Constants.kControls.TRANSLATION_DEADZONE) * 3.5;
+
+    driveSubsystem.basicDrive(deadzoneForward, deadzoneSideways, rotation, true);
   }
 
   public double deadzone(double input, double tolerance){

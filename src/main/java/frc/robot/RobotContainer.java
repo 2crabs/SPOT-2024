@@ -29,6 +29,7 @@ import frc.robot.commands.StopIndexer;
 import frc.robot.commands.StopIntake;
 import frc.robot.commands.StopShooter;
 import frc.robot.commands.VisionSpeakerShooting;
+import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
@@ -44,6 +45,7 @@ public class RobotContainer {
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
   private final IndexerSubsystem m_indexerSubsystem = new IndexerSubsystem();
+  private final ClimbSubsystem m_climbSubsystem = new ClimbSubsystem();
   private final SwerveDrive m_driveSubsystem = new SwerveDrive(m_visionSubsystem);
   private final LEDSubsystem m_ledSubsystem = new LEDSubsystem();
 
@@ -134,6 +136,8 @@ public class RobotContainer {
     //m_manipulatorController.a().onTrue(new ShootNoteIntoSpeaker(m_shooterSubsystem, m_indexerSubsystem));
     //m_manipulatorController.x().onTrue(new ShootNoteIntoAmp(m_shooterSubsystem, m_indexerSubsystem));
 
+    m_climbSubsystem.setDefaultCommand(new RunCommand(() -> m_climbSubsystem.setClimbSpeed(0), m_climbSubsystem));
+
     m_manipulatorController.povUp().onTrue(new RunCommand(() -> m_intakeSubsystem.toggleTop(), m_intakeSubsystem));
     m_manipulatorController.povDown().onTrue(new RunCommand(() -> m_intakeSubsystem.toggleBottom(), m_intakeSubsystem));
 
@@ -157,6 +161,12 @@ public class RobotContainer {
         0.0
       ), m_shooterSubsystem)
     );
+
+    m_manipulatorController.povLeft().whileTrue(new RunCommand(() -> m_climbSubsystem.setClimbSpeedA(0.25 * m_manipulatorController.getRightY()), m_climbSubsystem));
+    m_manipulatorController.povRight().whileTrue(new RunCommand(() -> m_climbSubsystem.setClimbSpeedB(0.25 * m_manipulatorController.getRightY()), m_climbSubsystem));
+
+    m_manipulatorController.b().whileTrue(new RunCommand(() -> m_climbSubsystem.setClimbSpeed(0.25), m_climbSubsystem));
+    m_manipulatorController.y().whileTrue(new RunCommand(() -> m_climbSubsystem.setClimbSpeed(-0.25), m_climbSubsystem));
 
     // m_manipulatorController.y().whileTrue(new RunCommand(() -> m_shooterSubsystem.setShooterState(2), m_shooterSubsystem));
     

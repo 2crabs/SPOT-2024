@@ -257,9 +257,10 @@ public final class Constants {
     public static final double SHOOTER_MOTOR_B_PID_I = 0.0;
     public static final double SHOOTER_MOTOR_B_PID_D = 0.0;
 
+    // 0.225 for amp (battery dead :( ))
     // First item should be how it starts, second should be amp shooting, and other ones should be speaker shooting.
     public static final double[] SHOOTER_SPEED_STATE_VALUES = new double[]{
-      0, 0.26, 1.0
+      0, 0.225, 1.0
     };
 
     public static final boolean USE_TUNED_SHOOTER_VALUES = false;

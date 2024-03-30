@@ -78,10 +78,10 @@ public class RobotContainer {
     m_ledSubsystem.setDefaultCommand(new RunCommand(() -> m_ledSubsystem.idleMode(m_driveSubsystem.getGyroRotation().getDegrees()), m_ledSubsystem));
 
     m_driverController.rightTrigger().whileTrue(new SnapToSpeaker(
+      m_driveSubsystem,
+      m_visionSubsystem,
       () -> -kControls.X_DRIVE_LIMITER.calculate(m_driverController.getRawAxis(kControls.TRANSLATION_Y_AXIS)),
-      () -> -kControls.Y_DRIVE_LIMITER.calculate(m_driverController.getRawAxis(kControls.TRANSLATION_X_AXIS)),
-      m_visionSubsystem, 
-      m_driveSubsystem
+      () -> -kControls.Y_DRIVE_LIMITER.calculate(m_driverController.getRawAxis(kControls.TRANSLATION_X_AXIS))
     ));
 
     // m_driverController.rightBumper().whileTrue(new VisionSpeakerShooting(m_visionSubsystem, m_driveSubsystem, true, false));

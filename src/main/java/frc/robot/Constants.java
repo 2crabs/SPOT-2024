@@ -189,11 +189,11 @@ public final class Constants {
 
     //#region AprilTag IDs
     // Blue Speaker
-    public static final int SPEAKER_APRILTAG_ID_BLUE = 7;
-    public static final int SPEAKER_SIDE_APRILTAG_ID_BLUE = 8;
+    public static final int SPEAKER_APRILTAG_ID_BLUE = 8;
+    public static final int SPEAKER_SIDE_APRILTAG_ID_BLUE = 7;
     // Red Speaker
-    public static final int SPEAKER_APRILTAG_ID_RED = 3;
-    public static final int SPEAKER_SIDE_APRILTAG_ID_RED = 4;
+    public static final int SPEAKER_APRILTAG_ID_RED = 4;
+    public static final int SPEAKER_SIDE_APRILTAG_ID_RED = 3;
     // Blue Amp
     public static final int AMP_APRILTAG_ID_BLUE = 6;
     // Red Amp

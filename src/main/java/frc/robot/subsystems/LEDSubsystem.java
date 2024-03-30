@@ -40,6 +40,12 @@ public class LEDSubsystem extends SubsystemBase {
     patternRainbowStart = (int)Math.round(rot/2);
   }
 
+  public void shooterSpeed(double speed, double targetspeed) {
+    if(speed >= targetspeed) {
+      setColorRGB(new int[]{0, 255, 0});
+    }
+  }
+
   /** 
    * Sets the color of the LED strip
    * @param color the color that the LEDs will be set to in RGB.

@@ -70,6 +70,10 @@ public class ShooterSubsystem extends SubsystemBase {
     shooterMotorBSetPoint = speed;
   }
 
+  public double getShooterSpeed() {
+    return shooterMotorA.getOutputCurrent();
+  }
+
   /** 
    * You use this to choose a state for the shooter.
    * @param state

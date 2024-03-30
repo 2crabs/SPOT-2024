@@ -25,6 +25,7 @@ import frc.robot.commands.DriveCommand;
 import frc.robot.commands.FollowCurrentTarget;
 import frc.robot.commands.IntakeNote;
 import frc.robot.commands.OuttakeNote;
+import frc.robot.commands.SnapToSpeaker;
 import frc.robot.commands.StopIndexer;
 import frc.robot.commands.StopIntake;
 import frc.robot.commands.StopShooter;
@@ -76,11 +77,11 @@ public class RobotContainer {
     
     m_ledSubsystem.setDefaultCommand(new RunCommand(() -> m_ledSubsystem.idleMode(m_driveSubsystem.getGyroRotation().getDegrees()), m_ledSubsystem));
 
-    m_driverController.rightBumper().whileTrue(new FollowCurrentTarget(
-      m_visionSubsystem, 
-      m_driveSubsystem, 
+    m_driverController.rightTrigger().whileTrue(new SnapToSpeaker(
       () -> -kControls.X_DRIVE_LIMITER.calculate(m_driverController.getRawAxis(kControls.TRANSLATION_Y_AXIS)),
-      () -> -kControls.Y_DRIVE_LIMITER.calculate(m_driverController.getRawAxis(kControls.TRANSLATION_X_AXIS))
+      () -> -kControls.Y_DRIVE_LIMITER.calculate(m_driverController.getRawAxis(kControls.TRANSLATION_X_AXIS)),
+      m_visionSubsystem, 
+      m_driveSubsystem
     ));
 
     // m_driverController.rightBumper().whileTrue(new VisionSpeakerShooting(m_visionSubsystem, m_driveSubsystem, true, false));
@@ -141,7 +142,7 @@ public class RobotContainer {
     m_manipulatorController.povUp().onTrue(new RunCommand(() -> m_intakeSubsystem.toggleTop(), m_intakeSubsystem));
     m_manipulatorController.povDown().onTrue(new RunCommand(() -> m_intakeSubsystem.toggleBottom(), m_intakeSubsystem));
 
-    m_manipulatorController.a().onTrue(new RunCommand(() -> m_shooterSubsystem.setShooterState(2), m_shooterSubsystem));
+    m_manipulatorController.a().onTrue(new RunCommand(() -> m_shooterSubsystem.setShooterState(2), m_shooterSubsystem) );
     m_manipulatorController.x().onTrue(new RunCommand(() -> m_shooterSubsystem.setShooterState(1), m_shooterSubsystem));
 
     m_manipulatorController.povUp().onTrue(new RunCommand(() -> m_intakeSubsystem.setIntakeSpinSpeed(kManip.INTAKE_SPIN_SPEED), m_intakeSubsystem));
@@ -195,6 +196,7 @@ public class RobotContainer {
     autoChooser.addOption("3 Note - Speaker Start", AutoBuilder.buildAuto("3 Notes"));
     autoChooser.addOption("4 Note - Speaker Start", AutoBuilder.buildAuto("Speaker 4 Note"));
     autoChooser.addOption("5 Note - Speaker Start", AutoBuilder.buildAuto("Speaker Start - 5 Note"));
+    autoChooser.addOption("1 Note - Amp Start", AutoBuilder.buildAuto("Amp 1 Note"));
     autoChooser.addOption("Swiper, No Swiping! - Amp Start", AutoBuilder.buildAuto("Swiper Amp"));
     autoChooser.addOption("Swiper, No Swiping! - Source Start", AutoBuilder.buildAuto("Swiper Source"));
     autoChooser.addOption("Testing Auto", AutoBuilder.buildAuto("Testing"));

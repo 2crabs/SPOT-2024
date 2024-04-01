@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.Constants.kField;
@@ -87,13 +88,19 @@ public class SnapToSpeaker extends Command {
     driveSubsystem.drive(deadzoneForward, deadzoneSideways, finalRotation, true, true);
     */
 
+    double gyroRot = driveSubsystem.getGyroRotation().getDegrees();
+    if(gyroRot < 0) {
+      gyroRot += 360;
+    }
+    SmartDashboard.putNumber("Gyro", gyroRot);
+
     double rotation = 0;
     if(visionSubsystem.hasValidTarget()) {
-      rotation = visionSubsystem.getTargetOffsetX()/(360 * 0.7);
+      rotation = -visionSubsystem.getTargetOffsetX()/10;
     } else {
-      rotation = 1.2;
-      if(driveSubsystem.getGyroRotation().getDegrees() > 0) {
-        rotation = -1.2;
+      rotation = 0.0;
+      if(driveSubsystem.getGyroRotation().getDegrees() < 180) {
+        rotation = -0.0;
       }
     }
 

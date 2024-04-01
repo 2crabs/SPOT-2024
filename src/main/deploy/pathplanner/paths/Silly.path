@@ -208,12 +208,220 @@
     },
     {
       "anchor": {
+        "x": 8.37550393049504,
+        "y": 2.362219197372869
+      },
+      "prevControl": {
+        "x": 8.858475565402514,
+        "y": 3.703277544158788
+      },
+      "nextControl": {
+        "x": 7.892532295587561,
+        "y": 1.0211608505869467
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 8.37550393049504,
+        "y": 7.589506233144788
+      },
+      "prevControl": {
+        "x": 8.920475866142766,
+        "y": 7.047046584747127
+      },
+      "nextControl": {
+        "x": 7.830531994847309,
+        "y": 8.131965881542449
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 13.766509128459854,
+        "y": 7.086657592118603
+      },
+      "prevControl": {
+        "x": 18.443834686412302,
+        "y": 11.763983150070997
+      },
+      "nextControl": {
+        "x": 13.15841309745297,
+        "y": 6.478561561111726
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 6.8786521618591285,
+        "y": 6.852774503269805
+      },
+      "prevControl": {
+        "x": 8.211308003151862,
+        "y": 7.1576379141822715
+      },
+      "nextControl": {
+        "x": -0.5847077221219968,
+        "y": 5.145427954673573
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.779401644269774,
+        "y": 3.765517730465661
+      },
+      "prevControl": {
+        "x": 3.768789309923011,
+        "y": 4.231231845476514
+      },
+      "nextControl": {
+        "x": 7.790013978616535,
+        "y": 3.29980361545481
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 7.416583266214966,
+        "y": 5.402699352407253
+      },
+      "prevControl": {
+        "x": 8.091774620698327,
+        "y": 5.484609409712499
+      },
+      "nextControl": {
+        "x": 6.741391911731603,
+        "y": 5.3207892951020055
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 7.849266980585242,
+        "y": 1.7307348574811106
+      },
+      "prevControl": {
+        "x": 8.09444008779549,
+        "y": 2.341879088304755
+      },
+      "nextControl": {
+        "x": 7.604093873374995,
+        "y": 1.1195906266574647
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 6.57460414635929,
+        "y": 4.2332839081632585
+      },
+      "prevControl": {
+        "x": -0.5847077221219968,
+        "y": 0.3508246332731984
+      },
+      "nextControl": {
+        "x": 7.171381387935303,
+        "y": 4.556913242820473
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 7.299641721790566,
+        "y": 2.6662672128763063
+      },
+      "prevControl": {
+        "x": 7.731810235305449,
+        "y": 3.1117886426272237
+      },
+      "nextControl": {
+        "x": 6.867473208275683,
+        "y": 2.22074578312539
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 9.240871359235594,
+        "y": 3.4029989427500227
+      },
+      "prevControl": {
+        "x": 9.578220683487661,
+        "y": 3.3242115521827658
+      },
+      "nextControl": {
+        "x": 0.17790166634464188,
+        "y": 5.51964089683165
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 6.6915456907836885,
+        "y": 2.362219197372869
+      },
+      "prevControl": {
+        "x": 5.595477857706129,
+        "y": 2.370120142161136
+      },
+      "nextControl": {
+        "x": 7.787613523861246,
+        "y": 2.3543182525846014
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 4.905013570511999,
+        "y": 4.186745547490327
+      },
+      "prevControl": {
+        "x": 6.3463135471866226,
+        "y": 3.270531900037464
+      },
+      "nextControl": {
+        "x": 3.463713593837375,
+        "y": 5.10295919494319
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.779401644269774,
+        "y": 6.2797609355902475
+      },
+      "prevControl": {
+        "x": 3.7571421926114574,
+        "y": 7.621805749131442
+      },
+      "nextControl": {
+        "x": 7.801661095928091,
+        "y": 4.937716122049053
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
         "x": 5.779401644269774,
         "y": 1.7307348574811106
       },
       "prevControl": {
-        "x": 5.529401644269774,
-        "y": 3.2307348574811092
+        "x": 10.047768015763952,
+        "y": 8.794004140714835
       },
       "nextControl": null,
       "isLocked": false,
@@ -222,10 +430,79 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "did u pray today",
+      "waypointRelativePos": 8.95,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "IntakeNote"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "balls",
+      "waypointRelativePos": 9.600000000000001,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "speakerShoot"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "tactical toaster",
+      "waypointRelativePos": 15.900000000000002,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "judejiijfeijfjiofwakokowfa"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "flux capacitor",
+      "waypointRelativePos": 0.6000000000000001,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "nkdskndwkm"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
   "globalConstraints": {
-    "maxVelocity": 3000.0,
-    "maxAcceleration": 3000.0,
+    "maxVelocity": 300000.0,
+    "maxAcceleration": 300000.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },

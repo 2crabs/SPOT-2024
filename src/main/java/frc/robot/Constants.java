@@ -257,6 +257,9 @@ public final class Constants {
     public static final double SHOOTER_MOTOR_B_PID_I = 0.0;
     public static final double SHOOTER_MOTOR_B_PID_D = 0.0;
 
+    public static final int SHOOTER_CURRENT_LIMIT = 15;
+    public static final double SHOOTER_VOLTAGE_RAMP = 0.4;
+
     // 0.225 for amp (battery dead :( ))
     // First item should be how it starts, second should be amp shooting, and other ones should be speaker shooting.
     public static final double[] SHOOTER_SPEED_STATE_VALUES = new double[]{
@@ -290,6 +293,17 @@ public final class Constants {
     public static final double VISION_SHOOTING_OFFSET = 0.0;
 
     public static final double MAX_SHOOTING_DISTANCE_SPEAKER = 1.8;
+
+    public static final int AMP_MODULE_MOTOR_ID = 25;
+
+    public static final int AMP_MODULE_CURRENT_LIMIT = 15;
+    public static final double AMP_MODULE_VOLTAGE_RAMP = 0.1;
+
+    public static final double AMP_MODULE_P = 0.1;
+    public static final double AMP_MODULE_I = 0.0;
+    public static final double AMP_MODULE_D = 0.0;
+
+    public static final double AMP_MODULE_RAISED_ROTATION = 1;
   }
   public static class kNetworkTables {
     /** This is the name of the main networktables table for the robot. */

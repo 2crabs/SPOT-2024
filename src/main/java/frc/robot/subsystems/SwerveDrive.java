@@ -76,7 +76,7 @@ public class SwerveDrive extends SubsystemBase {
               // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
 
               DriverStation.Alliance alliance = DriverStation.getAlliance().orElse(Alliance.Blue);
-              return false;
+              return alliance == Alliance.Red;
 
             },
             this // Reference to this subsystem to set requirements
@@ -116,7 +116,7 @@ public class SwerveDrive extends SubsystemBase {
 
     ChassisSpeeds chassisSpeeds;
     // if using rotation and the robot is not at the target rotation
-    if (withRotation && !(Math.abs(targetRotation-getGyroRotation().getRotations())< 1.5/360)){
+    if (withRotation && !(Math.abs(targetRotation-getGyroRotation().getRotations())< 0.01/360)){
       chassisSpeeds = new ChassisSpeeds(forwardSpeed, sidewaysSpeed, pidRotation);
     } else {
       chassisSpeeds = new ChassisSpeeds(forwardSpeed, sidewaysSpeed, 0.0);

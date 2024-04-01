@@ -4,13 +4,22 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class IndexerSubsystem extends SubsystemBase{
 
     // public CANSparkMax indexerMotor;
     public TalonFX indexerMotor;
+
+    public DigitalInput beamBreakSensor = new DigitalInput(2);
+
+    public double lastBeamBreakTriggerTimeStamp;
+
     public IndexerSubsystem() {
+        lastBeamBreakTriggerTimeStamp = -999.999;
         indexerMotor = new TalonFX(18);
     }
 
@@ -22,24 +31,33 @@ public class IndexerSubsystem extends SubsystemBase{
         indexerMotor.set(speed);
     }
 
-    /**
-     * An example method querying a boolean state of the subsystem (for example, a digital sensor).
-     *
-     * @return value of some boolean subsystem state, such as a digital sensor.
-     */
-    public boolean exampleCondition() {
-        // Query some boolean state, such as a digital sensor.
-        return false;
+    /** Returns the current state of the beam break sensor */
+    public boolean getIndexerBeamBreakSensor() {
+        return beamBreakSensor.get();
+    }
+
+    /** Returns the last time the beam break sensor was triggered in seconds */
+    public double getLastBeamBreakSensorTriggerTimeStamp() {
+        return lastBeamBreakTriggerTimeStamp;
+    }
+
+    /** Returns the time since the last time the beam break sensor was toggled */
+    public double timeSinceLastBeamBreakSensorToggle() {
+        return Timer.getFPGATimestamp() - lastBeamBreakTriggerTimeStamp;
+    }
+
+    /** Returns true if the robot has a notein the indexer */
+    public boolean hasNote() {
+        return getIndexerBeamBreakSensor();
     }
 
     @Override
     public void periodic() {
-        // This method will be called once per scheduler run
-    }
-
-    @Override
-    public void simulationPeriodic() {
-        // This method will be called once per scheduler run during simulation
+        if(getIndexerBeamBreakSensor()) {
+            lastBeamBreakTriggerTimeStamp = Timer.getFPGATimestamp();
+        }
+        SmartDashboard.putBoolean("Beam Break", getIndexerBeamBreakSensor());
+        SmartDashboard.putNumber("TimeStamp Beam Break", lastBeamBreakTriggerTimeStamp);
     }
 
     /** This configures the motor controllers */

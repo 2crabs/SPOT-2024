@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3935117917629198,
-      "y": 5.573373042480681
+      "x": 1.3940937283583965,
+      "y": 5.531335051274091
     },
     "rotation": 0
   },
@@ -14,19 +14,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Speaker Start Forward Note"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "IntakeNote"
+            "pathName": "TEST - 4 Notes S"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.6
+            "waitTime": 0.75
           }
         },
         {

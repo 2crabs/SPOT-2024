@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3935117917629198,
-      "y": 5.573373042480681
+      "x": 0.5053379907329615,
+      "y": 6.922939429924444
     },
     "rotation": 0
   },
@@ -14,19 +14,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Speaker Start Forward Note"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "IntakeNote"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.6
+            "pathName": "Amp 1 Note"
           }
         },
         {
@@ -36,13 +24,13 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "stopIntake"
+                  "name": "stopShooter"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "stopShooter"
+                  "name": "stopIntake"
                 }
               }
             ]
@@ -51,6 +39,6 @@
       ]
     }
   },
-  "folder": "Speaker Start",
+  "folder": "Amp Start",
   "choreoAuto": false
 }

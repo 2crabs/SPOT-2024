@@ -1,0 +1,408 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 1.3940937283583965,
+        "y": 5.531335051274091
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.8940937283583965,
+        "y": 5.531335051274091
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.5752033270448305,
+        "y": 5.531335051274091
+      },
+      "prevControl": {
+        "x": 3.7329246168463843,
+        "y": 5.55472336015897
+      },
+      "nextControl": {
+        "x": 2.0835925995403772,
+        "y": 5.521403521425516
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.938422531553584,
+        "y": 5.46
+      },
+      "prevControl": {
+        "x": 2.120418681225192,
+        "y": 5.46
+      },
+      "nextControl": {
+        "x": 1.7564263818819752,
+        "y": 5.46
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.777302173933737,
+        "y": 5.48
+      },
+      "prevControl": {
+        "x": 1.8582617046890904,
+        "y": 5.64821591390279
+      },
+      "nextControl": {
+        "x": 1.5928149881632532,
+        "y": 5.0966766251213285
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.777302173933737,
+        "y": 4.3385312981452175
+      },
+      "prevControl": {
+        "x": 1.7722736233714407,
+        "y": 4.5813025826587035
+      },
+      "nextControl": {
+        "x": 1.7823307244960331,
+        "y": 4.095760013631732
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.189296230444312,
+        "y": 4.116342363738859
+      },
+      "prevControl": {
+        "x": 1.965702556272877,
+        "y": 4.110299291463956
+      },
+      "nextControl": {
+        "x": 3.0546636591848677,
+        "y": 4.139730672623739
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.0606605315774735,
+        "y": 5.531335051274091
+      },
+      "prevControl": {
+        "x": 2.6570624081419103,
+        "y": 5.531335051274091
+      },
+      "nextControl": {
+        "x": 1.6168985714028352,
+        "y": 5.531335051274091
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.949416269202909,
+        "y": 7.051575128791284
+      },
+      "prevControl": {
+        "x": 1.2537638750491176,
+        "y": 7.051575128791284
+      },
+      "nextControl": {
+        "x": 3.293580997610184,
+        "y": 7.051575128791284
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.0606605315774735,
+        "y": 5.531335051274091
+      },
+      "prevControl": {
+        "x": 3.260660531577473,
+        "y": 5.531335051274091
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [
+    {
+      "name": "2",
+      "minWaypointRelativePos": 0.0,
+      "maxWaypointRelativePos": 0.35,
+      "constraints": {
+        "maxVelocity": 0.4,
+        "maxAcceleration": 0.8,
+        "maxAngularVelocity": 270.0,
+        "maxAngularAcceleration": 360.0
+      }
+    },
+    {
+      "name": "New Constraints Zone",
+      "minWaypointRelativePos": 5.85,
+      "maxWaypointRelativePos": 6.3,
+      "constraints": {
+        "maxVelocity": 0.6,
+        "maxAcceleration": 1.75,
+        "maxAngularVelocity": 270.0,
+        "maxAngularAcceleration": 360.0
+      }
+    }
+  ],
+  "eventMarkers": [
+    {
+      "name": "shooter",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "speakerShoot"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Shoot Note 1",
+      "waypointRelativePos": 0.15,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "startIntake"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Intake Note 2",
+      "waypointRelativePos": 0.4,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "startIntake"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "stopShooter"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "shooter",
+      "waypointRelativePos": 0.6,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "speakerShoot"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "stopIntake"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Shoot Note 2",
+      "waypointRelativePos": 1.95,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "startIntake"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Intake Note 3",
+      "waypointRelativePos": 4.0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "startIntake"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "stopShooter"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "shooter",
+      "waypointRelativePos": 5.25,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "speakerShoot"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "stopIntake"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Shoot Note 3",
+      "waypointRelativePos": 5.95,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "startIntake"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Intake Note 4",
+      "waypointRelativePos": 6.55,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "startIntake"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "stopShooter"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "shooter",
+      "waypointRelativePos": 7.0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "speakerShoot"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "stopIntake"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Shoot Note 4",
+      "waypointRelativePos": 7.95,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "startIntake"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 2.5,
+    "maxAcceleration": 2.1,
+    "maxAngularVelocity": 270.0,
+    "maxAngularAcceleration": 360.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 1.487867528827735,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": null,
+  "previewStartingState": null,
+  "useDefaultConstraints": false
+}

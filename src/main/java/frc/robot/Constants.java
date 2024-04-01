@@ -7,6 +7,9 @@ package frc.robot;
 import org.opencv.core.Point;
 import org.opencv.core.Scalar;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
@@ -58,7 +61,7 @@ public final class Constants {
     /** Constants that apply to the whole drive train. */
     public static final double TRACK_WIDTH = Units.inchesToMeters(19.5); // Width of the drivetrain measured from the middle of the wheels.
     public static final double WHEEL_BASE = Units.inchesToMeters(19.5); // Length of the drivetrain measured from the middle of the wheels.
-    public static final double WHEEL_DIAMETER = Units.inchesToMeters(4);
+    public static final double WHEEL_DIAMETER = Units.inchesToMeters(3.865);
     public static final double WHEEL_CIRCUMFRENCE = WHEEL_DIAMETER * Math.PI;
 
     public static final SwerveDriveKinematics KINEMATICS = new SwerveDriveKinematics(
@@ -80,11 +83,11 @@ public final class Constants {
     public static final double ANGLE_RPM_TO_RADIANS_PER_SECOND = DRIVE_ROTATIONS_TO_METERS / 60.0;
 
     /** Speed ramp. */
-    public static final double OPEN_LOOP_RAMP = 0.25;
+    public static final double OPEN_LOOP_RAMP = 0.05;
     public static final double CLOSED_LOOP_RAMP = 0.0;
 
     /** Current limiting. */
-    public static final int DRIVE_CURRENT_LIMIT = 45;
+    public static final int DRIVE_CURRENT_LIMIT = 50;
     public static final int ANGLE_CURRENT_LIMIT = 45;
 
     /** Drive motor PID values. */
@@ -189,8 +192,8 @@ public final class Constants {
     public static final int SPEAKER_APRILTAG_ID_BLUE = 7;
     public static final int SPEAKER_SIDE_APRILTAG_ID_BLUE = 8;
     // Red Speaker
-    public static final int SPEAKER_APRILTAG_ID_RED = 3;
-    public static final int SPEAKER_SIDE_APRILTAG_ID_RED = 4;
+    public static final int SPEAKER_APRILTAG_ID_RED = 4;
+    public static final int SPEAKER_SIDE_APRILTAG_ID_RED = 3;
     // Blue Amp
     public static final int AMP_APRILTAG_ID_BLUE = 6;
     // Red Amp
@@ -225,6 +228,27 @@ public final class Constants {
     public static final int SHOOTER_MOTOR_A_ID = 15;
     public static final int SHOOTER_MOTOR_B_ID = 16;
 
+    public static final int CLIMB_MOTOR_A_ID = 4;
+    public static final int CLIMB_MOTOR_B_ID = 5;
+
+    public static final double CLIMB_MOTOR_PID_P = 0.0;
+    public static final double CLIMB_MOTOR_PID_I = 0.0;
+    public static final double CLIMB_MOTOR_PID_D = 0.0;
+
+    public static final boolean CLIMB_MOTOR_A_INVERTED = true;
+    public static final boolean CLIMB_MOTOR_B_INVERTED = false;
+
+    public static final NeutralMode CLIMB_MOTOR_NEUTRAL_MODE = NeutralMode.Brake;
+
+    public static final int CLIMB_CURRENT_LIMIT = 80;
+    public static final double CLIMB_VOLTAGE_RAMP = 0;
+
+    public static final double CLIMB_ROTATION_TO_HEIGHT = 1/360;
+    public static final double CLIMB_HEIGHT_TO_ROTATION = 1/CLIMB_ROTATION_TO_HEIGHT;
+
+    public static final double MINIMUM_CLIMB_HEIGHT = 0;
+    public static final double MAXIMUM_CLIMB_HEIGHT = 1.0;
+
     public static final double SHOOTER_MOTOR_A_PID_P = 0.0;
     public static final double SHOOTER_MOTOR_A_PID_I = 0.0;
     public static final double SHOOTER_MOTOR_A_PID_D = 0.0;
@@ -233,9 +257,10 @@ public final class Constants {
     public static final double SHOOTER_MOTOR_B_PID_I = 0.0;
     public static final double SHOOTER_MOTOR_B_PID_D = 0.0;
 
+    // 0.225 for amp (battery dead :( ))
     // First item should be how it starts, second should be amp shooting, and other ones should be speaker shooting.
     public static final double[] SHOOTER_SPEED_STATE_VALUES = new double[]{
-      0, 0.26, 1.0
+      0, 0.225, 1.0
     };
 
     public static final boolean USE_TUNED_SHOOTER_VALUES = false;
@@ -245,6 +270,9 @@ public final class Constants {
 
     /** Default spin speed for the indexer when intaking a note. */
     public static final double INDEXER_SPIN_SPEED = -0.8;
+
+    /** The delay that will happen in between the beam break sensor triggering and the intake stopping */
+    public static double BEAM_BREAK_SENSOR_INDEXER_DELAY = 0.0;
 
     /** Table of shooter spin speeds and the distance they shoot. <p>TODO: Make the table */
     public static final double[][] SHOOTER_SPEED_ARRAY = {
@@ -307,5 +335,9 @@ public final class Constants {
     public static final Point NOTE_COUNTER_POSITION = new Point(100, 100);
     public static final double NOTE_COUNTER_SIZE = 10.0;
     public static final Scalar NOTE_COUNTER_COLOR = new Scalar(0, 0, 0);
+  }
+
+  public static class kLED {
+    public static final int STRIP_LENGTH = 99;
   }
 }

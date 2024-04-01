@@ -14,12 +14,14 @@ import edu.wpi.first.cscore.CvSink;
 import edu.wpi.first.cscore.CvSource;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.cscore.VideoSink;
+import edu.wpi.first.wpilibj.AddressableLED;
+import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Constants.kDisplay;
+import frc.robot.Constants.kLED;
 import frc.robot.Constants.kVision;
-import frc.robot.utils.vision.ShapeDetection;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -28,6 +30,11 @@ import frc.robot.utils.vision.ShapeDetection;
  * project.
  */
 public class Robot extends TimedRobot {
+  AddressableLED leds;
+  AddressableLEDBuffer buff;
+
+  int patternRainbowStart = 0;
+
   Thread m_visionThread;
 
   private Command m_autonomousCommand;
@@ -49,6 +56,14 @@ public class Robot extends TimedRobot {
       m_visionThread.setDaemon(true);
       m_visionThread.start();
     }
+
+    leds = new AddressableLED(0);
+    buff = new AddressableLEDBuffer(kLED.STRIP_LENGTH);
+    leds.setLength(buff.getLength());
+    leds.setData(buff);
+    leds.start();
+
+    m_robotContainer.setLEDStripObject(leds);
   }
 
   /**
@@ -65,6 +80,21 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+
+    // rainbowPattern();
+  }
+
+  public void rainbowPattern() {
+    for(int i = 0; i < buff.getLength(); i++) {
+      int hue = (patternRainbowStart + (i*180 / buff.getLength())) % 180;
+      buff.setHSV(i, hue, 255, 128);
+    }
+
+    patternRainbowStart += 3;
+
+    patternRainbowStart %= 180;
+
+    leds.setData(buff);
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -121,6 +151,36 @@ public class Robot extends TimedRobot {
   /** This function is called periodically whilst in simulation. */
   @Override
   public void simulationPeriodic() {}
+
+  public Thread indicatorThread() {
+    return new Thread(
+      ()-> {
+        Mat mat = new Mat();
+        mat.reshape(480, 480);
+
+        CvSource outputSource = CameraServer.putVideo("Note Indicator", 480, 480);
+
+        while(!Thread.interrupted()) {
+          if(m_robotContainer != null) {
+            if(m_robotContainer.getIndexerSubsystem().hasNote()) {
+              for(int x = 0; x < mat.width(); x++) {
+                for(int y = 0; y < mat.height(); y++) {
+                  mat.put(x, y, new double[]{0.0, 255.0, 0.0});
+                }
+              }
+            } else {
+              for(int x = 0; x < mat.width(); x++) {
+                for(int y = 0; y < mat.height(); y++) {
+                  mat.put(x, y, new double[]{255.0, 0.0, 0.0});
+                }
+              }
+            }
+          }
+          outputSource.putFrame(mat);
+        }
+      }
+    );
+  }
 
   public Thread setupVisionThread() {
     return new Thread(

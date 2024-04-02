@@ -142,7 +142,7 @@ public class RobotContainer {
     m_manipulatorController.povUp().onTrue(new RunCommand(() -> m_intakeSubsystem.toggleTop(), m_intakeSubsystem));
     m_manipulatorController.povDown().onTrue(new RunCommand(() -> m_intakeSubsystem.toggleBottom(), m_intakeSubsystem));
 
-    m_manipulatorController.a().onTrue(new RunCommand(() -> m_shooterSubsystem.setShooterState(2), m_shooterSubsystem) );
+    m_manipulatorController.a().onTrue(new RunCommand(() -> m_shooterSubsystem.setShooterState(2), m_shooterSubsystem));
     m_manipulatorController.x().onTrue(new RunCommand(() -> m_shooterSubsystem.setShooterState(1), m_shooterSubsystem));
 
     m_manipulatorController.povUp().onTrue(new RunCommand(() -> m_intakeSubsystem.setIntakeSpinSpeed(kManip.INTAKE_SPIN_SPEED), m_intakeSubsystem));
